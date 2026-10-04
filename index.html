@@ -1,0 +1,1048 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#172033">
+<title>FACTORY 1 RECORDS</title>
+<style>
+.smallbtn{padding:6px 9px;font-size:12px;margin:2px;}
+*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#172033;font-family:Arial,sans-serif;padding-bottom:76px}
+header{background:#172033;color:#fff;padding:18px 16px;position:sticky;top:0;z-index:5}
+header h1{margin:0;font-size:21px}header p{margin:5px 0 0;font-size:12px;opacity:.85}
+.wrap{max-width:1000px;margin:auto;padding:14px}
+.card{background:#fff;border-radius:15px;padding:16px;margin-bottom:14px;box-shadow:0 2px 12px #0000000c}
+h2{font-size:19px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:11px}
+label{display:block;font-size:12px;font-weight:bold;margin-bottom:5px}
+input,select,button{font:inherit;width:100%;padding:11px;border:1px solid #ccd3df;border-radius:9px}
+button{background:#172033;color:#fff;border:0;font-weight:bold;cursor:pointer}.secondary{background:#e9edf4;color:#172033}.danger{background:#b42318}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.actions button{width:auto}
+.folder-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.folder{background:#f4f6fa;border:1px solid #dce1ea;border-radius:15px;padding:16px;min-height:125px;cursor:pointer}
+.folder:active{transform:scale(.98)}.icon{font-size:42px}.fname{font-weight:bold;margin-top:7px;font-size:16px;word-break:break-word}.fmeta{font-size:12px;color:#667085;margin-top:5px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}.kpi{background:#f1f4f8;padding:13px;border-radius:11px}.kpi span{font-size:12px;color:#667085}.kpi b{display:block;font-size:23px;margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:12px}th,td{padding:9px;border-bottom:1px solid #e5e8ef;text-align:left;white-space:nowrap}th{background:#f1f4f8}
+.badge{display:inline-block;padding:4px 7px;border-radius:20px;font-size:11px;font-weight:bold}.ok{background:#e7f6ec;color:#18733a}.due{background:#fff0d6;color:#9a5b00}.over{background:#ffe1df;color:#a61b12}
+.tablewrap{overflow:auto}.small{font-size:12px;color:#667085}.hidden{display:none}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ddd;display:grid;grid-template-columns:repeat(3,1fr);z-index:10}.bottom button{border-radius:0;background:#fff;color:#172033;padding:9px 3px;font-size:11px}.bottom b{display:block;font-size:19px}
+@media(max-width:600px){.wrap{padding:10px}.grid{grid-template-columns:1fr}.folder-grid{grid-template-columns:repeat(2,1fr)}}
+@media print{header,.bottom,#home,#addVendorCard,.no-print{display:none!important}.wrap{padding:0}.card{box-shadow:none}}@media print{
+header,.bottom,#home,#addVendorCard,.no-print,#vendorPage{display:none!important}
+body{background:#fff;padding:0}.print-only{display:block!important}
+}
+.print-only{display:none}
+.print-report{font-family:Arial,sans-serif;color:#111;padding:10px}
+.print-report h1{font-size:20px;margin:0 0 4px;text-align:center}
+.print-report h2{font-size:15px;margin:3px 0 12px;text-align:center}
+.print-meta{text-align:center;font-size:11px;margin-bottom:12px}
+.challan-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;page-break-inside:avoid}
+.challan-box{border:1px solid #222;border-radius:5px;padding:9px;min-height:135px}
+.challan-box h3{text-align:center;margin:0 0 7px;font-size:13px;border-bottom:1px solid #222;padding-bottom:5px}
+.challan-box table{width:100%;font-size:10px;border-collapse:collapse}
+.challan-box td{padding:3px 2px;border:0;white-space:normal}
+.challan-no{font-weight:bold;font-size:11px}
+.signature{margin-top:15px;display:flex;justify-content:space-between;font-size:10px}
+@media(max-width:600px){.challan-row{grid-template-columns:1fr}}
+
+/* In-site PDF-style preview */
+.pdf-preview-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:9999;display:none;padding:12px;overflow:auto}
+.pdf-preview-box{background:#eef1f5;max-width:1100px;margin:0 auto;min-height:calc(100vh - 24px);border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.35);padding:12px}
+.pdf-preview-toolbar{position:sticky;top:0;z-index:2;background:#fff;border-radius:10px;padding:10px;display:flex;gap:8px;justify-content:space-between;align-items:center;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.pdf-preview-toolbar .left{font-weight:700}.pdf-preview-page{background:#fff;max-width:1000px;margin:0 auto;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,.14)}
+.pdf-preview-page .challan-row{margin-bottom:14px}
+@media(max-width:600px){.pdf-preview-overlay{padding:5px}.pdf-preview-box{min-height:calc(100vh - 10px);padding:6px}.pdf-preview-page{padding:10px}.pdf-preview-toolbar{align-items:flex-start}.pdf-preview-toolbar .left{font-size:13px}}
+
+</style>
+</head>
+<body>
+<header><h1>🏭 FACTORY 1 RECORDS</h1><p>Vendor folders • OUT / IN • pending material • backup & restore</p></header>
+
+<div class="wrap">
+<section id="home">
+<div class="card">
+<h2>Vendor Folders</h2>
+<p class="small">Create a folder once for each vendor. Every OUT and IN entry for that vendor stays inside that folder.</p>
+<div id="folders" class="folder-grid"></div>
+</div>
+<div class="card">
+<h2>🔎 Continue / Find Entry</h2>
+<p class="small">If you left the work unfinished, search by vendor and/or invoice/challan number and continue from the same record.</p>
+<div class="grid">
+<div><label>Vendor</label><input id="dashVendor" list="dashVendors" placeholder="Start typing vendor name"><datalist id="dashVendors"></datalist></div>
+<div><label>Invoice / Challan</label><input id="dashInvoice" placeholder="Enter challan number"></div>
+</div><br>
+<button onclick="findAndContinue()">🔎 Find & Continue</button>
+<div id="dashboardMatches" style="margin-top:12px"></div>
+</div>
+<div class="card">
+<h2>📋 Pending Outside Material — Continue From Last Entry</h2>
+<p class="small">Oldest pending OUT entries are shown first. This makes it easy to check what went outside yesterday or earlier and whether it has come IN.</p>
+<div id="pendingFollowup"></div>
+</div>
+<div class="card" id="addVendorCard">
+<h2>➕ Create Vendor Folder</h2>
+<div class="grid">
+<div><label>Vendor Name</label><input id="newVendor" placeholder="e.g. ABC Lachai"></div>
+</div><br>
+<button onclick="createVendor()">Create Vendor Folder</button>
+</div>
+<div class="card no-print">
+<h2>💾 Backup & Restore</h2>
+<p class="small">Your normal backup is a readable file showing the actual vendor records. A separate restore file keeps the exact app data.</p>
+<div class="actions">
+<button onclick="downloadSystematicBackup()">📊 Download Full Backup</button>
+<button class="secondary" onclick="downloadRawBackup()">🧾 Save Restore Backup</button>
+</div>
+<div style="margin-top:10px">
+<label>Restore a previously saved backup</label>
+<input id="restoreFile" type="file" accept=".json,application/json" onchange="restoreBackup(this)">
+</div>
+<p class="small">The restore backup does not change anything until you select a JSON file. The full readable backup can be opened like a normal document.</p>
+</div>
+<div class="card">
+<h2>⚠️ Overall Alerts</h2>
+<div class="kpis">
+<div class="kpi"><span>Open Vendor Records</span><b id="openLots">0</b></div>
+<div class="kpi"><span>Material With Vendors</span><b id="pendingQty">0</b></div>
+<div class="kpi"><span>Overdue</span><b id="overdue">0</b></div>
+</div>
+</div>
+</section>
+
+<section id="vendorPage" class="hidden">
+<div class="card">
+<div class="actions"><button class="secondary" onclick="goHome()">← Vendor Folders</button><button onclick="printCurrent()">📄 Vendor PDF — OUT | IN</button><button class="secondary" onclick="downloadVendorBackup()">💾 Vendor Backup</button></div>
+<h2 id="vendorTitle" style="margin-top:14px">📁 Vendor</h2>
+<div class="kpis">
+<div class="kpi"><span>Total OUT</span><b id="vOut">0</b></div>
+<div class="kpi"><span>Total IN</span><b id="vIn">0</b></div>
+<div class="kpi"><span>Material LEFT</span><b id="vLeft">0</b></div>
+<div class="kpi"><span>Overdue</span><b id="vOver">0</b></div>
+</div>
+</div>
+
+<div class="card">
+<h2>📤 Material OUT</h2>
+<div class="grid">
+<div><label>Invoice / Challan No. <span class="small">(duplicates allowed)</span></label><input id="invoice" placeholder="OUT-001"></div>
+<div><label>Date</label><input id="outDate" type="date"></div>
+<div><label>Material Name</label><input id="material" list="materials" placeholder="Material"><datalist id="materials"></datalist></div>
+<div id="materialQuick" class="actions" style="margin-top:-4px"></div>
+<div><label>Quantity</label><input id="qty" type="number" min="0" step="0.001"></div>
+<div><label>Expected Return / Due Date</label><input id="due" type="date"></div>
+</div><br><button onclick="addOut()">Save OUT</button>
+</div>
+
+<div class="card">
+<h2>📥 Material IN</h2>
+<div class="grid">
+<div><label>Open OUT Entry <span class="small">(matched by entry ID, not challan number)</span></label><select id="inRecord"></select></div>
+<div><label>Return Date</label><input id="inDate" type="date"></div>
+<div><label>Received Quantity</label><input id="inQty" type="number" min="0" step="0.001"></div>
+</div><br><button onclick="addIn()">Save IN</button>
+</div>
+
+<div class="card">
+<h2>📒 This Vendor's Ledger</h2>
+<p class="small">You can edit or delete any OUT/IN entry directly from this ledger. IN entries are tied to their specific OUT entry.</p>
+<div class="tablewrap"><table><thead><tr><th>Date</th><th>Type</th><th>Invoice</th><th>Material</th><th>Qty</th><th>Balance (kg)</th><th>Due</th><th>Status</th><th>Action</th></tr></thead><tbody id="ledger"></tbody></table></div>
+</div>
+</section>
+</div>
+
+
+<div id="pdfPreviewOverlay" class="pdf-preview-overlay" onclick="if(event.target===this) closePdfPreview()">
+  <div class="pdf-preview-box">
+    <div class="pdf-preview-toolbar">
+      <div class="left">📄 PDF Preview — <span id="pdfPreviewVendor"></span></div>
+      <div class="actions">
+        <button class="secondary" onclick="closePdfPreview()">✕ Close</button>
+        <button onclick="printPreview()">🖨️ Print / Save PDF</button>
+      </div>
+    </div>
+    <div id="pdfPreviewPage" class="pdf-preview-page"></div>
+  </div>
+</div>
+
+<div id="printArea" class="print-only"></div>
+<nav class="bottom">
+<button onclick="goHome()"><b>⌂</b>Vendors</button>
+<button onclick="currentVendor?scrollToEntry('out'):goHome()"><b>＋</b>OUT</button>
+<button onclick="currentVendor?scrollToEntry('in'):goHome()"><b>↓</b>IN</button>
+</nav>
+
+<script>
+const KEY = "factory_1_records_master_2026_10_03_complete_v4";
+const EMBEDDED_CURRENT_DATA = {"vendors":["KASHIF NIKIL","MULLA POLISH","NAEEM BRIT","BHAIYA HAIDOLIK","RIZWAN POLISH","SHADAB BRIT","Shadan brit","TAUSEEF nikil","ADNAN POLISH","AZMAT BRIT","AASHU BRIT"],"records":[{"id":"66413935-ecea-4e25-81b6-0472642f2f61","vendor":"NAEEM BRIT","invoice":"11","date":"2026-10-03","material":"KARA 60MM","qty":205.9,"due":"2026-10-08","received":0,"unit":"kg"},{"id":"777313b3-303f-4fe1-9a8b-62579f943736","vendor":"AASHU BRIT","invoice":"10","date":"2026-10-03","material":"KARA 50MM","qty":150,"due":"2026-10-08","received":0,"unit":"kg"},{"id":"804b22cb-eeb6-4484-b3fb-af5ab532f24a","vendor":"AASHU BRIT","invoice":"10","date":"2026-10-03","material":"KARA 60MM","qty":114,"due":"2026-10-08","received":0,"unit":"kg"},{"id":"8d074fb7-75dd-4f82-8574-bcf60bf9bfc3","vendor":"SHADAB BRIT","invoice":"7","date":"2026-10-03","material":"CHABI 50MM","qty":150,"due":"2026-10-08","received":0,"unit":"kg"},{"id":"556f9fd1-0c2f-4bcd-8c73-368eabe0b38c","vendor":"TAUSEEF nikil","invoice":"6","date":"2026-10-01","material":"CHABI 50MM","qty":216.5,"unit":"kg","due":"2026-10-08","received":0},{"id":"dd945bfc-d261-42e4-8fca-15c0a4ec5c65","vendor":"BHAIYA HAIDOLIK","invoice":"5","date":"2026-10-01","material":"DIBIYA 50MM","qty":452,"unit":"kg","due":"2026-10-08","received":0},{"id":"536ef46d-5279-426e-b11c-19ccd4529fd2","vendor":"AZMAT BRIT","invoice":"4","date":"2026-10-01","material":"DIBIYA 50MM","qty":193.4,"unit":"kg","due":"2026-10-08","received":0},{"id":"5b68b289-f577-45eb-9ab3-200940721b5c","vendor":"KASHIF NIKIL","invoice":"2","date":"2026-10-03","material":"CHABI 60MM","qty":200,"unit":"kg","due":"2026-10-08","received":0},{"id":"9cd6c969-3993-4021-99df-7636f5e39e45","vendor":"Shadan brit","invoice":"100","date":"2026-10-03","material":"DIBIYA 50MM","qty":169.5,"unit":"kg","due":"2026-10-08","received":0},{"id":"3e0e5731-9dc4-49ac-9171-d0ab71ae37ee","vendor":"ADNAN POLISH","invoice":"99","date":"2026-10-01","material":"BP/60MM","qty":232,"unit":"kg","due":"2026-10-08","received":0},{"id":"595e178d-1cd0-4699-9371-3d761c6fb356","vendor":"TAUSEEF nikil","invoice":"97","date":"2026-10-01","material":"KARA 50MM","qty":150.3,"unit":"kg","due":"2026-10-08","received":0},{"id":"06e9f0a3-0e72-48ff-b366-5953decc64ff","vendor":"Shadan brit","invoice":"96","date":"2026-10-01","material":"B p60mm","qty":313,"unit":"kg","due":"2026-10-08","received":0},{"id":"6ea9607e-bad3-456a-80b5-6c4638103bcb","vendor":"NAEEM BRIT","invoice":"91","date":"2026-10-01","material":"CHABI 50MM","qty":159.5,"unit":"kg","due":"2026-10-08","received":0},{"id":"db7c5fe1-5ec8-49d6-8f9e-e723ac19951d","vendor":"RIZWAN POLISH","invoice":"90","date":"2026-10-01","material":"DIBIYA 50MM","qty":228.4,"unit":"kg","due":"2026-10-08","received":0},{"id":"b6532217-3242-47b0-9817-eb042c18df20","vendor":"BHAIYA HAIDOLIK","invoice":"88","date":"2026-10-01","material":"DIBIYA 50MM","qty":166.7,"unit":"kg","due":"2026-10-08","received":0},{"id":"9fc6d7e0-53ea-4ff5-bfcb-bcd95ac4e4b1","vendor":"NAEEM BRIT","invoice":"87","date":"2026-10-01","material":"KARA 60MM","qty":238.6,"unit":"kg","due":"2026-10-08","received":231.2,"receivedDate":"2026-10-03"},{"id":"cb741b0f-5c59-48a1-9a38-1d7336bbf403","vendor":"MULLA POLISH","invoice":"86","date":"2026-10-01","material":"DIBIYA 50MM","qty":39.9,"unit":"kg","due":"2026-10-08","received":0},{"id":"d3ab4e9c-abe4-4ef7-b40d-2c315170e980","vendor":"KASHIF NIKIL","invoice":"83","date":"2026-10-01","material":"KARA 60MM","qty":243.3,"unit":"kg","due":"2026-10-08","received":0}],"rawMaterials":[],"rawPurchases":[],"rawConsumption":[]};
+let db;
+try {
+  const saved = localStorage.getItem(KEY);
+  db = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(EMBEDDED_CURRENT_DATA));
+} catch(e) {
+  db = JSON.parse(JSON.stringify(EMBEDDED_CURRENT_DATA));
+}
+db.vendors = Array.isArray(db.vendors) ? db.vendors : [];
+db.records = Array.isArray(db.records) ? db.records : [];
+db.rawMaterials = Array.isArray(db.rawMaterials) ? db.rawMaterials : [];
+db.rawPurchases = Array.isArray(db.rawPurchases) ? db.rawPurchases : [];
+db.rawConsumption = Array.isArray(db.rawConsumption) ? db.rawConsumption : [];
+db.directFinishedGoods = Array.isArray(db.directFinishedGoods) ? db.directFinishedGoods : [];
+db.directFGReceipts = Array.isArray(db.directFGReceipts) ? db.directFGReceipts : [];
+db.holidays = Array.isArray(db.holidays) ? db.holidays : [];
+let currentVendor = "";
+
+function save(){
+  localStorage.setItem(KEY, JSON.stringify(db));
+}
+
+function today(){
+  return new Date().toISOString().slice(0,10);
+}
+
+function fmtDate(d){
+  if(!d) return "—";
+  const p = String(d).split("-");
+  return p.length===3 ? p[2]+"-"+p[1]+"-"+p[0] : String(d);
+}
+
+function esc(x){
+  return String(x ?? "").replace(/[&<>"']/g, m => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[m]));
+}
+
+function safeFileName(x){
+  return String(x || "backup").replace(/[^a-z0-9._-]+/gi,"_").replace(/^_+|_+$/g,"") || "backup";
+}
+
+function downloadFile(name, content, type){
+  const blob = new Blob([content], {type});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+function days(d){
+  if(!d) return 999999;
+  return Math.ceil((new Date(d+"T23:59:59") - new Date()) / 86400000);
+}
+
+function status(r){
+  const bal = Number(r.qty || 0) - Number(r.received || 0);
+  if(bal <= 0) return ["Completed","ok"];
+  const n = days(r.due);
+  if(n < 0) return ["OVERDUE "+Math.abs(n)+"d","over"];
+  if(n <= 3) return ["DUE SOON "+n+"d","due"];
+  return ["Open","ok"];
+}
+
+function restoreBackup(input){
+  const file = input.files && input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(){
+    try{
+      const payload = JSON.parse(reader.result);
+      const incoming = payload && payload.data ? payload.data : payload;
+      if(!incoming || !Array.isArray(incoming.vendors) || !Array.isArray(incoming.records)){
+        throw new Error("Invalid FACTORY 1 RECORDS backup.");
+      }
+      const ok = confirm(
+        "Restore this backup?\n\nThis will replace the records currently stored on this device with the selected backup."
+      );
+      if(!ok){
+        input.value = "";
+        return;
+      }
+      db = {
+        vendors: incoming.vendors,
+        records: incoming.records
+      };
+      save();
+      currentVendor = "";
+      document.getElementById("vendorPage").classList.add("hidden");
+      document.getElementById("home").classList.remove("hidden");
+      renderHome();
+try{dfgRender();}catch(e){}
+      alert("Backup restored successfully. Your records are now loaded.");
+    }catch(e){
+      alert("This file is not a valid FACTORY 1 RECORDS restore backup.");
+    }
+    input.value = "";
+  };
+  reader.readAsText(file);
+}
+
+function downloadRawBackup(){
+  const payload = {
+    app:"FACTORY 1 RECORDS",
+    version:2,
+    backupType:"exact-restore",
+    backupDate:new Date().toISOString(),
+    data:db
+  };
+  downloadFile(
+    "FACTORY_1_RECORDS_Restore_"+today()+".json",
+    JSON.stringify(payload,null,2),
+    "application/json"
+  );
+}
+
+function systematicReport(){
+  const vendors = db.vendors || [];
+  let totalOut=0, totalIn=0, totalPending=0, totalOverdue=0;
+
+  vendors.forEach(v=>{
+    db.records.filter(r=>r.vendor===v).forEach(r=>{
+      totalOut += Number(r.qty)||0;
+      totalIn += Number(r.received)||0;
+      totalPending += (Number(r.qty)||0) - (Number(r.received)||0);
+      if(Number(r.qty)>Number(r.received||0) && status(r)[1]==="over") totalOverdue++;
+    });
+  });
+
+  const sections = vendors.map(v=>{
+    const rs = db.records.filter(r=>r.vendor===v);
+    const rows = rs.map(r=>{
+      const bal = (Number(r.qty)||0) - (Number(r.received)||0);
+      const s = status(r);
+      return `<tr>
+        <td>${esc(r.date)}</td>
+        <td>${esc(r.invoice)}</td>
+        <td>${esc(r.material)}</td>
+        <td>${r.qty}</td>
+        <td>${r.received||0}</td>
+        <td>${bal}</td>
+        <td>${fmtDate(r.due)}</td>
+        <td>${esc(s[0])}</td>
+      </tr>`;
+    }).join("");
+
+    return `<section class="vendor-section">
+      <h2>📁 ${esc(v)}</h2>
+      <table>
+        <thead><tr>
+          <th>OUT Date</th><th>Challan</th><th>Material</th>
+          <th>OUT</th><th>IN</th><th>LEFT</th><th>Due</th><th>Status</th>
+        </tr></thead>
+        <tbody>${rows || '<tr><td colspan="8">No records</td></tr>'}</tbody>
+      </table>
+    </section>`;
+  }).join("");
+
+  // The backup itself contains a visible copy of the exact restore JSON.
+  // This means the downloaded readable backup is not blank and is still useful
+  // even if opened on a different device.
+  const embedded = JSON.stringify({
+    app:"FACTORY 1 RECORDS",
+    version:2,
+    backupType:"exact-restore",
+    backupDate:new Date().toISOString(),
+    data:db
+  });
+
+  return `<!doctype html>
+<html><head><meta charset="utf-8">
+<title>FACTORY 1 RECORDS - Full Backup</title>
+<style>
+.smallbtn{padding:6px 9px;font-size:12px;margin:2px;}
+body{font-family:Arial,sans-serif;color:#172033;margin:22px;background:#fff}
+h1{text-align:center;margin:0 0 4px}.sub{text-align:center;color:#667085;margin-bottom:18px}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:22px}
+.box{border:1px solid #d9dee8;border-radius:8px;padding:10px}.box b{display:block;font-size:20px;margin-top:3px}
+.vendor-section{margin-top:24px}h2{font-size:16px;margin:10px 0}
+table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:18px}
+th,td{border:1px solid #d9dee8;padding:6px;text-align:left}th{background:#f1f4f8}
+.note{background:#f7f8fa;border:1px solid #ddd;border-radius:8px;padding:10px;font-size:11px}
+@media print{body{margin:10mm}.summary{grid-template-columns:repeat(4,1fr)}.vendor-section{page-break-inside:auto}}
+@media(max-width:650px){.summary{grid-template-columns:repeat(2,1fr)}table{font-size:10px}}
+</style></head>
+<body>
+<h1>🏭 FACTORY 1 RECORDS</h1>
+<div class="sub">FULL SYSTEMATIC BACKUP • Generated ${esc(new Date().toLocaleString())}</div>
+<div class="summary">
+<div class="box">Vendors<b>${vendors.length}</b></div>
+<div class="box">Total OUT<b>${totalOut}</b></div>
+<div class="box">Total IN<b>${totalIn}</b></div>
+<div class="box">Material LEFT<b>${totalPending}</b></div>
+</div>
+<p><b>Overdue records:</b> ${totalOverdue}</p>
+${sections}
+<div class="note">
+<b>Backup status:</b> This file contains the readable record report. The exact restore data is embedded in this backup file as well.
+<br><br>
+To restore the app, use the separate <b>FACTORY_1_RECORDS_Restore_YYYY-MM-DD.json</b> file inside FACTORY 1 RECORDS.
+</div>
+<script>
+const RESTORE_DATA = ${embedded};
+function downloadRestore(){
+  const blob = new Blob([JSON.stringify(RESTORE_DATA,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob), a=document.createElement("a");
+  a.href=url; a.download="FACTORY_1_RECORDS_Restore_From_Full_Backup.json";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+<\/script>
+<div class="note" style="margin-top:10px">
+This backup is intentionally readable. If you open it in a browser, the vendor records and quantities are visible instead of showing technical JSON.
+</div>
+</body></html>`;
+}
+
+function downloadSystematicBackup(){
+  downloadFile(
+    "FACTORY_1_RECORDS_Full_Backup_"+today()+".html",
+    systematicReport(),
+    "text/html"
+  );
+}
+
+function downloadVendorBackup(){
+  if(!currentVendor) return;
+  const rs = db.records.filter(r=>r.vendor===currentVendor);
+  const rows = rs.map(r=>{
+    const bal=(Number(r.qty)||0)-(Number(r.received)||0), s=status(r);
+    return `<tr>
+      <td>${esc(r.date)}</td><td>${esc(r.invoice)}</td><td>${esc(r.material)}</td>
+      <td>${r.qty}</td><td>${r.received||0}</td>
+      <td>${bal}</td><td>${fmtDate(r.due)}</td><td>${esc(s[0])}</td>
+    </tr>`;
+  }).join("");
+
+  const doc = `<!doctype html><html><head><meta charset="utf-8">
+<title>${esc(currentVendor)} - Vendor Backup</title>
+<style>
+.smallbtn{padding:6px 9px;font-size:12px;margin:2px;}
+body{font-family:Arial;margin:20px;color:#172033}h1{text-align:center}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{border:1px solid #bbb;padding:7px}th{background:#eee}
+</style></head><body>
+<h1>📁 ${esc(currentVendor)}</h1>
+<p>FACTORY 1 RECORDS • Vendor Backup • ${esc(new Date().toLocaleString())}</p>
+<table><thead><tr><th>OUT Date</th><th>Challan</th><th>Material</th><th>OUT</th><th>IN</th><th>LEFT</th><th>Due</th><th>Status</th></tr></thead>
+<tbody>${rows || '<tr><td colspan="8">No records</td></tr>'}</tbody></table>
+</body></html>`;
+
+  downloadFile(
+    "Vendor_"+safeFileName(currentVendor)+"_Backup_"+today()+".html",
+    doc,
+    "text/html"
+  );
+}
+
+function buildVendorPdfHtml(v){
+  const rs = db.records.filter(r=>r.vendor===v);
+  const rows = rs.map(r=>{
+    const bal=(Number(r.qty)||0)-(Number(r.received)||0);
+    return `<div class="challan-row">
+      <div class="challan-box">
+        <h3>📤 MATERIAL OUT</h3>
+        <table>
+          <tr><td class="challan-no">Challan No.</td><td class="challan-no">${esc(r.invoice)}</td></tr>
+          <tr><td>Vendor</td><td>${esc(r.vendor)}</td></tr>
+          <tr><td>Date</td><td>${fmtDate(r.date)}</td></tr>
+          <tr><td>Material</td><td>${esc(r.material)}</td></tr>
+          <tr><td>Quantity</td><td>${r.qty}</td></tr>
+          <tr><td>Due Date</td><td>${fmtDate(r.due)}</td></tr>
+        </table>
+        <div class="signature"><span>Issued: __________</span><span>Signature: __________</span></div>
+      </div>
+      <div class="challan-box">
+        <h3>📥 MATERIAL IN / RETURN</h3>
+        <table>
+          <tr><td class="challan-no">Challan No.</td><td class="challan-no">${esc(r.invoice)}</td></tr>
+          <tr><td>Vendor</td><td>${esc(r.vendor)}</td></tr>
+          <tr><td>Return Date</td><td>${fmtDate(r.receivedDate)}</td></tr>
+          <tr><td>Material</td><td>${esc(r.material)}</td></tr>
+          <tr><td>Received</td><td>${r.received||0}</td></tr>
+          <tr><td>Balance</td><td>${bal}</td></tr>
+        </table>
+        <div class="signature"><span>Received: __________</span><span>Signature: __________</span></div>
+      </div>
+    </div>`;
+  }).join("");
+  return `<div class="print-report">
+    <h1>FACTORY 1 RECORDS</h1>
+    <h2>Vendor Challan Ledger — ${esc(v)}</h2>
+    <div class="print-meta">Same challan: OUT on the left and IN on the right.</div>
+    ${rows || "<p>No records.</p>"}
+  </div>`;
+}
+
+function previewVendor(v){
+  document.getElementById("pdfPreviewVendor").textContent=v;
+  document.getElementById("pdfPreviewPage").innerHTML=buildVendorPdfHtml(v);
+  document.getElementById("pdfPreviewOverlay").style.display="block";
+  document.body.style.overflow="hidden";
+}
+
+function closePdfPreview(){
+  document.getElementById("pdfPreviewOverlay").style.display="none";
+  document.body.style.overflow="";
+}
+
+function printPreview(){
+  const v=document.getElementById("pdfPreviewVendor").textContent;
+  if(!v) return;
+  closePdfPreview();
+  currentVendor=v;
+  printCurrent();
+}
+
+function printCurrent(){
+  if(!currentVendor) return;
+
+  const rs = db.records.filter(r=>r.vendor===currentVendor);
+
+  const rows = rs.map(r=>{
+    const bal=(Number(r.qty)||0)-(Number(r.received)||0);
+    return `<div class="challan-row">
+      <div class="challan-box">
+        <h3>📤 MATERIAL OUT</h3>
+        <table>
+          <tr><td class="challan-no">Challan No.</td><td class="challan-no">${esc(r.invoice)}</td></tr>
+          <tr><td>Vendor</td><td>${esc(r.vendor)}</td></tr>
+          <tr><td>Date</td><td>${fmtDate(r.date)}</td></tr>
+          <tr><td>Material</td><td>${esc(r.material)}</td></tr>
+          <tr><td>Quantity</td><td>${r.qty}</td></tr>
+          <tr><td>Due Date</td><td>${fmtDate(r.due)}</td></tr>
+        </table>
+        <div class="signature"><span>Issued: __________</span><span>Signature: __________</span></div>
+      </div>
+      <div class="challan-box">
+        <h3>📥 MATERIAL IN / RETURN</h3>
+        <table>
+          <tr><td class="challan-no">Challan No.</td><td class="challan-no">${esc(r.invoice)}</td></tr>
+          <tr><td>Vendor</td><td>${esc(r.vendor)}</td></tr>
+          <tr><td>Return Date</td><td>${fmtDate(r.receivedDate)}</td></tr>
+          <tr><td>Material</td><td>${esc(r.material)}</td></tr>
+          <tr><td>Received</td><td>${r.received||0}</td></tr>
+          <tr><td>Balance</td><td>${bal}</td></tr>
+        </table>
+        <div class="signature"><span>Received: __________</span><span>Signature: __________</span></div>
+      </div>
+    </div>`;
+  }).join("");
+
+  document.getElementById("printArea").innerHTML =
+    `<div class="print-report">
+      <h1>FACTORY 1 RECORDS</h1>
+      <h2>Vendor Challan Ledger — ${esc(currentVendor)}</h2>
+      <div class="print-meta">Same challan: OUT on the left and IN on the right.</div>
+      ${rows || "<p>No records.</p>"}
+    </div>`;
+
+  document.getElementById("vendorPage").classList.add("hidden");
+  document.getElementById("printArea").style.display="block";
+
+  setTimeout(()=>window.print(),100);
+
+  window.onafterprint = function(){
+    document.getElementById("printArea").style.display="none";
+    document.getElementById("vendorPage").classList.remove("hidden");
+    window.onafterprint=null;
+  };
+}
+
+function createVendor(){
+  const name=document.getElementById("newVendor").value.trim();
+  if(!name) return alert("Enter vendor name.");
+  if(db.vendors.some(v=>v.toLowerCase()===name.toLowerCase()))
+    return alert("This vendor folder already exists.");
+
+  db.vendors.push(name);
+  document.getElementById("newVendor").value="";
+  save();
+  openVendor(name);
+}
+
+function renderPendingFollowup(){
+  const box=document.getElementById('pendingFollowup'); if(!box) return;
+  const open=db.records.filter(r=>Number(r.qty||0)>Number(r.received||0)).sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));
+  if(!open.length){ box.innerHTML='<div class="small">✅ No pending outside material. Everything is received.</div>'; return; }
+  const now=new Date(); now.setHours(0,0,0,0);
+  const y=new Date(now); y.setDate(y.getDate()-1);
+  let h='<div class="table-wrap"><table><thead><tr><th>OUT Date</th><th>Vendor</th><th>Challan</th><th>Material</th><th>OUT kg</th><th>IN kg</th><th>Balance kg</th><th>Due</th><th>Status</th><th>Continue</th></tr></thead><tbody>';
+  open.forEach(r=>{ const bal=Number(r.qty||0)-Number(r.received||0); const st=status(r); let label=st[0]; const d=new Date(String(r.date||'')+'T00:00:00'); if(!isNaN(d)){ if(d.getTime()===y.getTime()) label='Yesterday'; else if(d<y) label='Older'; else if(d.getTime()===now.getTime()) label='Today'; } h+=`<tr><td>${esc(r.date||'—')}<br><span class="small">${label}</span></td><td>${esc(r.vendor)}</td><td>${esc(r.invoice)}</td><td>${esc(r.material)}</td><td>${r.qty}</td><td>${r.received||0}</td><td><b>${bal}</b></td><td>${esc(r.due||'—')}</td><td><span class="badge ${st[1]}">${esc(st[0])}</span></td><td><button class="secondary smallbtn" onclick='openVendor(${JSON.stringify(r.vendor)})'>📁 Continue</button></td></tr>`; });
+  box.innerHTML=h+'</tbody></table></div>';
+}
+
+function renderHome(){
+  populateDashboardLists();
+  const box=document.getElementById("folders");
+  box.innerHTML = db.vendors.length
+    ? db.vendors.map(v=>{
+        const rs=db.records.filter(r=>r.vendor===v);
+        const left=rs.reduce((a,r)=>a+Number(r.qty||0)-Number(r.received||0),0);
+        const ov=rs.filter(r=>Number(r.qty)>Number(r.received||0)&&status(r)[1]==="over").length;
+        return `<div class="folder" onclick='openVendor(${JSON.stringify(v)})'>
+          <div class="icon">📁</div><div class="fname">${esc(v)}</div>
+          <div class="fmeta">${rs.length} entries • ${left} pending${ov?" • 🔴 "+ov+" overdue":""}</div>
+          <div class="actions" style="margin-top:8px">
+            <button class="secondary" onclick='event.stopPropagation(); previewVendor(${JSON.stringify(v)})'>📄 View PDF</button>
+            <button class="danger" onclick='event.stopPropagation(); deleteVendor(${JSON.stringify(v)})'>🗑️ Delete Vendor</button>
+          </div>
+        </div>`;
+      }).join("")
+    : '<div class="small">No folders yet. Create your first vendor folder below.</div>';
+
+  const open=db.records.filter(r=>Number(r.qty)>Number(r.received||0));
+  document.getElementById("openLots").textContent=open.length;
+  document.getElementById("pendingQty").textContent=
+    open.reduce((a,r)=>a+Number(r.qty)-Number(r.received||0),0);
+  document.getElementById("overdue").textContent=
+    open.filter(r=>status(r)[1]==="over").length;
+  renderPendingFollowup();
+}
+
+function deleteVendor(v){
+  const count=db.records.filter(r=>r.vendor===v).length;
+  const msg=count
+    ? `Delete vendor "${v}" and all ${count} OUT/IN record(s) inside this vendor folder?\n\nThis cannot be undone.`
+    : `Delete vendor "${v}"?\n\nThis vendor has no records.`;
+  if(!confirm(msg)) return;
+  db.vendors=db.vendors.filter(x=>x!==v);
+  db.records=db.records.filter(r=>r.vendor!==v);
+  if(currentVendor===v) currentVendor="";
+  save();
+  renderHome();
+}
+
+function fillMaterialSuggestions(){
+  const list=document.getElementById("materials");
+  const quick=document.getElementById("materialQuick");
+  if(!list) return;
+  const names=[...new Set(db.records.filter(r=>r.vendor===currentVendor).map(r=>String(r.material||"").trim()).filter(Boolean))];
+  list.innerHTML=names.map(n=>`<option value="${esc(n)}"></option>`).join("");
+  if(quick) quick.innerHTML=names.length ? '<span class="small">Saved materials:</span> '+names.map(n=>`<button type="button" class="secondary smallbtn" onclick='document.getElementById("material").value=${JSON.stringify(n)}'>${esc(n)}</button>`).join("") : '<span class="small">Your first material name will be remembered automatically.</span>';
+}
+
+function populateDashboardLists(){
+  const dl=document.getElementById("dashVendors");
+  if(dl) dl.innerHTML=db.vendors.map(v=>`<option value="${esc(v)}"></option>`).join("");
+}
+
+function findAndContinue(){
+  const v=document.getElementById("dashVendor").value.trim().toLowerCase();
+  const inv=document.getElementById("dashInvoice").value.trim().toLowerCase();
+  const box=document.getElementById("dashboardMatches");
+  let matches=db.records.filter(r=>(!v||String(r.vendor).toLowerCase()===v)&&(!inv||String(r.invoice).toLowerCase().includes(inv)));
+  if(!v&&!inv) return alert("Enter a vendor name or invoice/challan number.");
+  if(!matches.length){ box.innerHTML='<div class="small">No matching entry found.</div>'; return; }
+  box.innerHTML='<div class="small"><b>Matching entries:</b></div>'+matches.slice(0,20).map(r=>{
+    const bal=Number(r.qty||0)-Number(r.received||0);
+    return `<div class="card" style="margin-top:8px;padding:10px"><b>${esc(r.vendor)}</b> • Challan <b>${esc(r.invoice)}</b> • ${esc(r.material)} • Qty ${r.qty} • Balance ${bal}<br><button class="secondary smallbtn" onclick='openVendor(${JSON.stringify(r.vendor)})'>📁 Continue in Vendor</button></div>`;
+  }).join("");
+}
+
+function openVendor(v){
+  currentVendor=v;
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("vendorPage").classList.remove("hidden");
+  document.getElementById("vendorTitle").textContent="📁 "+v+" — Ledger";
+  document.getElementById("outDate").value=today();
+  document.getElementById("inDate").value=today();
+  renderVendor();
+  fillMaterialSuggestions();
+  window.scrollTo(0,0);
+}
+
+function goHome(){
+  currentVendor="";
+  document.getElementById("vendorPage").classList.add("hidden");
+  document.getElementById("home").classList.remove("hidden");
+  renderHome();
+  window.scrollTo(0,0);
+}
+
+function addOut(){
+  const invoice=document.getElementById("invoice").value.trim();
+  const date=document.getElementById("outDate").value;
+  const material=document.getElementById("material").value.trim();
+  const qty=Number(document.getElementById("qty").value);
+  const due=document.getElementById("due").value;
+
+  if(!invoice||!date||!material||!qty||!due)
+    return alert("Please fill every OUT field.");
+
+  // Duplicate challan/invoice numbers are allowed.
+  // Each OUT entry gets its own internal unique ID, and IN is matched by that ID.
+
+  db.records.unshift({
+    id:(crypto.randomUUID ? crypto.randomUUID() : (Date.now().toString()+Math.random().toString(36).slice(2))), vendor:currentVendor, invoice, date,
+    material, qty, due, received:0
+  });
+
+  if(!db.vendors.some(v=>v.toLowerCase()===currentVendor.toLowerCase()))
+    db.vendors.push(currentVendor);
+
+  document.getElementById("invoice").value="";
+  document.getElementById("material").value="";
+  document.getElementById("qty").value="";
+  document.getElementById("due").value="";
+  save();
+  renderVendor();
+  renderHome();
+}
+
+function addIn(){
+  const id=document.getElementById("inRecord").value;
+  const date=document.getElementById("inDate").value;
+  const q=Number(document.getElementById("inQty").value);
+  const r=db.records.find(x=>x.id===id);
+
+  if(!r||!date||!q) return alert("Select an OUT record and enter received quantity.");
+
+  const bal=Number(r.qty)-Number(r.received||0);
+  if(q>bal) return alert("IN quantity cannot be greater than remaining quantity.");
+
+  r.received=Number(r.received||0)+q;
+  r.receivedDate=date;
+  save();
+  document.getElementById("inQty").value="";
+  renderVendor();
+  renderHome();
+}
+
+function editOut(id){
+  const r=db.records.find(x=>x.id===id);
+  if(!r) return;
+  const invoice=prompt("Edit Invoice / Challan No.",r.invoice);
+  if(invoice===null) return;
+  const date=prompt("Edit OUT Date (YYYY-MM-DD)",r.date);
+  if(date===null) return;
+  const material=prompt("Edit Material Name",r.material);
+  if(material===null) return;
+  const qtyText=prompt("Edit OUT Quantity",r.qty);
+  if(qtyText===null) return;
+  const qty=Number(qtyText);
+  const due=prompt("Edit Due Date (YYYY-MM-DD)",r.due);
+  if(due===null) return;
+  if(!invoice.trim()||!material.trim()||!date||!due||!Number.isFinite(qty)||qty<=0) return alert("Invalid entry. Nothing was changed.");
+  if(qty < Number(r.received||0)) return alert("OUT quantity cannot be less than the quantity already received IN ("+r.received+").");
+  r.invoice=invoice.trim(); r.date=date; r.material=material.trim(); r.qty=qty; r.due=due;
+  save(); renderVendor(); fillMaterialSuggestions(); renderHome();
+}
+
+function deleteOut(id){
+  const r=db.records.find(x=>x.id===id);
+  if(!r) return;
+  if(!confirm("Delete this OUT entry and its related IN record?\n\nChallan: "+r.invoice+"\nMaterial: "+r.material+"\nQuantity: "+r.qty+" "+r.unit+"\n\nThis cannot be undone.")) return;
+  db.records=db.records.filter(x=>x.id!==id);
+  save(); renderVendor(); renderHome();
+}
+
+function editIn(id){
+  const r=db.records.find(x=>x.id===id);
+  if(!r || Number(r.received||0)<=0) return;
+  const date=prompt("Edit IN / Return Date (YYYY-MM-DD)",r.receivedDate||"");
+  if(date===null) return;
+  const qtyText=prompt("Edit Received IN Quantity",r.received);
+  if(qtyText===null) return;
+  const q=Number(qtyText);
+  if(!date||!Number.isFinite(q)||q<0||q>Number(r.qty)) return alert("Invalid IN quantity. It cannot exceed the OUT quantity.");
+  r.received=q; r.receivedDate=date;
+  save(); renderVendor(); renderHome();
+}
+
+function deleteIn(id){
+  const r=db.records.find(x=>x.id===id);
+  if(!r || Number(r.received||0)<=0) return;
+  if(!confirm("Delete this IN / Return entry?\n\nChallan: "+r.invoice+"\nReceived: "+r.received+" "+r.unit+"\n\nThe OUT entry will remain, and its balance will become pending again.")) return;
+  r.received=0; r.receivedDate="";
+  save(); renderVendor(); renderHome();
+}
+
+function renderVendor(){
+  const rs=db.records.filter(r=>r.vendor===currentVendor);
+  let out=0, inn=0, ov=0, rows=[];
+
+  rs.forEach(r=>{
+    const bal=Number(r.qty)-Number(r.received||0);
+    const s=status(r);
+    out+=Number(r.qty)||0;
+    inn+=Number(r.received)||0;
+    if(bal>0&&s[1]==="over") ov++;
+
+    rows.push(`<tr>
+      <td>${esc(r.date)}</td><td>OUT</td><td>${esc(r.invoice)}</td>
+      <td>${esc(r.material)}</td><td>${r.qty}</td><td>${bal}</td>
+      <td>${esc(r.due)}</td><td><span class="badge ${s[1]}">${esc(s[0])}</span></td>
+      <td><button class="secondary smallbtn" onclick="editOut('${esc(r.id)}')">✏️ Edit</button> <button class="danger smallbtn" onclick="deleteOut('${esc(r.id)}')">🗑️ Delete</button></td>
+    </tr>`);
+
+    if(Number(r.received)>0){
+      rows.push(`<tr>
+        <td>${esc(r.receivedDate||"—")}</td><td>IN</td><td>${esc(r.invoice)}</td>
+        <td>${esc(r.material)}</td><td>${r.received} kg</td><td>${bal}</td>
+        <td>${esc(r.due)}</td><td><span class="badge ok">Received</span></td>
+        <td><button class="secondary smallbtn" onclick="editIn('${esc(r.id)}')">✏️ Edit</button> <button class="danger smallbtn" onclick="deleteIn('${esc(r.id)}')">🗑️ Delete</button></td>
+      </tr>`);
+    }
+  });
+
+  document.getElementById("vOut").textContent=out;
+  document.getElementById("vIn").textContent=inn;
+  document.getElementById("vLeft").textContent=out-inn;
+  document.getElementById("vOver").textContent=ov;
+  document.getElementById("ledger").innerHTML=
+    rows.join("")||'<tr><td colspan="8">No entries in this vendor folder.</td></tr>';
+
+  const open=rs.filter(r=>Number(r.qty)>Number(r.received||0));
+  document.getElementById("inRecord").innerHTML=
+    '<option value="">Select OUT record...</option>'+
+    open.map((r,i)=>`<option value="${esc(r.id)}">Entry ${rs.indexOf(r)+1} — ${esc(r.invoice)} — ${esc(r.date)} — ${esc(r.material)} — Pending ${Number(r.qty)-Number(r.received||0)} ${esc(r.unit)}</option>`).join("");
+
+  const mats=[...new Set(rs.map(r=>r.material))];
+  document.getElementById("materials").innerHTML=
+    mats.map(x=>`<option value="${esc(x)}">`).join("");
+}
+
+function scrollToEntry(id){
+  const el=document.getElementById(id==="out"?"invoice":"inRecord");
+  el.scrollIntoView({behavior:"smooth",block:"center"});
+  el.focus();
+}
+
+renderHome();
+</script>
+<div class="small no-print" style="text-align:center;padding:12px">FACTORY 1 RECORDS • Vendor OUT / IN Ledger • Duplicate Challan Numbers Supported</div>
+
+<div id="dataIntegrityBanner" style="margin:10px;padding:10px;border-radius:8px;background:#eef7ee;border:1px solid #b8d8b8;font-weight:600;text-align:center">
+  Loading complete saved database…
+</div>
+<script>
+(function(){
+  try{
+    const el=document.getElementById('dataIntegrityBanner');
+    if(el){
+      el.textContent='✅ Complete database loaded: '+(db.vendors||[]).length+' vendors • '+(db.records||[]).length+' OUT/IN records';
+    }
+  }catch(e){}
+})();
+</script>
+
+<!-- DIRECT FINISHED GOODS / HOLIDAYS START -->
+<section id="directFinishedGoods" class="page-section">
+<div class="card">
+<h2>🏭 Direct Finished Goods From Outside</h2>
+<p class="small">These goods come from outside already finished. They go directly to finished-product stock and do not go through factory processing.</p>
+<div class="grid">
+<label>Finished Good / Material<input id="dfgName" placeholder="e.g. Chabi 50MM"></label>
+<label>Opening Stock (KG)<input id="dfgOpening" type="number" min="0" step="0.001" value="0"></label>
+<label>Daily Usage Limit (KG)<input id="dfgDaily" type="number" min="0" step="0.001" value="0"></label>
+</div><br>
+<button onclick="addDirectFG()">➕ Add / Update Finished Good</button>
+</div>
+
+<div class="card">
+<h3>📥 Outside Finished Goods Received</h3>
+<div class="grid">
+<label>Date<input id="dfgReceiptDate" type="date"></label>
+<label>Finished Good<select id="dfgReceiptMaterial"></select></label>
+<label>Quantity (KG)<input id="dfgReceiptQty" type="number" min="0" step="0.001"></label>
+<label>Supplier / Note<input id="dfgReceiptNote" placeholder="Supplier / note"></label>
+</div><br>
+<button onclick="addDirectFGReceipt()">➕ Record Received Finished Goods</button>
+</div>
+
+<div class="card">
+<h3>📅 Manage Holidays</h3>
+<p class="small">Friday is always treated as a holiday. Add any other holiday dates here; automatic deduction will stop on those dates too.</p>
+<div class="grid">
+<label>Holiday Date<input id="holidayDate" type="date"></label>
+<label>Holiday Name<input id="holidayName" placeholder="e.g. Diwali"></label>
+</div><br>
+<button onclick="addHoliday()">➕ Add Holiday</button>
+<div id="holidayTable" style="margin-top:12px"></div>
+</div>
+
+<div class="card">
+<h3>📊 Direct Finished Goods Stock</h3>
+<div class="tablewrap" id="directFGStockTable"></div>
+</div>
+
+<div class="card">
+<h3>🧾 Outside Finished Goods Entries</h3>
+<div class="tablewrap" id="directFGReceiptTable"></div>
+</div>
+
+<div class="card">
+<h3>⚙️ Automatic Daily Deduction</h3>
+<p class="small">Deduction uses the saved daily limit. Fridays and your custom holidays are skipped. Deduction never takes stock below zero.</p>
+<div class="tablewrap" id="directFGDeductionTable"></div>
+</div>
+</section>
+<!-- DIRECT FINISHED GOODS / HOLIDAYS END -->
+
+<!-- FACTORY RAW MATERIAL & PRODUCTION START -->
+<section id="factoryProduction" class="page-section">
+<div class="card"><h2>🏭 Raw Material & Production Inventory</h2><p class="muted">Separate from third-party OUT/IN. Track your actual factory stock and production usage.</p><div class="grid">
+<label>Material<input id="rmName" placeholder="Sariya / Iron Sheet / Brass"></label><label>Opening Stock<input id="rmOpening" type="number" step="0.001" min="0" value="0"></label>
+</div><button class="primary" onclick="addRawMaterial()">➕ Add / Update Material</button></div>
+<div class="card"><h3>📦 Purchase / Material Received</h3><div class="grid"><label>Date<input id="rmPurchaseDate" type="date"></label><label>Material<select id="rmPurchaseMaterial"></select></label><label>Quantity<input id="rmPurchaseQty" type="number" step="0.001" min="0"></label><label>Supplier / Note<input id="rmPurchaseNote"></label></div><button class="primary" onclick="addRawPurchase()">➕ Record Purchase</button></div>
+<div class="card"><h3>⚙️ Daily Production Consumption</h3><p class="muted">No fixed daily consumption. Enter actual usage by machine, die and process.</p><div class="grid"><label>Date<input id="rmUseDate" type="date"></label><label>Machine<input id="rmMachine" placeholder="Machine 1"></label><label>Die / Product<input id="rmDie" placeholder="Die A / Kara"></label><label>Process<input id="rmProcess" placeholder="Lachai / Khandai"></label><label>Material<select id="rmUseMaterial"></select></label><label>Quantity Used<input id="rmUseQty" type="number" step="0.001" min="0"></label><label>Wastage<input id="rmWasteQty" type="number" step="0.001" min="0" value="0"></label></div><button class="primary" onclick="addRawConsumption()">➕ Record Production Consumption</button></div>
+<div class="card"><h3>📊 Current Raw Material Stock</h3><div id="rawMaterialStockTable"></div></div>
+<div class="card"><h3>🗑️ Manage / Delete Materials</h3><div id="rawMaterialManageTable"></div></div>
+<div class="card"><h3>📥 Recent Purchase / Material Received Entries</h3><div id="rawPurchaseTable"></div></div>
+<div class="card"><h3>🧾 Recent Factory Production Entries</h3><div id="rawProductionTable"></div></div>
+</section>
+<!-- FACTORY RAW MATERIAL & PRODUCTION END -->
+<script>
+function saveDB(){ save(); }
+function factoryStoreInit(){if(!Array.isArray(db.rawMaterials))db.rawMaterials=[];if(!Array.isArray(db.rawPurchases))db.rawPurchases=[];if(!Array.isArray(db.rawConsumption))db.rawConsumption=[];}
+function fEsc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function fToday(id){const e=document.getElementById(id);if(e&&!e.value)e.value=new Date().toISOString().slice(0,10);}
+function factoryMaterialOptions(id){const e=document.getElementById(id);if(!e)return;const old=e.value;e.innerHTML='<option value="">Select material</option>'+(db.rawMaterials||[]).map(x=>'<option value="'+fEsc(x.name)+'">'+fEsc(x.name)+'</option>').join('');if(old)e.value=old;}
+function addRawMaterial(){factoryStoreInit();const name=(document.getElementById('rmName').value||'').trim(),unit='kg',opening=Number(document.getElementById('rmOpening').value||0);if(!name||!Number.isFinite(opening)||opening<0)return alert('Enter material and valid opening stock.');const x=db.rawMaterials.find(x=>x.name.toLowerCase()===name.toLowerCase());if(x){x.unit=unit;x.opening=opening;}else db.rawMaterials.push({id:'RM-'+Date.now(),name,unit,opening});saveDB();factoryRenderAll();document.getElementById('rmName').value='';document.getElementById('rmOpening').value='0';}
+function addRawPurchase(){factoryStoreInit();const material=document.getElementById('rmPurchaseMaterial').value,qty=Number(document.getElementById('rmPurchaseQty').value);if(!material||!Number.isFinite(qty)||qty<=0)return alert('Select material and enter a valid quantity.');db.rawPurchases.push({id:'RP-'+Date.now(),date:document.getElementById('rmPurchaseDate').value||new Date().toISOString().slice(0,10),material,qty,unit:'kg',note:(document.getElementById('rmPurchaseNote').value||'').trim()});saveDB();factoryRenderAll();document.getElementById('rmPurchaseQty').value='';document.getElementById('rmPurchaseNote').value='';}
+function addRawConsumption(){factoryStoreInit();const machine=(document.getElementById('rmMachine').value||'').trim(),die=(document.getElementById('rmDie').value||'').trim(),process=(document.getElementById('rmProcess').value||'').trim(),material=document.getElementById('rmUseMaterial').value,qty=Number(document.getElementById('rmUseQty').value),waste=Number(document.getElementById('rmWasteQty').value||0);if(!machine||!die||!material||!Number.isFinite(qty)||qty<=0||!Number.isFinite(waste)||waste<0)return alert('Enter machine, die/product, material and valid quantity.');db.rawConsumption.push({id:'RC-'+Date.now(),date:document.getElementById('rmUseDate').value||new Date().toISOString().slice(0,10),machine,die,process,material,qty,unit:'kg',waste});saveDB();factoryRenderAll();document.getElementById('rmUseQty').value='';document.getElementById('rmWasteQty').value='0';}
+function factoryStockFor(mat){const m=(db.rawMaterials||[]).find(x=>x.name===mat),opening=Number(m&&m.opening||0),p=(db.rawPurchases||[]).filter(x=>x.material===mat).reduce((a,x)=>a+Number(x.qty||0),0),u=(db.rawConsumption||[]).filter(x=>x.material===mat).reduce((a,x)=>a+Number(x.qty||0),0),w=(db.rawConsumption||[]).filter(x=>x.material===mat).reduce((a,x)=>a+Number(x.waste||0),0);return{opening,purchases:p,used:u,waste:w,balance:opening+p-u};}
+function deleteRawMaterial(id){factoryStoreInit();const m=db.rawMaterials.find(x=>x.id===id);if(!m)return;if(!confirm('Delete material \"'+m.name+'\" and its related purchase/production entries?'))return;db.rawMaterials=db.rawMaterials.filter(x=>x.id!==id);db.rawPurchases=db.rawPurchases.filter(x=>x.material!==m.name);db.rawConsumption=db.rawConsumption.filter(x=>x.material!==m.name);saveDB();factoryRenderAll();}
+function deleteRawPurchase(id){factoryStoreInit();if(!confirm('Delete this purchase/material received entry?'))return;db.rawPurchases=db.rawPurchases.filter(x=>x.id!==id);saveDB();factoryRenderAll();}
+function deleteRawConsumption(id){factoryStoreInit();if(!confirm('Delete this production consumption entry?'))return;db.rawConsumption=db.rawConsumption.filter(x=>x.id!==id);saveDB();factoryRenderAll();}
+function factoryRenderStock(){const e=document.getElementById('rawMaterialStockTable');if(!e)return;const mats=db.rawMaterials||[];if(!mats.length){e.innerHTML='<p class="muted">No raw materials added yet.</p>';return;}let h='<div class="table-wrap"><table><thead><tr><th>Material</th><th>Opening</th><th>Purchased</th><th>Used</th><th>Wastage</th><th>Current Stock</th></tr></thead><tbody>';mats.forEach(m=>{const x=factoryStockFor(m.name);h+='<tr><td><b>'+fEsc(m.name)+'</b></td><td>'+x.opening+' '+fEsc(m.unit)+'</td><td>'+x.purchases+' '+fEsc(m.unit)+'</td><td>'+x.used+' '+fEsc(m.unit)+'</td><td>'+x.waste+' '+fEsc(m.unit)+'</td><td><b>'+x.balance+' '+fEsc(m.unit)+'</b></td></tr>';});e.innerHTML=h+'</tbody></table></div>';}
+function factoryRenderMaterialManage(){const e=document.getElementById('rawMaterialManageTable');if(!e)return;const mats=db.rawMaterials||[];if(!mats.length){e.innerHTML='<p class="muted">No materials to delete.</p>';return;}let h='<div class="table-wrap"><table><thead><tr><th>Material</th><th>Opening</th><th>Unit</th><th>Action</th></tr></thead><tbody>';mats.forEach(m=>{h+='<tr><td><b>'+fEsc(m.name)+'</b></td><td>'+Number(m.opening||0)+'</td><td>'+fEsc(m.unit)+'</td><td><button class="danger" onclick="deleteRawMaterial(\''+fEsc(m.id)+'\')">🗑️ Delete</button></td></tr>';});e.innerHTML=h+'</tbody></table></div>';}
+function factoryRenderPurchases(){const e=document.getElementById('rawPurchaseTable');if(!e)return;const rows=[...(db.rawPurchases||[])].sort((a,b)=>(b.date||'').localeCompare(a.date||''));if(!rows.length){e.innerHTML='<p class="muted">No purchase entries recorded yet.</p>';return;}let h='<div class="table-wrap"><table><thead><tr><th>Date</th><th>Material</th><th>Quantity (kg)</th><th>Unit</th><th>Supplier / Note</th><th>Action</th></tr></thead><tbody>';rows.forEach(r=>h+='<tr><td>'+fEsc(r.date)+'</td><td>'+fEsc(r.material)+'</td><td>'+r.qty+'</td><td>'+fEsc(r.unit)+'</td><td>'+fEsc(r.note)+'</td><td><button class="danger" onclick="deleteRawPurchase(\''+fEsc(r.id)+'\')">🗑️ Delete</button></td></tr>');e.innerHTML=h+'</tbody></table></div>';}
+function factoryRenderProduction(){const e=document.getElementById('rawProductionTable');if(!e)return;const rows=[...(db.rawConsumption||[])].sort((a,b)=>(b.date||'').localeCompare(a.date||''));if(!rows.length){e.innerHTML='<p class="muted">No production consumption recorded yet.</p>';return;}let h='<div class="table-wrap"><table><thead><tr><th>Date</th><th>Machine</th><th>Die</th><th>Process</th><th>Material</th><th>Used</th><th>Wastage</th><th>Action</th></tr></thead><tbody>';rows.forEach(r=>h+='<tr><td>'+fEsc(r.date)+'</td><td>'+fEsc(r.machine)+'</td><td>'+fEsc(r.die)+'</td><td>'+fEsc(r.process)+'</td><td>'+fEsc(r.material)+'</td><td>'+r.qty+' '+fEsc(r.unit)+'</td><td>'+r.waste+' '+fEsc(r.unit)+'</td><td><button class="danger" onclick="deleteRawConsumption(\''+fEsc(r.id)+'\')">🗑️ Delete</button></td></tr>');e.innerHTML=h+'</tbody></table></div>';}
+function factoryRenderAll(){factoryStoreInit();factoryMaterialOptions('rmPurchaseMaterial');factoryMaterialOptions('rmUseMaterial');factoryRenderStock();factoryRenderMaterialManage();factoryRenderPurchases();factoryRenderProduction();fToday('rmPurchaseDate');fToday('rmUseDate');}
+document.addEventListener('DOMContentLoaded',()=>{try{factoryRenderAll();}catch(e){console.error(e);}});
+
+// KG-ONLY migration
+try{db.records.forEach(r=>r.unit='kg');(db.rawMaterials||[]).forEach(r=>r.unit='kg');(db.rawPurchases||[]).forEach(r=>r.unit='kg');(db.rawConsumption||[]).forEach(r=>r.unit='kg');save();}catch(e){}
+</script>
+
+<script>
+/* DIRECT FINISHED GOODS + HOLIDAYS */
+function dfgInit(){
+  if(!Array.isArray(db.directFinishedGoods)) db.directFinishedGoods=[];
+  if(!Array.isArray(db.directFGReceipts)) db.directFGReceipts=[];
+  if(!Array.isArray(db.holidays)) db.holidays=[];
+}
+function dfgSave(){ save(); }
+function dfgEsc(v){ return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function dfgToday(id){ const e=document.getElementById(id); if(e && !e.value) e.value=today(); }
+function dfgOptions(){
+  const e=document.getElementById('dfgReceiptMaterial');
+  if(!e) return;
+  const old=e.value;
+  e.innerHTML='<option value="">Select finished good</option>'+db.directFinishedGoods.map(x=>'<option value="'+dfgEsc(x.name)+'">'+dfgEsc(x.name)+'</option>').join('');
+  if(old) e.value=old;
+}
+function addDirectFG(){
+  dfgInit();
+  const name=(document.getElementById('dfgName').value||'').trim();
+  const opening=Number(document.getElementById('dfgOpening').value||0);
+  const daily=Number(document.getElementById('dfgDaily').value||0);
+  if(!name || !Number.isFinite(opening) || opening<0 || !Number.isFinite(daily) || daily<0) return alert('Enter a finished good and valid KG values.');
+  let x=db.directFinishedGoods.find(x=>x.name.toLowerCase()===name.toLowerCase());
+  if(x){ x.opening=opening; x.daily=daily; }
+  else db.directFinishedGoods.push({id:'DFG-'+Date.now(),name,opening,daily,createdDate:today()});
+  dfgSave(); dfgRender();
+  document.getElementById('dfgName').value='';
+  document.getElementById('dfgOpening').value='0';
+  document.getElementById('dfgDaily').value='0';
+}
+function addDirectFGReceipt(){
+  dfgInit();
+  const material=document.getElementById('dfgReceiptMaterial').value;
+  const qty=Number(document.getElementById('dfgReceiptQty').value||0);
+  if(!material || !Number.isFinite(qty) || qty<=0) return alert('Select finished good and enter a valid KG quantity.');
+  db.directFGReceipts.push({
+    id:'DFGR-'+Date.now(), date:document.getElementById('dfgReceiptDate').value||today(),
+    material, qty, note:(document.getElementById('dfgReceiptNote').value||'').trim()
+  });
+  dfgSave(); dfgRender();
+  document.getElementById('dfgReceiptQty').value='';
+  document.getElementById('dfgReceiptNote').value='';
+}
+function addHoliday(){
+  dfgInit();
+  const date=document.getElementById('holidayDate').value;
+  const name=(document.getElementById('holidayName').value||'').trim() || 'Holiday';
+  if(!date) return alert('Select a holiday date.');
+  if(new Date(date+'T00:00:00').getDay()===5) return alert('Friday is already a holiday automatically.');
+  const existing=db.holidays.find(x=>x.date===date);
+  if(existing) existing.name=name; else db.holidays.push({id:'HOL-'+Date.now(),date,name});
+  dfgSave(); dfgRender();
+  document.getElementById('holidayDate').value='';
+  document.getElementById('holidayName').value='';
+}
+function deleteHoliday(id){
+  dfgInit();
+  db.holidays=db.holidays.filter(x=>x.id!==id);
+  dfgSave(); dfgRender();
+}
+function deleteDirectFG(id){
+  if(!confirm('Delete this finished good and its direct-finished-good records?')) return;
+  db.directFinishedGoods=db.directFinishedGoods.filter(x=>x.id!==id);
+  dfgSave(); dfgRender();
+}
+function deleteDirectFGReceipt(id){
+  db.directFGReceipts=db.directFGReceipts.filter(x=>x.id!==id);
+  dfgSave(); dfgRender();
+}
+function dfgIsHoliday(date){
+  const d=new Date(date+'T00:00:00');
+  return d.getDay()===5 || db.holidays.some(x=>x.date===date);
+}
+function dfgDays(from,to){
+  if(!from || !to || from>to) return [];
+  const out=[];
+  let d=new Date(from+'T00:00:00'), end=new Date(to+'T00:00:00');
+  while(d<=end){
+    const iso=d.toISOString().slice(0,10);
+    if(!dfgIsHoliday(iso)) out.push(iso);
+    d.setDate(d.getDate()+1);
+  }
+  return out;
+}
+function dfgCalc(x){
+  const receipts=db.directFGReceipts.filter(r=>r.material===x.name);
+  const first=x.createdDate || today();
+  const days=dfgDays(first,today());
+  let received=0, deducted=0, work=0, available=Number(x.opening)||0;
+  receipts.forEach(r=>{ if(r.date<=today()) { received+=Number(r.qty)||0; if(r.date<=first) available+=Number(r.qty)||0; }});
+  days.forEach(day=>{
+    receipts.forEach(r=>{ if(r.date===day) available+=Number(r.qty)||0; });
+    const take=Math.min(Math.max(available,0),Math.max(Number(x.daily)||0));
+    available-=take; deducted+=take; work++;
+  });
+  return {received,deducted,work,current:Math.max(0,available)};
+}
+function dfgRender(){
+  dfgInit(); dfgOptions(); dfgToday('dfgReceiptDate'); dfgToday('holidayDate');
+  const stock=document.getElementById('directFGStockTable');
+  if(stock){
+    stock.innerHTML='<table><thead><tr><th>Finished Good</th><th>Opening KG</th><th>Received KG</th><th>Daily Limit KG</th><th>Working Days</th><th>Auto Deducted KG</th><th>Current KG</th><th>Action</th></tr></thead><tbody>'+
+      (db.directFinishedGoods.map(x=>{const c=dfgCalc(x); return '<tr><td>'+dfgEsc(x.name)+'</td><td>'+Number(x.opening||0)+'</td><td>'+c.received+'</td><td>'+Number(x.daily||0)+'</td><td>'+c.work+'</td><td>'+c.deducted+'</td><td><b>'+c.current+'</b></td><td><button class="danger smallbtn" onclick="deleteDirectFG(\''+dfgEsc(x.id)+'\')">Delete</button></td></tr>';}).join('') || '<tr><td colspan="8">No direct finished goods added yet.</td></tr>')+
+      '</tbody></table>';
+  }
+  const rt=document.getElementById('directFGReceiptTable');
+  if(rt){
+    rt.innerHTML='<table><thead><tr><th>Date</th><th>Finished Good</th><th>Quantity KG</th><th>Supplier / Note</th><th>Action</th></tr></thead><tbody>'+
+      (db.directFGReceipts.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(r=>'<tr><td>'+dfgEsc(r.date)+'</td><td>'+dfgEsc(r.material)+'</td><td>'+Number(r.qty||0)+'</td><td>'+dfgEsc(r.note||'')+'</td><td><button class="danger smallbtn" onclick="deleteDirectFGReceipt(\''+dfgEsc(r.id)+'\')">Delete</button></td></tr>').join('') || '<tr><td colspan="5">No outside finished-goods entries yet.</td></tr>')+
+      '</tbody></table>';
+  }
+  const ht=document.getElementById('holidayTable');
+  if(ht){
+    ht.innerHTML='<table><thead><tr><th>Date</th><th>Holiday</th><th>Action</th></tr></thead><tbody>'+
+      (db.holidays.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(h=>'<tr><td>'+dfgEsc(h.date)+'</td><td>'+dfgEsc(h.name)+'</td><td><button class="danger smallbtn" onclick="deleteHoliday(\''+dfgEsc(h.id)+'\')">Delete</button></td></tr>').join('') || '<tr><td colspan="3">No custom holidays. Friday is automatic.</td></tr>')+
+      '</tbody></table>';
+  }
+  const dt=document.getElementById('directFGDeductionTable');
+  if(dt){
+    dt.innerHTML='<table><thead><tr><th>Finished Good</th><th>Daily Limit KG</th><th>Working Days Deducted</th><th>Total Auto Deducted KG</th></tr></thead><tbody>'+
+      (db.directFinishedGoods.map(x=>{const c=dfgCalc(x);return '<tr><td>'+dfgEsc(x.name)+'</td><td>'+Number(x.daily||0)+'</td><td>'+c.work+'</td><td>'+c.deducted+'</td></tr>';}).join('') || '<tr><td colspan="4">No automatic deduction records yet.</td></tr>')+
+      '</tbody></table>';
+  }
+}
+</script>
+
+</body>
+</html>
