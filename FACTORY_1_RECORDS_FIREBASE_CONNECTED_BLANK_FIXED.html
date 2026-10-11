@@ -1,0 +1,1841 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#172033">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FACTORY 1 RECORDS">
+<link rel="manifest" href="./manifest.json">
+<title>FACTORY 1 RECORDS — Current Backup + Cleared Receipt Fix</title>
+<style>
+.smallbtn{padding:6px 9px;font-size:12px;margin:2px;}
+*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#172033;font-family:Arial,sans-serif;padding-bottom:76px}
+header{background:#172033;color:#fff;padding:18px 16px;position:sticky;top:0;z-index:5}
+header h1{margin:0;font-size:21px}header p{margin:5px 0 0;font-size:12px;opacity:.85}
+.wrap{max-width:1000px;margin:auto;padding:14px}
+.card{background:#fff;border-radius:15px;padding:16px;margin-bottom:14px;box-shadow:0 2px 12px #0000000c}
+h2{font-size:19px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:11px}
+label{display:block;font-size:12px;font-weight:bold;margin-bottom:5px}
+input,select,button{font:inherit;width:100%;padding:11px;border:1px solid #ccd3df;border-radius:9px}
+button{background:#172033;color:#fff;border:0;font-weight:bold;cursor:pointer}.secondary{background:#e9edf4;color:#172033}.danger{background:#b42318}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.actions button{width:auto}
+.folder-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.folder{background:#f4f6fa;border:1px solid #dce1ea;border-radius:15px;padding:16px;min-height:125px;cursor:pointer}
+.folder:active{transform:scale(.98)}.icon{font-size:42px}.fname{font-weight:bold;margin-top:7px;font-size:16px;word-break:break-word}.fmeta{font-size:12px;color:#667085;margin-top:5px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}.kpi{background:#f1f4f8;padding:13px;border-radius:11px}.kpi span{font-size:12px;color:#667085}.kpi b{display:block;font-size:23px;margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:12px}th,td{padding:9px;border-bottom:1px solid #e5e8ef;text-align:left;white-space:nowrap}th{background:#f1f4f8}
+.badge{display:inline-block;padding:4px 7px;border-radius:20px;font-size:11px;font-weight:bold}.ok{background:#e7f6ec;color:#18733a}.due{background:#fff0d6;color:#9a5b00}.over{background:#ffe1df;color:#a61b12}
+.tablewrap{overflow:auto}.small{font-size:12px;color:#667085}.hidden{display:none}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ddd;display:grid;grid-template-columns:repeat(3,1fr);z-index:10}.bottom button{border-radius:0;background:#fff;color:#172033;padding:9px 3px;font-size:11px}.bottom b{display:block;font-size:19px}
+@media(max-width:600px){.wrap{padding:10px}.grid{grid-template-columns:1fr}.folder-grid{grid-template-columns:repeat(2,1fr)}}
+@media print{header,.bottom,#home,#addVendorCard,.no-print{display:none!important}.wrap{padding:0}.card{box-shadow:none}}@media print{
+header,.bottom,#home,#addVendorCard,.no-print,#vendorPage{display:none!important}
+body{background:#fff;padding:0}.print-only{display:block!important}
+}
+.print-only{display:none}
+.print-report{font-family:Arial,sans-serif;color:#111;padding:10px}
+.print-report h1{font-size:20px;margin:0 0 4px;text-align:center}
+.print-report h2{font-size:15px;margin:3px 0 12px;text-align:center}
+.print-meta{text-align:center;font-size:11px;margin-bottom:12px}
+.challan-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;page-break-inside:avoid}
+.challan-box{border:1px solid #222;border-radius:5px;padding:9px;min-height:135px}
+.challan-box h3{text-align:center;margin:0 0 7px;font-size:13px;border-bottom:1px solid #222;padding-bottom:5px}
+.challan-box table{width:100%;font-size:10px;border-collapse:collapse}
+.challan-box td{padding:3px 2px;border:0;white-space:normal}
+.challan-no{font-weight:bold;font-size:11px}
+.signature{margin-top:15px;display:flex;justify-content:space-between;font-size:10px}
+@media(max-width:600px){.challan-row{grid-template-columns:1fr}}
+
+/* In-site PDF-style preview */
+.pdf-preview-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:9999;display:none;padding:12px;overflow:auto}
+.pdf-preview-box{background:#eef1f5;max-width:1100px;margin:0 auto;min-height:calc(100vh - 24px);border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.35);padding:12px}
+.pdf-preview-toolbar{position:sticky;top:0;z-index:2;background:#fff;border-radius:10px;padding:10px;display:flex;gap:8px;justify-content:space-between;align-items:center;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.pdf-preview-toolbar .left{font-weight:700}.pdf-preview-page{background:#fff;max-width:1000px;margin:0 auto;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,.14)}
+.pdf-preview-page .challan-row{margin-bottom:14px}
+@media(max-width:600px){.pdf-preview-overlay{padding:5px}.pdf-preview-box{min-height:calc(100vh - 10px);padding:6px}.pdf-preview-page{padding:10px}.pdf-preview-toolbar{align-items:flex-start}.pdf-preview-toolbar .left{font-size:13px}}
+
+
+/* Pending material controls: 10 KG tolerance + last-start marker */
+.pending-started{background:#fff7ed !important;box-shadow:inset 4px 0 0 #f59e0b;}
+.pending-marker{display:inline-block;padding:3px 7px;border-radius:999px;background:#f59e0b;color:#fff;font-size:11px;font-weight:700;margin-left:5px;}
+.pending-last-banner{margin:8px 0 10px;padding:10px 12px;border-left:4px solid #f59e0b;background:#fff7ed;border-radius:8px;}
+</style>
+</head>
+<body>
+<div id="factoryAuthGate" style="position:fixed;inset:0;z-index:20000;background:#f5f7fb;display:flex;align-items:center;justify-content:center;padding:18px;font-family:Arial,sans-serif">
+ <div style="background:#fff;border-radius:16px;padding:22px;width:100%;max-width:420px;box-shadow:0 4px 22px #0002">
+  <h2 style="margin:0 0 6px;color:#172033">🏭 FACTORY 1 RECORDS</h2>
+  <p style="font-size:14px;color:#475467;margin:0 0 18px">Sign in with your factory account to open shared records.</p>
+  <label for="factoryEmail" style="display:block;font-weight:bold;font-size:13px;margin-bottom:5px">Email</label><input id="factoryEmail" type="email" autocomplete="username" placeholder="Your Firebase account email" style="width:100%;padding:12px;border:1px solid #ccd3df;border-radius:9px;margin-bottom:12px;font:inherit">
+  <label for="factoryPassword" style="display:block;font-weight:bold;font-size:13px;margin-bottom:5px">Password</label><input id="factoryPassword" type="password" autocomplete="current-password" placeholder="Password" style="width:100%;padding:12px;border:1px solid #ccd3df;border-radius:9px;margin-bottom:14px;font:inherit">
+  <button id="factorySignInBtn" onclick="factorySignIn()" style="width:100%;padding:12px;border:0;border-radius:9px;background:#172033;color:white;font-weight:bold;font:inherit">Sign in</button>
+  <p id="factoryAuthMessage" style="font-size:13px;color:#b42318;min-height:18px;margin:12px 0 0"></p>
+  <p style="font-size:12px;color:#667085;margin:8px 0 0">Use the owner or manager account already created in Firebase. Do not share your password with anyone.</p>
+ </div>
+</div>
+
+<header><h1>🏭 FACTORY 1 RECORDS</h1><p>Vendor folders • OUT / IN • pending material • backup & restore</p><p id="cloudStatus" style="margin-top:7px;font-weight:bold;color:#d1fae5">Not signed in</p><button class="secondary" onclick="factorySignOut()" style="width:auto;padding:6px 10px;margin-top:8px">Sign out</button></header>
+
+<div class="wrap">
+<section id="home">
+<div class="card">
+<h2>Vendor Folders</h2>
+<p class="small">Create a folder once for each vendor. Every OUT and IN entry for that vendor stays inside that folder.</p>
+<div class="grid" style="margin-bottom:10px">
+<div><label>🔎 Search Vendor Folders</label><input id="vendorFolderSearch" placeholder="Search vendor name..." oninput="renderHome()"></div>
+</div>
+<div id="folders" class="folder-grid"></div>
+</div>
+<div class="card no-print">
+<h2>⚡ Quick Material OUT</h2>
+<p class="small">Make an OUT entry directly from the home screen. You do not need to open the vendor folder first.</p>
+<div class="grid">
+<div><label>🔎 Search / Select Vendor</label><input id="quickOutVendorSearch" placeholder="Type vendor name..." oninput="renderQuickOutVendorOptions()"></div>
+<div><label>Vendor</label><select id="quickOutVendor" onchange="fillQuickOutMaterials()" onfocus="renderQuickOutVendorOptions()"><option value="">Select vendor</option></select></div>
+<div><label>Invoice / Challan No.</label><input id="quickOutInvoice" placeholder="Challan number"></div>
+<div><label>Date</label><input id="quickOutDate" type="date"></div>
+<div><label>Material Name</label><input id="quickOutMaterial" list="quickOutMaterials" placeholder="Material"><datalist id="quickOutMaterials"></datalist></div>
+<div><label>Quantity</label><div style="display:flex;gap:8px"><input id="quickOutQty" type="number" min="0" step="0.001" placeholder="Quantity" style="flex:1"><select id="quickOutUnit" onchange="toggleCustomUnit('quickOutUnit','quickOutCustomUnit')" style="max-width:120px"><option value="kg">KG</option><option value="katte">Katte</option><option value="manual">Manual</option></select><input id="quickOutCustomUnit" placeholder="Write unit" style="max-width:120px;display:none"></div></div>
+<div><label>Expected Return / Due Date</label><input id="quickOutDue" type="date"></div>
+</div><br><button onclick="addQuickOut()">📤 Save OUT</button>
+</div>
+<div class="card">
+<h2>🔎 Continue / Find Entry</h2>
+<p class="small">If you left the work unfinished, search by vendor and/or invoice/challan number and continue from the same record.</p>
+<div class="grid">
+<div><label>Vendor</label><input id="dashVendor" list="dashVendors" placeholder="Start typing vendor name"><datalist id="dashVendors"></datalist></div>
+<div><label>Invoice / Challan</label><input id="dashInvoice" placeholder="Enter challan number"></div>
+</div><br>
+<button onclick="findAndContinue()">🔎 Find & Continue</button>
+<div id="dashboardMatches" style="margin-top:12px"></div>
+</div>
+<div class="card">
+<h2>📋 Pending Outside Material — Continue From Last Entry</h2>
+<p class="small">Oldest pending OUT entries are shown first. This makes it easy to check what went outside yesterday or earlier and whether it has come IN.</p>
+<div class="grid" style="margin-bottom:10px">
+<div><label>🔎 Search Pending Material</label><input id="pendingSearch" placeholder="Vendor, challan, material or date..." oninput="renderPendingFollowup()"></div>
+</div>
+<p class="small">Use <b>Quick IN</b> to record a return directly here without opening and scrolling through the vendor folder. For KG entries, a received slip with 10 KG or less remaining is marked Completed and is removed from Pending/Overdue.</p><div id="pendingFollowup"></div>
+</div>
+<div class="card no-print" id="paymentClearCard"><h2>💰 Clear Received Material After Payment</h2><p class="small">When you pay a vendor for material already received, select the vendor and clear all received entries together. Nothing is permanently deleted — cleared entries stay in Paid/Cleared History for checking.</p><div class="grid"><div><label>🔎 Search Vendor</label><input id="clearVendorSearch" placeholder="Search vendor name..." oninput="renderClearVendorOptions()"></div><div><label>Vendor</label><select id="clearVendorSelect" onchange="renderReceivedToClear()"><option value="">Select vendor</option></select></div></div><div id="receivedToClear" style="margin-top:12px"></div><div class="actions" style="margin-top:10px"><button onclick="clearSelectedReceived()">💰 Clear Selected Received</button><button class="danger" onclick="clearAllReceivedForVendor()">💰 Clear ALL Received for This Vendor</button><button class="danger" onclick="hideCompletedReceivedSlipsForever()">🗃️ Permanently Hide Completed Slips for This Vendor</button><button class="secondary" onclick="showClearedHistory()">📜 Paid/Cleared History (2 Months)</button></div><p class="small">Cleared receipts are excluded from active vendor folders, pending and overdue counts, and vendor-link stock automation. Their details remain in Paid/Cleared History and backups for audit. Use this only after material has actually been received and cleared.</p><div id="clearedHistory" style="margin-top:12px"></div></div>
+<div class="card" id="addVendorCard">
+<h2>➕ Create Vendor Folder</h2>
+<div class="grid">
+<div><label>Vendor Name</label><input id="newVendor" placeholder="e.g. ABC Lachai"></div>
+</div><br>
+<button onclick="createVendor()">Create Vendor Folder</button>
+</div>
+<div class="card no-print">
+<h2>💾 Backup & Restore</h2>
+<p class="small">Your normal backup is a readable file showing the actual vendor records. A separate restore file keeps the exact app data.</p>
+<div class="actions">
+<button onclick="downloadEverythingBackup()">💾 BACKUP EVERYTHING — ONE CLICK</button>
+<button onclick="downloadPermanentPortableCopy()">📦 Make Permanent Portable Copy</button>
+<button class="secondary" onclick="downloadSystematicBackup()">📊 Download Full Backup</button>
+<button class="secondary" onclick="downloadRawBackup()">🧾 Save Restore Backup</button>
+<p class="small">📦 Permanent Portable Copy = the HTML itself contains your current data. It does not depend on old browser storage when opened from File Manager.</p>
+</div>
+<div style="margin-top:10px">
+<label>Restore a previously saved backup</label>
+<input id="restoreFile" type="file" accept=".json,application/json" onchange="restoreBackup(this)">
+</div>
+<p class="small">The restore backup does not change anything until you select a JSON file. It restores vendor records, raw stock, vendor links, outside-party processing flows, automatic deductions, receipts, holidays and other saved data.</p>
+</div>
+<div class="card">
+<h2>⚠️ Overall Alerts</h2>
+<div class="kpis">
+<div class="kpi"><span>Open Vendor Records</span><b id="openLots">0</b></div>
+<div class="kpi"><span>Material With Vendors</span><b id="pendingQty">0</b></div>
+<div class="kpi"><span>Overdue</span><b id="overdue">0</b></div>
+</div>
+</div>
+</section>
+
+<section id="vendorPage" class="hidden">
+<div class="card">
+<div class="actions"><button class="secondary" onclick="goHome()">← Vendor Folders</button><button onclick="printCurrent()">📄 Vendor PDF — OUT | IN</button><button class="secondary" onclick="downloadVendorBackup()">💾 Vendor Backup</button></div>
+<h2 id="vendorTitle" style="margin-top:14px">📁 Vendor</h2>
+<div class="kpis">
+<div class="kpi"><span>Total OUT</span><b id="vOut">0</b></div>
+<div class="kpi"><span>Total IN</span><b id="vIn">0</b></div>
+<div class="kpi"><span>Material LEFT</span><b id="vLeft">0</b></div>
+<div class="kpi"><span>Overdue</span><b id="vOver">0</b></div>
+</div>
+</div>
+
+<div class="card">
+<h2>📤 Material OUT</h2>
+<div class="grid">
+<div><label>Invoice / Challan No. <span class="small">(duplicates allowed)</span></label><input id="invoice" placeholder="OUT-001"></div>
+<div><label>Date</label><input id="outDate" type="date"></div>
+<div><label>Material Name</label><input id="material" list="materials" placeholder="Material"><datalist id="materials"></datalist></div>
+<div id="materialQuick" class="actions" style="margin-top:-4px"></div>
+<div><label>Quantity</label><div style="display:flex;gap:8px"><input id="qty" type="number" min="0" step="0.001" style="flex:1"><select id="qtyUnit" onchange="toggleCustomUnit('qtyUnit','qtyCustomUnit')" style="max-width:120px"><option value="kg">KG</option><option value="katte">Katte</option><option value="manual">Manual</option></select><input id="qtyCustomUnit" placeholder="Write unit" style="max-width:120px;display:none"></div></div>
+<div><label>Expected Return / Due Date</label><input id="due" type="date"></div>
+</div><br><button onclick="addOut()">Save OUT</button>
+</div>
+
+<div class="card">
+<h2>📥 Material IN</h2>
+<div class="grid">
+<div><label>Open OUT Entry <span class="small">(matched by entry ID, not challan number)</span></label><select id="inRecord"></select></div>
+<div><label>Return Date</label><input id="inDate" type="date"></div>
+<div><label>Actual Received Quantity — ENTER MANUALLY</label><div style="display:flex;gap:8px"><input id="inQty" type="number" min="0" step="0.001" placeholder="Actual received quantity" style="flex:1"><select id="inUnit" onchange="toggleCustomUnit('inUnit','inCustomUnit')" style="max-width:120px"><option value="kg">KG</option><option value="katte">Katte</option><option value="manual">Manual</option></select><input id="inCustomUnit" placeholder="Write unit" style="max-width:120px;display:none"></div></div>
+</div><br><button onclick="addIn()">Save IN</button>
+</div>
+
+<div class="card">
+<h2>📒 This Vendor's Ledger</h2>
+<p class="small">You can edit or delete any OUT/IN entry directly from this ledger. IN entries are tied to their specific OUT entry. <b>Important:</b> For IN, enter the actual quantity/weight manually. The OUT quantity is only the reference; if the returned weight is different, enter the actual returned weight.</p>
+<div class="tablewrap"><table><thead><tr><th>Date</th><th>Type</th><th>Invoice</th><th>Material</th><th>Quantity</th><th>Balance</th><th>Due</th><th>Status</th><th>Action</th></tr></thead><tbody id="ledger"></tbody></table></div>
+</div>
+</section>
+</div>
+
+
+<div id="pdfPreviewOverlay" class="pdf-preview-overlay" onclick="if(event.target===this) closePdfPreview()">
+  <div class="pdf-preview-box">
+    <div class="pdf-preview-toolbar">
+      <div class="left">📄 PDF Preview — <span id="pdfPreviewVendor"></span></div>
+      <div class="actions">
+        <button class="secondary" onclick="closePdfPreview()">✕ Close</button>
+        <button onclick="printPreview()">🖨️ Print / Save PDF</button>
+      </div>
+    </div>
+    <div id="pdfPreviewPage" class="pdf-preview-page"></div>
+  </div>
+</div>
+
+<div id="printArea" class="print-only"></div>
+<nav class="bottom">
+<button onclick="goHome()"><b>⌂</b>Vendors</button>
+<button onclick="currentVendor?scrollToEntry('out'):goHome()"><b>＋</b>OUT</button>
+<button onclick="currentVendor?scrollToEntry('in'):goHome()"><b>↓</b>IN</button>
+</nav>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script>
+// Firebase-connected blank release. Original upload remains unchanged.
+// COMPLETE-DATA RELEASE: embedded from the user-provided FACTORY_1_RECORDS_BACKUP_EVERYTHING_2026-10-06.html (master data)
+const EMBEDDED_DATA = {"vendors":[],"records":[],"rawMaterials":[],"rawPurchases":[],"rawConsumption":[],"directFinishedGoods":[],"directFgReceipts":[],"factoryHolidays":[],"clearedReceivedHistory":[],"savedMaterials":[],"outsidePartyFlows":[],"vendorRawLinks":[],"lastPendingStarted":null};
+const KEY = "factory_1_records_FIREBASE_CONNECTED_BLANK_v1";
+let db;
+try {
+  const saved = localStorage.getItem(KEY);
+  db = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(EMBEDDED_DATA));
+  if(!saved){ localStorage.setItem(KEY, JSON.stringify(db)); }
+} catch(e) {
+  db = JSON.parse(JSON.stringify(EMBEDDED_DATA));
+  try{ localStorage.setItem(KEY, JSON.stringify(db)); }catch(_){}
+}
+db.vendors = Array.isArray(db.vendors) ? db.vendors : [];
+db.records = Array.isArray(db.records) ? db.records : [];
+db.rawMaterials = Array.isArray(db.rawMaterials) ? db.rawMaterials : [];
+db.rawPurchases = Array.isArray(db.rawPurchases) ? db.rawPurchases : [];
+db.rawConsumption = Array.isArray(db.rawConsumption) ? db.rawConsumption : [];
+db.clearedReceivedHistory = Array.isArray(db.clearedReceivedHistory) ? db.clearedReceivedHistory : [];
+db.savedMaterials = Array.isArray(db.savedMaterials) ? db.savedMaterials : [];
+db.vendorRawLinks = Array.isArray(db.vendorRawLinks) ? db.vendorRawLinks : [];
+db.outsidePartyFlows = Array.isArray(db.outsidePartyFlows) ? db.outsidePartyFlows : [];
+db.lastPendingStarted = db.lastPendingStarted || null;
+// Remember every material ever entered, including older records.
+db.records.forEach(r=>{ const n=String(r.material||"").trim(); if(n && !db.savedMaterials.some(x=>String(x).toLowerCase()===n.toLowerCase())) db.savedMaterials.push(n); });
+let currentVendor = "";
+
+let factoryCloudDb = null;
+let factoryCloudReady = false;
+let factoryApplyingRemote = false;
+let factoryCloudWriteQueue = Promise.resolve();
+function save(){
+  try { localStorage.setItem(KEY, JSON.stringify(db)); } catch(e) { console.warn('Local save unavailable', e); }
+  if (factoryCloudReady && factoryCloudDb && !factoryApplyingRemote) {
+    const payload = JSON.parse(JSON.stringify(db));
+    factoryCloudWriteQueue = factoryCloudWriteQueue.then(() => factoryCloudDb.doc('factory/sharedState').set({state:payload, updatedAt: firebase.firestore.FieldValue.serverTimestamp(), updatedBy: firebase.auth().currentUser.uid})).catch(err => {
+      console.error('Firebase save failed', err);
+      const el=document.getElementById('cloudStatus'); if(el) { el.textContent='Cloud save failed — check internet / Firebase rules'; el.style.color='#b42318'; }
+    });
+  }
+}
+
+function localISODate(d=new Date()){
+  const local = new Date(d.getTime() - d.getTimezoneOffset()*60000);
+  return local.toISOString().slice(0,10);
+}
+function today(){
+  return localISODate();
+}
+
+function fmtDate(d){
+  if(!d) return "—";
+  const p = String(d).split("-");
+  return p.length===3 ? p[2]+"-"+p[1]+"-"+p[0] : String(d);
+}
+
+function esc(x){
+  return String(x ?? "").replace(/[&<>"']/g, m => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[m]));
+}
+
+function safeFileName(x){
+  return String(x || "backup").replace(/[^a-z0-9._-]+/gi,"_").replace(/^_+|_+$/g,"") || "backup";
+}
+
+function downloadFile(name, content, type){
+  const blob = new Blob([content], {type});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+function days(d){
+  if(!d) return 999999;
+  return Math.ceil((new Date(d+"T23:59:59") - new Date()) / 86400000);
+}
+
+function status(r){
+  const bal = Number(r.qty || 0) - Number(r.received || 0);
+  // For KG only, a received slip with up to 10 KG remaining is considered completed.
+  // This prevents tiny leftovers such as 0.200 KG from showing overdue forever.
+  if(bal <= 0 || (Number(r.received||0)>0 && String(r.unit||'kg').toLowerCase()==='kg' && bal<=10)) return ["Completed","ok"];
+  const n = days(r.due);
+  if(n < 0) return ["OVERDUE "+Math.abs(n)+"d","over"];
+  if(n <= 3) return ["DUE SOON "+n+"d","due"];
+  return ["Open","ok"];
+}
+
+function restoreBackup(input){
+  const file = input.files && input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(){
+    try{
+      const payload = JSON.parse(reader.result);
+      const incoming = payload && payload.data ? payload.data : payload;
+      if(!incoming || !Array.isArray(incoming.vendors) || !Array.isArray(incoming.records)){
+        throw new Error("Invalid FACTORY 1 RECORDS backup.");
+      }
+      const ok = confirm(
+        "Restore this backup?\n\nThis will replace the records currently stored on this device with the selected backup."
+      );
+      if(!ok){
+        input.value = "";
+        return;
+      }
+      db = {
+        vendors: incoming.vendors,
+        records: incoming.records,
+        rawMaterials: Array.isArray(incoming.rawMaterials) ? incoming.rawMaterials : [],
+        rawPurchases: Array.isArray(incoming.rawPurchases) ? incoming.rawPurchases : [],
+        rawConsumption: Array.isArray(incoming.rawConsumption) ? incoming.rawConsumption : [],
+        clearedReceivedHistory: Array.isArray(incoming.clearedReceivedHistory) ? incoming.clearedReceivedHistory : [],
+        savedMaterials: Array.isArray(incoming.savedMaterials) ? incoming.savedMaterials : [],
+        vendorRawLinks: Array.isArray(incoming.vendorRawLinks) ? incoming.vendorRawLinks : [],
+        outsidePartyFlows: Array.isArray(incoming.outsidePartyFlows) ? incoming.outsidePartyFlows : [],
+        directFinishedGoods: Array.isArray(incoming.directFinishedGoods) ? incoming.directFinishedGoods : [],
+        directFgReceipts: Array.isArray(incoming.directFgReceipts) ? incoming.directFgReceipts : [],
+        factoryHolidays: Array.isArray(incoming.factoryHolidays) ? incoming.factoryHolidays : [],
+        lastPendingStarted: incoming.lastPendingStarted || null
+      };
+      db.records.forEach(r=>{if(!r.unit)r.unit='kg';if(r.received&&!r.receivedUnit)r.receivedUnit=r.unit;ensureReceivedTransactions(r);});
+      factoryStoreInit();vendorRawLinkInit();outsidePartyFlowInit();directFgInit();
+      save();
+      currentVendor = "";
+      document.getElementById("vendorPage").classList.add("hidden");
+      document.getElementById("home").classList.remove("hidden");
+      renderHome();
+      factoryRenderAll();
+      alert("Backup restored successfully. Vendor, raw stock, links, outside processing, automatic deductions and holidays have been refreshed.");
+    }catch(e){
+      alert("This file is not a valid FACTORY 1 RECORDS restore backup.");
+    }
+    input.value = "";
+  };
+  reader.readAsText(file);
+}
+
+function downloadRawBackup(){
+  const payload = {
+    app:"FACTORY 1 RECORDS",
+    version:2,
+    backupType:"exact-restore",
+    backupDate:new Date().toISOString(),
+    data:db
+  };
+  downloadFile(
+    "FACTORY_1_RECORDS_Restore_"+today()+".json",
+    JSON.stringify(payload,null,2),
+    "application/json"
+  );
+}
+
+function systematicReport(){
+  const vendors = db.vendors || [];
+  let totalOut=0, totalIn=0, totalPending=0, totalOverdue=0;
+
+  vendors.forEach(v=>{
+    db.records.filter(r=>r.vendor===v).forEach(r=>{
+      totalOut += Number(r.qty)||0;
+      totalIn += Number(r.received)||0;
+      totalPending += (Number(r.qty)||0) - (Number(r.received)||0);
+      if(Number(r.qty)>Number(r.received||0) && status(r)[1]==="over") totalOverdue++;
+    });
+  });
+
+  const sections = vendors.map(v=>{
+    const rs = db.records.filter(r=>r.vendor===v);
+    const rows = rs.map(r=>{
+      const bal = (Number(r.qty)||0) - (Number(r.received)||0);
+      const s = status(r);
+      return `<tr>
+        <td>${esc(r.date)}</td>
+        <td>${esc(r.invoice)}</td>
+        <td>${esc(r.material)}</td>
+        <td>${r.qty}</td>
+        <td>${r.received||0}</td>
+        <td>${bal}</td>
+        <td>${fmtDate(r.due)}</td>
+        <td>${esc(s[0])}</td>
+      </tr>`;
+    }).join("");
+
+    return `<section class="vendor-section">
+      <h2>📁 ${esc(v)}</h2>
+      <table>
+        <thead><tr>
+          <th>OUT Date</th><th>Challan</th><th>Material</th>
+          <th>OUT</th><th>IN</th><th>LEFT</th><th>Due</th><th>Status</th>
+        </tr></thead>
+        <tbody>${rows || '<tr><td colspan="8">No records</td></tr>'}</tbody>
+      </table>
+    </section>`;
+  }).join("");
+
+  // The backup itself contains a visible copy of the exact restore JSON.
+  // This means the downloaded readable backup is not blank and is still useful
+  // even if opened on a different device.
+  const embedded = JSON.stringify({
+    app:"FACTORY 1 RECORDS",
+    version:2,
+    backupType:"exact-restore",
+    backupDate:new Date().toISOString(),
+    data:db
+  });
+
+  return `<!doctype html>
+<html><head><meta charset="utf-8">
+<title>FACTORY 1 RECORDS - Full Backup</title>
+<style>
+.smallbtn{padding:6px 9px;font-size:12px;margin:2px;}
+body{font-family:Arial,sans-serif;color:#172033;margin:22px;background:#fff}
+h1{text-align:center;margin:0 0 4px}.sub{text-align:center;color:#667085;margin-bottom:18px}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:22px}
+.box{border:1px solid #d9dee8;border-radius:8px;padding:10px}.box b{display:block;font-size:20px;margin-top:3px}
+.vendor-section{margin-top:24px}h2{font-size:16px;margin:10px 0}
+table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:18px}
+th,td{border:1px solid #d9dee8;padding:6px;text-align:left}th{background:#f1f4f8}
+.note{background:#f7f8fa;border:1px solid #ddd;border-radius:8px;padding:10px;font-size:11px}
+@media print{body{margin:10mm}.summary{grid-template-columns:repeat(4,1fr)}.vendor-section{page-break-inside:auto}}
+@media(max-width:650px){.summary{grid-template-columns:repeat(2,1fr)}table{font-size:10px}}
+</style></head>
+<body>
+<h1>🏭 FACTORY 1 RECORDS</h1>
+<div class="sub">FULL SYSTEMATIC BACKUP • Generated ${esc(new Date().toLocaleString())}</div>
+<div class="summary">
+<div class="box">Vendors<b>${vendors.length}</b></div>
+<div class="box">Total OUT<b>${totalOut}</b></div>
+<div class="box">Total IN<b>${totalIn}</b></div>
+<div class="box">Material LEFT<b>${totalPending}</b></div>
+</div>
+<p><b>Overdue records:</b> ${totalOverdue}</p>
+${sections}
+<div class="note">
+<b>Backup status:</b> This file contains the readable record report. The exact restore data is embedded in this backup file as well.
+<br><br>
+To restore the app, use the separate <b>FACTORY_1_RECORDS_Restore_YYYY-MM-DD.json</b> file inside FACTORY 1 RECORDS.
+</div>
+<script>
+const RESTORE_DATA = ${embedded};
+function downloadRestore(){
+  const blob = new Blob([JSON.stringify(RESTORE_DATA,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob), a=document.createElement("a");
+  a.href=url; a.download="FACTORY_1_RECORDS_Restore_From_Full_Backup.json";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+<\/script>
+<div class="note" style="margin-top:10px">
+This backup is intentionally readable. If you open it in a browser, the vendor records and quantities are visible instead of showing technical JSON.
+</div>
+<script>if ("serviceWorker" in navigator) { window.addEventListener("load", function(){ navigator.serviceWorker.register("./sw.js").catch(function(){}); }); }<\/script>
+
+
+<script>
+// Firebase web configuration for project factory-records-ad17b
+const FACTORY_FIREBASE_CONFIG = {
+  apiKey: "AIzaSyCkgwqrdIinRuZN_PGonNansTo8ni-gm7I",
+  authDomain: "factory-records-ad17b.firebaseapp.com",
+  projectId: "factory-records-ad17b",
+  storageBucket: "factory-records-ad17b.firebasestorage.app",
+  messagingSenderId: "652159577339",
+  appId: "1:652159577339:web:5e40934032fede1269945e"
+};
+let factoryUnsubscribe = null;
+function factoryMessage(msg){const e=document.getElementById('factoryAuthMessage');if(e)e.textContent=msg||'';}
+function factorySetStatus(msg, bad=false){const e=document.getElementById('cloudStatus');if(e){e.textContent=msg;e.style.color=bad?'#fecaca':'#d1fae5';}}
+async function factorySignIn(){
+ const email=(document.getElementById('factoryEmail').value||'').trim();
+ const password=document.getElementById('factoryPassword').value||'';
+ if(!email||!password){factoryMessage('Enter your Firebase account email and password.');return;}
+ const btn=document.getElementById('factorySignInBtn');btn.disabled=true;btn.textContent='Signing in…';factoryMessage('');
+ try{await firebase.auth().signInWithEmailAndPassword(email,password);}catch(e){factoryMessage(e.code==='auth/invalid-credential'?'Email or password is incorrect. Please check and try again.':(e.message||'Sign-in failed.'));}
+ finally{btn.disabled=false;btn.textContent='Sign in';}
+}
+async function factorySignOut(){try{if(factoryUnsubscribe){factoryUnsubscribe();factoryUnsubscribe=null;}factoryCloudReady=false;await firebase.auth().signOut();}catch(e){console.error(e);}}
+function factoryRefreshAfterCloud(){try{renderHome();renderQuickOutVendorOptions();renderPendingFollowup();if(typeof factoryRenderAll==='function')factoryRenderAll();if(typeof renderClearVendorOptions==='function')renderClearVendorOptions();if(currentVendor){renderVendor();}}catch(e){console.error('Refresh after cloud update',e);}}
+function factoryStartCloud(uid){
+ const gate=document.getElementById('factoryAuthGate');if(gate)gate.style.display='none';
+ factoryCloudDb=firebase.firestore();
+ try { factoryCloudDb.enablePersistence({synchronizeTabs:true}).catch(e=>console.warn("Offline cache persistence unavailable:",e.code||e)); } catch(e) { console.warn(e); }
+ const ref=factoryCloudDb.doc('factory/sharedState');
+ if(factoryUnsubscribe)factoryUnsubscribe();
+ factorySetStatus('Connecting to shared database…');
+ factoryUnsubscribe=ref.onSnapshot(async snap=>{
+   if(snap.exists && snap.data() && snap.data().state){
+     factoryApplyingRemote=true;
+     db=snap.data().state;
+     db.vendors=Array.isArray(db.vendors)?db.vendors:[];db.records=Array.isArray(db.records)?db.records:[];
+     db.rawMaterials=Array.isArray(db.rawMaterials)?db.rawMaterials:[];db.rawPurchases=Array.isArray(db.rawPurchases)?db.rawPurchases:[];db.rawConsumption=Array.isArray(db.rawConsumption)?db.rawConsumption:[];
+     db.clearedReceivedHistory=Array.isArray(db.clearedReceivedHistory)?db.clearedReceivedHistory:[];db.savedMaterials=Array.isArray(db.savedMaterials)?db.savedMaterials:[];db.vendorRawLinks=Array.isArray(db.vendorRawLinks)?db.vendorRawLinks:[];db.outsidePartyFlows=Array.isArray(db.outsidePartyFlows)?db.outsidePartyFlows:[];
+     db.directFinishedGoods=Array.isArray(db.directFinishedGoods)?db.directFinishedGoods:[];db.directFgReceipts=Array.isArray(db.directFgReceipts)?db.directFgReceipts:[];db.factoryHolidays=Array.isArray(db.factoryHolidays)?db.factoryHolidays:[];db.lastPendingStarted=db.lastPendingStarted||null;
+     try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){}
+     factoryApplyingRemote=false;factoryCloudReady=true;factorySetStatus('☁️ Connected • shared records enabled');factoryRefreshAfterCloud();
+   } else {
+     // First authenticated visit: create an empty shared state, never import the old embedded records.
+     factoryApplyingRemote=true;
+     const empty=JSON.parse(JSON.stringify(EMBEDDED_DATA));
+     db=empty;try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){}
+     factoryApplyingRemote=false;
+     try{await ref.set({state:empty,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:uid});factoryCloudReady=true;factorySetStatus('☁️ Connected • new blank factory database');factoryRefreshAfterCloud();}
+     catch(e){factoryCloudReady=false;factorySetStatus('Database access failed — check Firestore Rules',true);factoryMessage('Database access failed: '+(e.message||e));}
+   }
+ },err=>{factoryCloudReady=false;factorySetStatus('Cloud connection error',true);factoryMessage('Could not connect to shared database: '+(err.message||err));});
+}
+(function factoryFirebaseBoot(){
+ try{
+  if(!firebase.apps.length)firebase.initializeApp(FACTORY_FIREBASE_CONFIG);
+  firebase.auth().onAuthStateChanged(user=>{
+    const gate=document.getElementById('factoryAuthGate');
+    if(user){factoryMessage('');factoryStartCloud(user.uid);}
+    else{factoryCloudReady=false;factoryCloudDb=null;if(factoryUnsubscribe){factoryUnsubscribe();factoryUnsubscribe=null;}if(gate)gate.style.display='flex';factorySetStatus('Not signed in');}
+  });
+ }catch(e){factoryMessage('Firebase could not start. Open this app from a secure HTTPS website with internet access.');console.error(e);}
+})();
+</script>
+</body></html>`;
+}
+
+function downloadEverythingBackup(){
+  // ONE-CLICK MASTER BACKUP: capture the CURRENT live database and put ALL app data
+  // inside one self-contained HTML file. No browser/localStorage data is required to
+  // read the backup later.
+  const currentData = JSON.parse(JSON.stringify(db));
+  const payload = {
+    app:"FACTORY 1 RECORDS",
+    version:3,
+    backupType:"complete-everything-self-contained",
+    backupDate:new Date().toISOString(),
+    data:currentData
+  };
+  const embedded = JSON.stringify(payload).replace(/</g,"\\u003c");
+  const vendors = currentData.vendors || [];
+  const records = currentData.records || [];
+  const rawMaterials = currentData.rawMaterials || [];
+  const rawPurchases = currentData.rawPurchases || [];
+  const rawConsumption = currentData.rawConsumption || [];
+  const directFinishedGoods = currentData.directFinishedGoods || [];
+  const directFgReceipts = currentData.directFgReceipts || [];
+  const factoryHolidays = currentData.factoryHolidays || [];
+  const cleared = currentData.clearedReceivedHistory || [];
+  const savedMaterials = currentData.savedMaterials || [];
+  const html = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FACTORY 1 RECORDS — COMPLETE BACKUP</title>
+<style>body{font-family:Arial,sans-serif;color:#172033;margin:18px;background:#fff}h1{margin-bottom:4px}.sub{color:#667085}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}.box{border:1px solid #d9dee8;border-radius:10px;padding:10px}.box b{display:block;font-size:20px;margin-top:4px}section{margin-top:24px}table{width:100%;border-collapse:collapse;font-size:11px}th,td{border:1px solid #d9dee8;padding:6px;text-align:left;vertical-align:top}th{background:#f1f4f8}.note{background:#f7f8fa;border:1px solid #ddd;border-radius:10px;padding:12px;margin-top:18px}.btn{display:inline-block;padding:10px 14px;border:0;border-radius:8px;background:#172033;color:#fff;margin:4px 0;cursor:pointer}@media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}table{font-size:10px}}</style></head><body>
+<h1>🏭 FACTORY 1 RECORDS — COMPLETE BACKUP</h1>
+<div class="sub">One-click backup • Generated ${esc(new Date().toLocaleString())}</div>
+<div class="grid">
+<div class="box">Vendors<b>${vendors.length}</b></div><div class="box">Vendor OUT/IN Records<b>${records.length}</b></div><div class="box">Raw Materials<b>${rawMaterials.length}</b></div>
+<div class="box">Raw Purchases<b>${rawPurchases.length}</b></div><div class="box">Production Consumption<b>${rawConsumption.length}</b></div><div class="box">Finished Goods<b>${directFinishedGoods.length}</b></div>
+<div class="box">FG Receipts<b>${directFgReceipts.length}</b></div><div class="box">Holidays<b>${factoryHolidays.length}</b></div><div class="box">Cleared/Payment History<b>${cleared.length}</b></div>
+<div class="box">Saved Material Names<b>${savedMaterials.length}</b></div><div class="box">Vendor → Raw Links<b>${(currentData.vendorRawLinks||[]).length}</b></div>
+</div>
+<div class="note"><b>Everything is included in this single HTML file.</b><br>Vendor folders, OUT/IN records, raw materials, opening stock, purchases, production consumption, wastage, units, finished goods, outside FG receipts, holidays, cleared/payment history, and saved material names are embedded below. This backup does not depend on browser localStorage.</div>
+<section><h2>📁 Vendor Data</h2><table><thead><tr><th>Vendor</th><th>Invoice/Challan</th><th>Date</th><th>Material</th><th>OUT</th><th>IN</th><th>Due</th><th>Unit</th></tr></thead><tbody>${records.map(r=>`<tr><td>${esc(r.vendor)}</td><td>${esc(r.invoice)}</td><td>${esc(r.date)}</td><td>${esc(r.material)}</td><td>${esc(r.qty)}</td><td>${esc(r.received||0)}</td><td>${esc(r.due||'')}</td><td>${esc(r.unit||'')}</td></tr>`).join('') || '<tr><td colspan="8">No vendor records</td></tr>'}</tbody></table></section>
+<section><h2>🔗 Vendor IN → Raw Material Links</h2><table><thead><tr><th>Vendor</th><th>Vendor Material</th><th>Raw Material</th></tr></thead><tbody>${(currentData.vendorRawLinks||[]).map(r=>`<tr><td>${esc(r.vendor||'')}</td><td>${esc(r.vendorMaterial||'')}</td><td>${esc(r.rawMaterial||'')}</td></tr>`).join('') || '<tr><td colspan="3">No vendor/raw-material links</td></tr>'}</tbody></table></section>
+<section><h2>📦 Raw Materials</h2><table><thead><tr><th>Material</th><th>Unit</th><th>Opening</th></tr></thead><tbody>${rawMaterials.map(r=>`<tr><td>${esc(r.name)}</td><td>${esc(r.unit||'')}</td><td>${esc(r.opening||0)}</td></tr>`).join('') || '<tr><td colspan="3">No raw materials</td></tr>'}</tbody></table></section>
+<section><h2>🧾 Raw Purchases / Material Received</h2><table><thead><tr><th>Date</th><th>Material</th><th>Quantity</th><th>Unit</th><th>Supplier / Note</th></tr></thead><tbody>${rawPurchases.map(r=>`<tr><td>${esc(r.date)}</td><td>${esc(r.material)}</td><td>${esc(r.qty)}</td><td>${esc(r.unit||'')}</td><td>${esc(r.note||'')}</td></tr>`).join('') || '<tr><td colspan="5">No raw purchases</td></tr>'}</tbody></table></section>
+<section><h2>🏭 Production Consumption / Wastage</h2><table><thead><tr><th>Date</th><th>Machine</th><th>Die/Product</th><th>Process</th><th>Material</th><th>Used</th><th>Wastage</th><th>Unit</th></tr></thead><tbody>${rawConsumption.map(r=>`<tr><td>${esc(r.date)}</td><td>${esc(r.machine||'')}</td><td>${esc(r.die||r.product||'')}</td><td>${esc(r.process||'')}</td><td>${esc(r.material||'')}</td><td>${esc(r.qty||r.used||0)}</td><td>${esc(r.wastage||0)}</td><td>${esc(r.unit||'')}</td></tr>`).join('') || '<tr><td colspan="8">No production consumption records</td></tr>'}</tbody></table></section>
+<section><h2>🔐 Direct Finished Goods / Outside Receipts</h2><table><thead><tr><th>Type</th><th>Date</th><th>Finished Good</th><th>Quantity</th><th>Supplier / Note</th></tr></thead><tbody>${directFinishedGoods.map(r=>`<tr><td>Finished Good</td><td>${esc(r.date||'')}</td><td>${esc(r.name||r.product||r.finishedGood||'')}</td><td>${esc(r.opening||r.qty||0)}</td><td>${esc(r.note||r.supplier||'')}</td></tr>`).join('')}${directFgReceipts.map(r=>`<tr><td>Outside Receipt</td><td>${esc(r.date||'')}</td><td>${esc(r.name||r.product||r.finishedGood||'')}</td><td>${esc(r.qty||0)}</td><td>${esc(r.note||r.supplier||'')}</td></tr>`).join('') || (!directFinishedGoods.length ? '<tr><td colspan="5">No finished goods records</td></tr>' : '')}</tbody></table></section>
+<section><h2>📅 Factory Holidays</h2><table><thead><tr><th>Date</th><th>Name</th></tr></thead><tbody>${factoryHolidays.map(r=>`<tr><td>${esc(r.date||'')}</td><td>${esc(r.name||r.title||'')}</td></tr>`).join('') || '<tr><td colspan="2">No holidays</td></tr>'}</tbody></table></section>
+<section><h2>💰 Cleared / Payment History</h2><table><thead><tr><th>Vendor</th><th>Invoice</th><th>Material</th><th>OUT</th><th>IN</th><th>Cleared Date</th></tr></thead><tbody>${cleared.map(r=>`<tr><td>${esc(r.vendor||'')}</td><td>${esc(r.invoice||'')}</td><td>${esc(r.material||'')}</td><td>${esc(r.qty||0)}</td><td>${esc(r.received||0)}</td><td>${esc(r.paidClearedDate||r.clearedDate||'')}</td></tr>`).join('') || '<tr><td colspan="6">No cleared history</td></tr>'}</tbody></table></section>
+<section><h2>🧠 Saved Material Names</h2><p>${savedMaterials.map(x=>esc(x)).join(', ') || 'No saved material names'}</p></section>
+<div class="note"><b>Technical restore copy is embedded inside this file.</b><br><button class="btn" onclick="downloadRestore()">🧾 Extract Restore JSON</button></div>
+<script>const RESTORE_DATA=${embedded};function downloadRestore(){const b=new Blob([JSON.stringify(RESTORE_DATA,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='FACTORY_1_RECORDS_Restore_'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}<\/script>
+
+
+<script>
+// Firebase web configuration for project factory-records-ad17b
+const FACTORY_FIREBASE_CONFIG = {
+  apiKey: "AIzaSyCkgwqrdIinRuZN_PGonNansTo8ni-gm7I",
+  authDomain: "factory-records-ad17b.firebaseapp.com",
+  projectId: "factory-records-ad17b",
+  storageBucket: "factory-records-ad17b.firebasestorage.app",
+  messagingSenderId: "652159577339",
+  appId: "1:652159577339:web:5e40934032fede1269945e"
+};
+let factoryUnsubscribe = null;
+function factoryMessage(msg){const e=document.getElementById('factoryAuthMessage');if(e)e.textContent=msg||'';}
+function factorySetStatus(msg, bad=false){const e=document.getElementById('cloudStatus');if(e){e.textContent=msg;e.style.color=bad?'#fecaca':'#d1fae5';}}
+async function factorySignIn(){
+ const email=(document.getElementById('factoryEmail').value||'').trim();
+ const password=document.getElementById('factoryPassword').value||'';
+ if(!email||!password){factoryMessage('Enter your Firebase account email and password.');return;}
+ const btn=document.getElementById('factorySignInBtn');btn.disabled=true;btn.textContent='Signing in…';factoryMessage('');
+ try{await firebase.auth().signInWithEmailAndPassword(email,password);}catch(e){factoryMessage(e.code==='auth/invalid-credential'?'Email or password is incorrect. Please check and try again.':(e.message||'Sign-in failed.'));}
+ finally{btn.disabled=false;btn.textContent='Sign in';}
+}
+async function factorySignOut(){try{if(factoryUnsubscribe){factoryUnsubscribe();factoryUnsubscribe=null;}factoryCloudReady=false;await firebase.auth().signOut();}catch(e){console.error(e);}}
+function factoryRefreshAfterCloud(){try{renderHome();renderQuickOutVendorOptions();renderPendingFollowup();if(typeof factoryRenderAll==='function')factoryRenderAll();if(typeof renderClearVendorOptions==='function')renderClearVendorOptions();if(currentVendor){renderVendor();}}catch(e){console.error('Refresh after cloud update',e);}}
+function factoryStartCloud(uid){
+ const gate=document.getElementById('factoryAuthGate');if(gate)gate.style.display='none';
+ factoryCloudDb=firebase.firestore();
+ try { factoryCloudDb.enablePersistence({synchronizeTabs:true}).catch(e=>console.warn("Offline cache persistence unavailable:",e.code||e)); } catch(e) { console.warn(e); }
+ const ref=factoryCloudDb.doc('factory/sharedState');
+ if(factoryUnsubscribe)factoryUnsubscribe();
+ factorySetStatus('Connecting to shared database…');
+ factoryUnsubscribe=ref.onSnapshot(async snap=>{
+   if(snap.exists && snap.data() && snap.data().state){
+     factoryApplyingRemote=true;
+     db=snap.data().state;
+     db.vendors=Array.isArray(db.vendors)?db.vendors:[];db.records=Array.isArray(db.records)?db.records:[];
+     db.rawMaterials=Array.isArray(db.rawMaterials)?db.rawMaterials:[];db.rawPurchases=Array.isArray(db.rawPurchases)?db.rawPurchases:[];db.rawConsumption=Array.isArray(db.rawConsumption)?db.rawConsumption:[];
+     db.clearedReceivedHistory=Array.isArray(db.clearedReceivedHistory)?db.clearedReceivedHistory:[];db.savedMaterials=Array.isArray(db.savedMaterials)?db.savedMaterials:[];db.vendorRawLinks=Array.isArray(db.vendorRawLinks)?db.vendorRawLinks:[];db.outsidePartyFlows=Array.isArray(db.outsidePartyFlows)?db.outsidePartyFlows:[];
+     db.directFinishedGoods=Array.isArray(db.directFinishedGoods)?db.directFinishedGoods:[];db.directFgReceipts=Array.isArray(db.directFgReceipts)?db.directFgReceipts:[];db.factoryHolidays=Array.isArray(db.factoryHolidays)?db.factoryHolidays:[];db.lastPendingStarted=db.lastPendingStarted||null;
+     try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){}
+     factoryApplyingRemote=false;factoryCloudReady=true;factorySetStatus('☁️ Connected • shared records enabled');factoryRefreshAfterCloud();
+   } else {
+     // First authenticated visit: create an empty shared state, never import the old embedded records.
+     factoryApplyingRemote=true;
+     const empty=JSON.parse(JSON.stringify(EMBEDDED_DATA));
+     db=empty;try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){}
+     factoryApplyingRemote=false;
+     try{await ref.set({state:empty,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:uid});factoryCloudReady=true;factorySetStatus('☁️ Connected • new blank factory database');factoryRefreshAfterCloud();}
+     catch(e){factoryCloudReady=false;factorySetStatus('Database access failed — check Firestore Rules',true);factoryMessage('Database access failed: '+(e.message||e));}
+   }
+ },err=>{factoryCloudReady=false;factorySetStatus('Cloud connection error',true);factoryMessage('Could not connect to shared database: '+(err.message||err));});
+}
+(function factoryFirebaseBoot(){
+ try{
+  if(!firebase.apps.length)firebase.initializeApp(FACTORY_FIREBASE_CONFIG);
+  firebase.auth().onAuthStateChanged(user=>{
+    const gate=document.getElementById('factoryAuthGate');
+    if(user){factoryMessage('');factoryStartCloud(user.uid);}
+    else{factoryCloudReady=false;factoryCloudDb=null;if(factoryUnsubscribe){factoryUnsubscribe();factoryUnsubscribe=null;}if(gate)gate.style.display='flex';factorySetStatus('Not signed in');}
+  });
+ }catch(e){factoryMessage('Firebase could not start. Open this app from a secure HTTPS website with internet access.');console.error(e);}
+})();
+</script>
+</body></html>`;
+  downloadFile("FACTORY_1_RECORDS_BACKUP_EVERYTHING_"+today()+".html", html, "text/html");
+  alert("COMPLETE BACKUP CREATED.\n\nOne HTML file now contains ALL FACTORY 1 RECORDS data.\n\nKeep this file safely. You can open it from File Manager even without the original browser storage.");
+}
+
+function downloadSystematicBackup(){
+  downloadFile(
+    "FACTORY_1_RECORDS_Full_Backup_"+today()+".html",
+    systematicReport(),
+    "text/html"
+  );
+}
+
+function downloadPermanentPortableCopy(){
+  // IMPORTANT: capture the CURRENT live database, not the older embedded data.
+  // The generated file gets its own storage key so an older copy cannot overwrite it.
+  const currentData = JSON.parse(JSON.stringify(db));
+  const json = JSON.stringify(currentData).replace(/</g,"\\u003c");
+  const source = document.documentElement.outerHTML;
+  const newKey = "factory_1_records_portable_" + Date.now() + "_" + Math.random().toString(36).slice(2,10);
+  let portable = source.replace(/const EMBEDDED_DATA = [\s\S]*?;\n/, "const EMBEDDED_DATA = " + json + ";\n");
+  portable = portable.replace(/const KEY = "[^"]*";/, "const KEY = " + JSON.stringify(newKey) + ";");
+  // Mark this copy so future opens always have an embedded fallback.
+  portable = portable.replace("// COMPLETE-DATA RELEASE:", "// PERMANENT PORTABLE COPY: current live data embedded in this file.\n// COMPLETE-DATA RELEASE:");
+  downloadFile(
+    "FACTORY_1_RECORDS_PERMANENT_PORTABLE_"+today()+".html",
+    "<!doctype html>\n" + portable,
+    "text/html"
+  );
+  alert("Permanent Portable Copy created. Open THIS newly downloaded HTML from File Manager.\n\nIt contains the current live records inside the file itself.");
+}
+
+function downloadVendorBackup(){
+  if(!currentVendor) return;
+  const rs = db.records.filter(r=>r.vendor===currentVendor);
+  const rows = rs.map(r=>{
+    const bal=(Number(r.qty)||0)-(Number(r.received)||0), s=status(r);
+    return `<tr>
+      <td>${esc(r.date)}</td><td>${esc(r.invoice)}</td><td>${esc(r.material)}</td>
+      <td>${r.qty}</td><td>${r.received||0}</td>
+      <td>${bal}</td><td>${fmtDate(r.due)}</td><td>${esc(s[0])}</td>
+    </tr>`;
+  }).join("");
+
+  const doc = `<!doctype html><html><head><meta charset="utf-8">
+<title>${esc(currentVendor)} - Vendor Backup</title>
+<style>
+.smallbtn{padding:6px 9px;font-size:12px;margin:2px;}
+body{font-family:Arial;margin:20px;color:#172033}h1{text-align:center}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{border:1px solid #bbb;padding:7px}th{background:#eee}
+</style></head><body>
+<h1>📁 ${esc(currentVendor)}</h1>
+<p>FACTORY 1 RECORDS • Vendor Backup • ${esc(new Date().toLocaleString())}</p>
+<table><thead><tr><th>OUT Date</th><th>Challan</th><th>Material</th><th>OUT</th><th>IN</th><th>LEFT</th><th>Due</th><th>Status</th></tr></thead>
+<tbody>${rows || '<tr><td colspan="8">No records</td></tr>'}</tbody></table>
+<script>if ("serviceWorker" in navigator) { window.addEventListener("load", function(){ navigator.serviceWorker.register("./sw.js").catch(function(){}); }); }<\/script>
+
+
+<script>
+// Firebase web configuration for project factory-records-ad17b
+const FACTORY_FIREBASE_CONFIG = {
+  apiKey: "AIzaSyCkgwqrdIinRuZN_PGonNansTo8ni-gm7I",
+  authDomain: "factory-records-ad17b.firebaseapp.com",
+  projectId: "factory-records-ad17b",
+  storageBucket: "factory-records-ad17b.firebasestorage.app",
+  messagingSenderId: "652159577339",
+  appId: "1:652159577339:web:5e40934032fede1269945e"
+};
+let factoryUnsubscribe = null;
+function factoryMessage(msg){const e=document.getElementById('factoryAuthMessage');if(e)e.textContent=msg||'';}
+function factorySetStatus(msg, bad=false){const e=document.getElementById('cloudStatus');if(e){e.textContent=msg;e.style.color=bad?'#fecaca':'#d1fae5';}}
+async function factorySignIn(){
+ const email=(document.getElementById('factoryEmail').value||'').trim();
+ const password=document.getElementById('factoryPassword').value||'';
+ if(!email||!password){factoryMessage('Enter your Firebase account email and password.');return;}
+ const btn=document.getElementById('factorySignInBtn');btn.disabled=true;btn.textContent='Signing in…';factoryMessage('');
+ try{await firebase.auth().signInWithEmailAndPassword(email,password);}catch(e){factoryMessage(e.code==='auth/invalid-credential'?'Email or password is incorrect. Please check and try again.':(e.message||'Sign-in failed.'));}
+ finally{btn.disabled=false;btn.textContent='Sign in';}
+}
+async function factorySignOut(){try{if(factoryUnsubscribe){factoryUnsubscribe();factoryUnsubscribe=null;}factoryCloudReady=false;await firebase.auth().signOut();}catch(e){console.error(e);}}
+function factoryRefreshAfterCloud(){try{renderHome();renderQuickOutVendorOptions();renderPendingFollowup();if(typeof factoryRenderAll==='function')factoryRenderAll();if(typeof renderClearVendorOptions==='function')renderClearVendorOptions();if(currentVendor){renderVendor();}}catch(e){console.error('Refresh after cloud update',e);}}
+function factoryStartCloud(uid){
+ const gate=document.getElementById('factoryAuthGate');if(gate)gate.style.display='none';
+ factoryCloudDb=firebase.firestore();
+ try { factoryCloudDb.enablePersistence({synchronizeTabs:true}).catch(e=>console.warn("Offline cache persistence unavailable:",e.code||e)); } catch(e) { console.warn(e); }
+ const ref=factoryCloudDb.doc('factory/sharedState');
+ if(factoryUnsubscribe)factoryUnsubscribe();
+ factorySetStatus('Connecting to shared database…');
+ factoryUnsubscribe=ref.onSnapshot(async snap=>{
+   if(snap.exists && snap.data() && snap.data().state){
+     factoryApplyingRemote=true;
+     db=snap.data().state;
+     db.vendors=Array.isArray(db.vendors)?db.vendors:[];db.records=Array.isArray(db.records)?db.records:[];
+     db.rawMaterials=Array.isArray(db.rawMaterials)?db.rawMaterials:[];db.rawPurchases=Array.isArray(db.rawPurchases)?db.rawPurchases:[];db.rawConsumption=Array.isArray(db.rawConsumption)?db.rawConsumption:[];
+     db.clearedReceivedHistory=Array.isArray(db.clearedReceivedHistory)?db.clearedReceivedHistory:[];db.savedMaterials=Array.isArray(db.savedMaterials)?db.savedMaterials:[];db.vendorRawLinks=Array.isArray(db.vendorRawLinks)?db.vendorRawLinks:[];db.outsidePartyFlows=Array.isArray(db.outsidePartyFlows)?db.outsidePartyFlows:[];
+     db.directFinishedGoods=Array.isArray(db.directFinishedGoods)?db.directFinishedGoods:[];db.directFgReceipts=Array.isArray(db.directFgReceipts)?db.directFgReceipts:[];db.factoryHolidays=Array.isArray(db.factoryHolidays)?db.factoryHolidays:[];db.lastPendingStarted=db.lastPendingStarted||null;
+     try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){}
+     factoryApplyingRemote=false;factoryCloudReady=true;factorySetStatus('☁️ Connected • shared records enabled');factoryRefreshAfterCloud();
+   } else {
+     // First authenticated visit: create an empty shared state, never import the old embedded records.
+     factoryApplyingRemote=true;
+     const empty=JSON.parse(JSON.stringify(EMBEDDED_DATA));
+     db=empty;try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){}
+     factoryApplyingRemote=false;
+     try{await ref.set({state:empty,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:uid});factoryCloudReady=true;factorySetStatus('☁️ Connected • new blank factory database');factoryRefreshAfterCloud();}
+     catch(e){factoryCloudReady=false;factorySetStatus('Database access failed — check Firestore Rules',true);factoryMessage('Database access failed: '+(e.message||e));}
+   }
+ },err=>{factoryCloudReady=false;factorySetStatus('Cloud connection error',true);factoryMessage('Could not connect to shared database: '+(err.message||err));});
+}
+(function factoryFirebaseBoot(){
+ try{
+  if(!firebase.apps.length)firebase.initializeApp(FACTORY_FIREBASE_CONFIG);
+  firebase.auth().onAuthStateChanged(user=>{
+    const gate=document.getElementById('factoryAuthGate');
+    if(user){factoryMessage('');factoryStartCloud(user.uid);}
+    else{factoryCloudReady=false;factoryCloudDb=null;if(factoryUnsubscribe){factoryUnsubscribe();factoryUnsubscribe=null;}if(gate)gate.style.display='flex';factorySetStatus('Not signed in');}
+  });
+ }catch(e){factoryMessage('Firebase could not start. Open this app from a secure HTTPS website with internet access.');console.error(e);}
+})();
+</script>
+</body></html>`;
+
+  downloadFile(
+    "Vendor_"+safeFileName(currentVendor)+"_Backup_"+today()+".html",
+    doc,
+    "text/html"
+  );
+}
+
+function buildVendorPdfHtml(v){
+  const rs = db.records.filter(r=>r.vendor===v);
+  const rows = rs.map(r=>{
+    const bal=(Number(r.qty)||0)-(Number(r.received)||0);
+    return `<div class="challan-row">
+      <div class="challan-box">
+        <h3>📤 MATERIAL OUT</h3>
+        <table>
+          <tr><td class="challan-no">Challan No.</td><td class="challan-no">${esc(r.invoice)}</td></tr>
+          <tr><td>Vendor</td><td>${esc(r.vendor)}</td></tr>
+          <tr><td>Date</td><td>${fmtDate(r.date)}</td></tr>
+          <tr><td>Material</td><td>${esc(r.material)}</td></tr>
+          <tr><td>Quantity</td><td>${r.qty}</td></tr>
+          <tr><td>Due Date</td><td>${fmtDate(r.due)}</td></tr>
+        </table>
+        <div class="signature"><span>Issued: __________</span><span>Signature: __________</span></div>
+      </div>
+      <div class="challan-box">
+        <h3>📥 MATERIAL IN / RETURN</h3>
+        <table>
+          <tr><td class="challan-no">Challan No.</td><td class="challan-no">${esc(r.invoice)}</td></tr>
+          <tr><td>Vendor</td><td>${esc(r.vendor)}</td></tr>
+          <tr><td>Return Date</td><td>${fmtDate(r.receivedDate)}</td></tr>
+          <tr><td>Material</td><td>${esc(r.material)}</td></tr>
+          <tr><td>Received</td><td>${r.received||0}</td></tr>
+          <tr><td>Balance</td><td>${bal}</td></tr>
+        </table>
+        <div class="signature"><span>Received: __________</span><span>Signature: __________</span></div>
+      </div>
+    </div>`;
+  }).join("");
+  return `<div class="print-report">
+    <h1>FACTORY 1 RECORDS</h1>
+    <h2>Vendor Challan Ledger — ${esc(v)}</h2>
+    <div class="print-meta">Same challan: OUT on the left and IN on the right.</div>
+    ${rows || "<p>No records.</p>"}
+  </div>`;
+}
+
+function previewVendor(v){
+  document.getElementById("pdfPreviewVendor").textContent=v;
+  document.getElementById("pdfPreviewPage").innerHTML=buildVendorPdfHtml(v);
+  document.getElementById("pdfPreviewOverlay").style.display="block";
+  document.body.style.overflow="hidden";
+}
+
+function closePdfPreview(){
+  document.getElementById("pdfPreviewOverlay").style.display="none";
+  document.body.style.overflow="";
+}
+
+function printPreview(){
+  const v=document.getElementById("pdfPreviewVendor").textContent;
+  if(!v) return;
+  closePdfPreview();
+  currentVendor=v;
+  printCurrent();
+}
+
+function printCurrent(){
+  if(!currentVendor) return;
+
+  const rs = db.records.filter(r=>r.vendor===currentVendor);
+
+  const rows = rs.map(r=>{
+    const bal=(Number(r.qty)||0)-(Number(r.received)||0);
+    return `<div class="challan-row">
+      <div class="challan-box">
+        <h3>📤 MATERIAL OUT</h3>
+        <table>
+          <tr><td class="challan-no">Challan No.</td><td class="challan-no">${esc(r.invoice)}</td></tr>
+          <tr><td>Vendor</td><td>${esc(r.vendor)}</td></tr>
+          <tr><td>Date</td><td>${fmtDate(r.date)}</td></tr>
+          <tr><td>Material</td><td>${esc(r.material)}</td></tr>
+          <tr><td>Quantity</td><td>${r.qty}</td></tr>
+          <tr><td>Due Date</td><td>${fmtDate(r.due)}</td></tr>
+        </table>
+        <div class="signature"><span>Issued: __________</span><span>Signature: __________</span></div>
+      </div>
+      <div class="challan-box">
+        <h3>📥 MATERIAL IN / RETURN</h3>
+        <table>
+          <tr><td class="challan-no">Challan No.</td><td class="challan-no">${esc(r.invoice)}</td></tr>
+          <tr><td>Vendor</td><td>${esc(r.vendor)}</td></tr>
+          <tr><td>Return Date</td><td>${fmtDate(r.receivedDate)}</td></tr>
+          <tr><td>Material</td><td>${esc(r.material)}</td></tr>
+          <tr><td>Received</td><td>${r.received||0}</td></tr>
+          <tr><td>Balance</td><td>${bal}</td></tr>
+        </table>
+        <div class="signature"><span>Received: __________</span><span>Signature: __________</span></div>
+      </div>
+    </div>`;
+  }).join("");
+
+  document.getElementById("printArea").innerHTML =
+    `<div class="print-report">
+      <h1>FACTORY 1 RECORDS</h1>
+      <h2>Vendor Challan Ledger — ${esc(currentVendor)}</h2>
+      <div class="print-meta">Same challan: OUT on the left and IN on the right.</div>
+      ${rows || "<p>No records.</p>"}
+    </div>`;
+
+  document.getElementById("vendorPage").classList.add("hidden");
+  document.getElementById("printArea").style.display="block";
+
+  setTimeout(()=>window.print(),100);
+
+  window.onafterprint = function(){
+    document.getElementById("printArea").style.display="none";
+    document.getElementById("vendorPage").classList.remove("hidden");
+    window.onafterprint=null;
+  };
+}
+
+function createVendor(){
+  const name=document.getElementById("newVendor").value.trim();
+  if(!name) return alert("Enter vendor name.");
+  if(db.vendors.some(v=>v.toLowerCase()===name.toLowerCase()))
+    return alert("This vendor folder already exists.");
+
+  db.vendors.push(name);
+  document.getElementById("newVendor").value="";
+  save();
+  openVendor(name);
+}
+
+function pendingBalance(r){
+  const out=Number(r.qty||0), inn=Number(r.received||0), bal=out-inn;
+  return Math.max(0,bal);
+}
+function isPendingMaterial(r){
+  if(r.hiddenFromVendorList || r.paidCleared) return false;
+  const received=Number(r.received||0), out=Number(r.qty||0), bal=out-received;
+  if(received<=0) return true;
+  // KG tolerance: up to and including 10 KG short is accepted as completed.
+  if(String(r.unit||'kg').toLowerCase()==='kg' && bal<=10) return false;
+  if(bal<=0) return false;
+  return true;
+}
+function markPendingStarted(id){
+  const r=(db.records||[]).find(x=>x.id===id); if(!r)return;
+  db.lastPendingStarted={id:r.id,vendor:r.vendor,invoice:r.invoice,date:r.date,markedAt:new Date().toISOString()};
+  save();
+}
+function saveQuickPending(id){
+  const r=(db.records||[]).find(x=>x.id===id); if(!r)return;
+  const qEl=document.getElementById('qin_qty_'+id), dEl=document.getElementById('qin_date_'+id);
+  const q=Number(qEl?.value), date=dEl?.value||isoToday();
+  if(!Number.isFinite(q)||q<=0){alert('Enter the actual received quantity.');qEl?.focus();return;}
+  if(!date){alert('Choose the received date.');dEl?.focus();return;}
+  const unit=r.unit||'kg', customUnit=r.customUnit||'';
+  if(!Array.isArray(r.receivedTransactions))r.receivedTransactions=legacyReceivedTransactions(r);
+  r.receivedTransactions.push({id:(crypto.randomUUID?crypto.randomUUID():Date.now().toString()+Math.random().toString(36).slice(2)),date,qty:q,unit,customUnit});
+  r.received=Number(r.received||0)+q; r.receivedUnit=unit; r.receivedCustomUnit=customUnit; r.receivedDate=date;
+  if(db.lastPendingStarted&&db.lastPendingStarted.id===r.id)db.lastPendingStarted.lastSavedInDate=date;
+  save(); renderHome(); renderPendingFollowup();
+  const stillPending=isPendingMaterial(r);
+  if(!stillPending) alert('IN saved. This slip is completed and removed from Pending (10 KG or less shortage is accepted).');
+}
+function quickReceivePending(id){
+  const r=(db.records||[]).find(x=>x.id===id); if(!r)return;
+  const bal=Math.max(0,Number(r.qty||0)-Number(r.received||0));
+  const unit=unitLabel(r.unit,r.customUnit);
+  const rawDate=prompt('Received date (YYYY-MM-DD):', new Date().toISOString().slice(0,10));
+  if(rawDate===null)return;
+  const date=rawDate.trim();
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return alert('Please enter the date as YYYY-MM-DD.');
+  const rawQty=prompt('Actual quantity received for '+r.vendor+' — Challan '+r.invoice+' — '+r.material+'\nBalance before IN: '+bal+' '+unit+'\n\nEnter actual received quantity ('+unit+').', String(bal));
+  if(rawQty===null)return;
+  const q=Number(rawQty);
+  if(!Number.isFinite(q)||q<=0)return alert('Enter a received quantity greater than zero.');
+  if(!confirm('Save IN entry?\n\nVendor: '+r.vendor+'\nChallan: '+r.invoice+'\nMaterial: '+r.material+'\nReceived: '+q+' '+unit+'\nDate: '+date+'\n\nThis will update this OUT record and any matching automation link.'))return;
+  const u=r.unit||'kg', customUnit=r.customUnit||'';
+  if(!Array.isArray(r.receivedTransactions))r.receivedTransactions=legacyReceivedTransactions(r);
+  r.receivedTransactions.push({id:(crypto.randomUUID?crypto.randomUUID():Date.now().toString()+Math.random().toString(36).slice(2)),date,qty:q,unit:u,customUnit});
+  r.received=Number(r.received||0)+q; r.receivedUnit=u; r.receivedCustomUnit=customUnit; r.receivedDate=date;
+  if(db.lastPendingStarted&&db.lastPendingStarted.id===r.id)db.lastPendingStarted.lastSavedInDate=date;
+  save(); renderVendor(); renderHome();
+  alert('IN saved. The Pending list has been refreshed. '+(isPendingMaterial(r)?'This entry still has more than the accepted 10 KG balance (or no receipt).':'This entry is now completed under the 10 KG KG-tolerance rule.'));
+}
+function continuePending(id){
+  markPendingStarted(id);
+  const r=(db.records||[]).find(x=>x.id===id); if(!r)return;
+  openVendor(r.vendor);
+  setTimeout(()=>{
+    const el=document.getElementById('inRecord');
+    if(el){el.value=r.id; el.scrollIntoView({behavior:'smooth',block:'center'}); el.focus();}
+  },120);
+}
+function renderPendingFollowup(){
+  const box=document.getElementById('pendingFollowup'); if(!box) return;
+  const q=(document.getElementById('pendingSearch')?.value||'').trim().toLowerCase();
+  const open=db.records
+    .filter(isPendingMaterial)
+    .filter(r=>!q || [r.vendor,r.invoice,r.material,r.date,r.due].some(v=>String(v||'').toLowerCase().includes(q)))
+    .sort((a,b)=>{
+      const dc=String(a.date||'').localeCompare(String(b.date||''));
+      if(dc!==0) return dc;
+      const ai=parseFloat(a.invoice), bi=parseFloat(b.invoice);
+      if(Number.isFinite(ai)&&Number.isFinite(bi)&&ai!==bi) return ai-bi;
+      return String(a.invoice||'').localeCompare(String(b.invoice||''));
+    });
+  const last=db.lastPendingStarted;
+  if(!open.length){
+    box.innerHTML=q ? '<div class="small">🔎 No pending material matches your search.</div>' : '<div class="small">✅ No pending outside material. Everything is received.</div>';
+    if(last) box.innerHTML += '<div class="pending-last-banner">📍 <b>Last started:</b> '+esc(last.vendor)+' — Challan '+esc(last.invoice)+' ('+esc(last.date||'')+').</div>';
+    return;
+  }
+  const now=new Date(); now.setHours(0,0,0,0);
+  const y=new Date(now); y.setDate(y.getDate()-1);
+  let h='';
+  if(last){
+    h+='<div class="pending-last-banner">📍 <b>Last started here:</b> '+esc(last.vendor)+' — <b>Challan '+esc(last.invoice||'—')+'</b> ('+esc(last.date||'')+'). <span class="small">This marker stays until you start another pending entry.</span></div>';
+  }
+  h+='<div class="table-wrap"><table><thead><tr><th>OUT Date</th><th>Vendor</th><th>Challan</th><th>Material</th><th>OUT</th><th>IN</th><th>Balance</th><th>Due</th><th>Status</th><th>Continue</th></tr></thead><tbody>';
+  open.forEach(r=>{
+    const bal=Number(r.qty||0)-Number(r.received||0), st=status(r); let label=st[0];
+    const d=new Date(String(r.date||'')+'T00:00:00');
+    if(!isNaN(d)){if(d.getTime()===y.getTime())label='Yesterday';else if(d<y)label='Older';else if(d.getTime()===now.getTime())label='Today';}
+    const started=last && last.id===r.id;
+    const toleranceNote=(Number(r.received||0)>0 && String(r.unit||'kg').toLowerCase()==='kg' && bal>0 && bal<=10)
+      ? '<br><span class="small" style="color:#16a34a;font-weight:700">✓ Within 10 KG tolerance</span>' : '';
+    h+=`<tr class="${started?'pending-started':''}"><td>${esc(r.date||'—')}<br><span class="small">${label}</span></td><td>${esc(r.vendor)}</td><td>${esc(r.invoice)}${started?'<span class="pending-marker">STARTED HERE</span>':''}</td><td>${esc(r.material)}</td><td>${r.qty} ${esc(unitLabel(r.unit,r.customUnit))}</td><td>${r.received||0} ${esc(unitLabel(r.receivedUnit||r.unit,r.receivedCustomUnit||r.customUnit))}</td><td><b>${bal} ${esc(unitLabel(r.unit,r.customUnit))}</b>${toleranceNote}</td><td>${esc(r.due||'—')}</td><td><span class="badge ${st[1]}">${esc(st[0])}</span></td><td><div class="quick-in-box"><input type="number" step="0.001" min="0.001" id="qin_qty_${esc(r.id)}" value="${Math.max(0,Number(r.qty||0)-Number(r.received||0))}" aria-label="Received quantity" style="width:92px;padding:7px;margin:2px"><input type="date" id="qin_date_${esc(r.id)}" value="${isoToday()}" aria-label="Received date" style="width:135px;padding:7px;margin:2px"><button class="primary smallbtn" onclick='saveQuickPending(${JSON.stringify(r.id)})'>✓ Save IN</button><button class="secondary smallbtn" onclick='continuePending(${JSON.stringify(r.id)})'>Folder</button></div></td></tr>`;
+  });
+  box.innerHTML=h+'</tbody></table></div>';
+}
+
+function renderClearVendorOptions(){
+  const sel=document.getElementById("clearVendorSelect"); if(!sel)return;
+  const q=(document.getElementById("clearVendorSearch")?.value||"").trim().toLowerCase(), old=sel.value;
+  const vendors=(db.vendors||[]).filter(v=>!q||String(v).toLowerCase().includes(q));
+  sel.innerHTML='<option value="">Select vendor</option>'+vendors.map(v=>'<option value="'+esc(v)+'">'+esc(v)+'</option>').join("");
+  if(vendors.includes(old))sel.value=old; renderReceivedToClear();
+}
+function receivedRowsForClear(v){return (db.records||[]).filter(r=>r.vendor===v&&Number(r.received||0)>0&&!r.paidCleared);}
+function renderReceivedToClear(){
+  const box=document.getElementById("receivedToClear"); if(!box)return; const v=document.getElementById("clearVendorSelect")?.value||"";
+  if(!v){box.innerHTML='<div class="small">Select a vendor to see received material that has not yet been cleared.</div>';return;}
+  const rows=receivedRowsForClear(v); if(!rows.length){box.innerHTML='<div class="small">✅ No uncleared received entries for '+esc(v)+'.</div>';return;}
+  let h='<div class="tablewrap"><table><thead><tr><th>✓</th><th>Received Date</th><th>Challan</th><th>Material</th><th>Received (kg)</th></tr></thead><tbody>';
+  rows.forEach(r=>h+='<tr><td><input type="checkbox" class="clearReceivedCheck" value="'+esc(r.id)+'" style="width:auto"></td><td>'+esc(r.receivedDate||r.date||"—")+'</td><td>'+esc(r.invoice)+'</td><td>'+esc(r.material)+'</td><td>'+r.received+'</td></tr>');
+  box.innerHTML=h+'</tbody></table></div><p class="small">Select only entries you actually paid. A 1–5 kg difference does not matter; clearing is based on your selection.</p>';
+}
+function archiveAndClearReceived(records,vendor){
+  const paidDate=today(); records.forEach(r=>{db.clearedReceivedHistory.push({historyId:(crypto.randomUUID?crypto.randomUUID():Date.now().toString()+Math.random().toString(36).slice(2)),clearedDate:paidDate,vendor:vendor,recordId:r.id,invoice:r.invoice,outDate:r.date,receivedDate:r.receivedDate||"",material:r.material,outQty:Number(r.qty)||0,receivedQty:Number(r.received)||0});r.paidCleared=true;r.paidClearedDate=paidDate;r.hiddenFromVendorList=true;r.hiddenFromVendorListDate=paidDate;r.permanentHideHistoryRecorded=true;}); save(); return records.length;
+}
+function clearSelectedReceived(){
+  const v=document.getElementById("clearVendorSelect")?.value||""; if(!v)return alert("Please select a vendor first.");
+  const ids=[...document.querySelectorAll(".clearReceivedCheck:checked")].map(x=>x.value), rows=receivedRowsForClear(v).filter(r=>ids.includes(r.id));
+  if(!rows.length)return alert("Select at least one received entry.");
+  if(!confirm("Clear "+rows.length+" received entr"+(rows.length===1?"y":"ies")+" for "+v+" as PAID/CLEARED?\n\nThey will be hidden from the active received list but kept in history."))return;
+  archiveAndClearReceived(rows,v); renderClearVendorOptions(); renderHome(); factoryRenderAll(); alert(rows.length+" received entr"+(rows.length===1?"y":"ies")+" cleared successfully. Cleared entries are now excluded from Vendor → Raw Material automation; only new uncleared receipts will be counted.");
+}
+function clearAllReceivedForVendor(){
+  const v=document.getElementById("clearVendorSelect")?.value||""; if(!v)return alert("Please select a vendor first."); const rows=receivedRowsForClear(v);
+  if(!rows.length)return alert("There are no uncleared received entries for this vendor.");
+  if(!confirm("Clear ALL "+rows.length+" received entr"+(rows.length===1?"y":"ies")+" for "+v+" as PAID/CLEARED?\n\nThe original OUT/IN data will NOT be deleted. The cleared entries stay in history."))return;
+  archiveAndClearReceived(rows,v); renderClearVendorOptions(); renderHome(); factoryRenderAll(); alert("All received entries for "+v+" have been cleared successfully. Cleared entries are now excluded from Vendor → Raw Material automation; only new uncleared receipts will be counted.");
+}
+function hideCompletedReceivedSlipsForever(){
+  const v=document.getElementById("clearVendorSelect")?.value||"";
+  if(!v)return alert("Please select a vendor first.");
+  const rows=(db.records||[]).filter(r=>{
+    if(r.vendor!==v || Number(r.received||0)<=0 || r.hiddenFromVendorList) return false;
+    const out=Number(r.qty||0), inn=Number(r.received||0), bal=out-inn;
+    const kg=String(r.unit||"kg").toLowerCase()==="kg";
+    return bal<=0 || (kg && bal>0 && bal<=10);
+  });
+  if(!rows.length)return alert("No fully received slips to hide for this vendor. Slips with a remaining balance above the allowed tolerance were left visible.");
+  if(!confirm("Permanently hide "+rows.length+" completed slip(s) for "+v+" from this vendor ledger?\n\nTheir records will NOT be deleted, and stock calculations will remain unchanged. The hidden status is saved in backups. This only hides slips that are fully received (or within the 10 KG tolerance)."))return;
+  const d=today();
+  rows.forEach(r=>{
+    r.hiddenFromVendorList=true;
+    r.hiddenFromVendorListDate=d;
+    if(!r.permanentHideHistoryRecorded){
+      db.clearedReceivedHistory.push({historyId:(crypto.randomUUID?crypto.randomUUID():Date.now().toString()+Math.random().toString(36).slice(2)),clearedDate:d,vendor:v,recordId:r.id,invoice:r.invoice,outDate:r.date,receivedDate:r.receivedDate||"",material:r.material,outQty:Number(r.qty)||0,receivedQty:Number(r.received)||0,permanentHidden:true});
+      r.permanentHideHistoryRecorded=true;
+    }
+  });
+  save();
+  if(currentVendor===v)renderVendor();
+  renderHome();
+  alert(rows.length+" completed slip(s) are now permanently hidden from "+v+"'s active vendor ledger. Their records and stock calculations are preserved.");
+}
+
+function showClearedHistory(){
+  const box=document.getElementById("clearedHistory");if(!box)return; const cutoff=new Date();cutoff.setHours(0,0,0,0);cutoff.setMonth(cutoff.getMonth()-2);
+  const rows=(db.clearedReceivedHistory||[]).filter(x=>{const d=new Date(String(x.clearedDate||"")+"T00:00:00");return !isNaN(d)&&d>=cutoff;}).sort((a,b)=>String(b.clearedDate).localeCompare(String(a.clearedDate)));
+  let h='<h3>📜 Paid / Cleared History — Last 2 Months</h3>'; if(!rows.length){box.innerHTML=h+'<div class="small">No cleared received entries in the last 2 months.</div>';return;}
+  h+='<div class="tablewrap"><table><thead><tr><th>Cleared Date</th><th>Vendor</th><th>Challan</th><th>Material</th><th>Received (kg)</th></tr></thead><tbody>';
+  rows.forEach(r=>h+='<tr><td>'+esc(r.clearedDate)+'</td><td>'+esc(r.vendor)+'</td><td>'+esc(r.invoice)+'</td><td>'+esc(r.material)+'</td><td>'+r.receivedQty+'</td></tr>');
+  box.innerHTML=h+'</tbody></table></div><p class="small">Cleared history is included in the app backup.</p>';
+}
+
+// Shared quantity formatter must exist before the first vendor dashboard render.
+function unitLabel(unit,custom){return String(unit||'kg').toLowerCase()==='manual' ? (custom||'Manual') : (String(unit||'kg').toLowerCase()==='katte'?'Katte':'KG');}
+function renderHome(){
+  populateDashboardLists();
+  renderClearVendorOptions();
+  const box=document.getElementById("folders");
+  const q=(document.getElementById("vendorFolderSearch")?.value||"").trim().toLowerCase();
+  const vendors=(db.vendors||[]).filter(v=>!q||String(v).toLowerCase().includes(q));
+  box.innerHTML = vendors.length
+    ? vendors.map(v=>{
+        const rs=db.records.filter(r=>r.vendor===v&&!r.hiddenFromVendorList&&!r.paidCleared);
+        const left=rs.filter(isPendingMaterial).reduce((a,r)=>a+pendingBalance(r),0);
+        const ov=rs.filter(r=>isPendingMaterial(r)&&status(r)[1]==="over").length;
+        return `<div class="folder" onclick='openVendor(${JSON.stringify(v)})'>
+          <div class="icon">📁</div><div class="fname">${esc(v)}</div>
+          <div class="fmeta">${rs.length} entries • ${left} pending${ov?" • 🔴 "+ov+" overdue":""}</div>
+          <div class="actions" style="margin-top:8px">
+            <button class="secondary" onclick='event.stopPropagation(); previewVendor(${JSON.stringify(v)})'>📄 View PDF</button>
+            <button class="danger" onclick='event.stopPropagation(); deleteVendor(${JSON.stringify(v)})'>🗑️ Delete Vendor</button>
+          </div>
+        </div>`;
+      }).join("")
+    : (q
+        ? '<div class="small">🔎 No vendor folder matches your search.</div>'
+        : '<div class="small">No folders yet. Create your first vendor folder below.</div>');
+
+  const open=db.records.filter(r=>!r.hiddenFromVendorList&&!r.paidCleared&&isPendingMaterial(r));
+  document.getElementById("openLots").textContent=open.length;
+  document.getElementById("pendingQty").textContent=
+    open.reduce((a,r)=>a+Number(r.qty)-Number(r.received||0),0);
+  document.getElementById("overdue").textContent=
+    open.filter(r=>status(r)[1]==="over").length;
+  renderPendingFollowup();
+  // Keep the Quick Material OUT vendor list synchronized with all vendor folders.
+  renderQuickOutVendorOptions();
+}
+function deleteVendor(v){
+  const count=db.records.filter(r=>r.vendor===v).length;
+  const msg=count
+    ? `Delete vendor "${v}" and all ${count} OUT/IN record(s) inside this vendor folder?\n\nThis cannot be undone.`
+    : `Delete vendor "${v}"?\n\nThis vendor has no records.`;
+  if(!confirm(msg)) return;
+  db.vendors=db.vendors.filter(x=>x!==v);
+  db.records=db.records.filter(r=>r.vendor!==v);
+  if(currentVendor===v) currentVendor="";
+  save();
+  renderHome();
+}
+
+function fillMaterialSuggestions(){
+  const list=document.getElementById("materials");
+  const quick=document.getElementById("materialQuick");
+  if(!list) return;
+  const names=[...new Set(db.records.filter(r=>r.vendor===currentVendor).map(r=>String(r.material||"").trim()).filter(Boolean))];
+  list.innerHTML=names.map(n=>`<option value="${esc(n)}"></option>`).join("");
+  if(quick) quick.innerHTML=names.length ? '<span class="small">Saved materials:</span> '+names.map(n=>`<button type="button" class="secondary smallbtn" onclick='document.getElementById("material").value=${JSON.stringify(n)}'>${esc(n)}</button>`).join("") : '<span class="small">Your first material name will be remembered automatically.</span>';
+}
+
+function populateDashboardLists(){
+  const dl=document.getElementById("dashVendors");
+  if(dl) dl.innerHTML=db.vendors.map(v=>`<option value="${esc(v)}"></option>`).join("");
+}
+
+function findAndContinue(){
+  const v=document.getElementById("dashVendor").value.trim().toLowerCase();
+  const inv=document.getElementById("dashInvoice").value.trim().toLowerCase();
+  const box=document.getElementById("dashboardMatches");
+  let matches=db.records.filter(r=>(!v||String(r.vendor).toLowerCase()===v)&&(!inv||String(r.invoice).toLowerCase().includes(inv)));
+  if(!v&&!inv) return alert("Enter a vendor name or invoice/challan number.");
+  if(!matches.length){ box.innerHTML='<div class="small">No matching entry found.</div>'; return; }
+  box.innerHTML='<div class="small"><b>Matching entries:</b></div>'+matches.slice(0,20).map(r=>{
+    const bal=Number(r.qty||0)-Number(r.received||0);
+    return `<div class="card" style="margin-top:8px;padding:10px"><b>${esc(r.vendor)}</b> • Challan <b>${esc(r.invoice)}</b> • ${esc(r.material)} • Qty ${r.qty} • Balance ${bal}<br><button class="secondary smallbtn" onclick='openVendor(${JSON.stringify(r.vendor)})'>📁 Continue in Vendor</button></div>`;
+  }).join("");
+}
+
+function renderQuickOutVendorOptions(){
+  const sel=document.getElementById("quickOutVendor"); if(!sel) return;
+  const q=(document.getElementById("quickOutVendorSearch")?.value||"").trim().toLowerCase();
+  const current=sel.value;
+  const vs=(db.vendors||[]).filter(v=>!q||String(v).toLowerCase().includes(q));
+  sel.innerHTML='<option value="">Select vendor</option>'+vs.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join("");
+  if(vs.includes(current)) sel.value=current;
+  fillQuickOutMaterials();
+}
+function rememberMaterial(name){
+  const n=String(name||"").trim();
+  if(!n) return;
+  db.savedMaterials=Array.isArray(db.savedMaterials)?db.savedMaterials:[];
+  if(!db.savedMaterials.some(x=>String(x).toLowerCase()===n.toLowerCase())) db.savedMaterials.push(n);
+}
+
+function fillQuickOutMaterials(){
+  const list=document.getElementById("quickOutMaterials");
+  if(!list) return;
+  const names=[...new Set([...(db.savedMaterials||[]), ...db.records.map(r=>String(r.material||"").trim()).filter(Boolean)])];
+  list.innerHTML=names.map(n=>`<option value="${esc(n)}"></option>`).join("");
+}
+function addQuickOut(){
+  const vendor=document.getElementById("quickOutVendor").value;
+  const invoice=document.getElementById("quickOutInvoice").value.trim();
+  const date=document.getElementById("quickOutDate").value;
+  const material=document.getElementById("quickOutMaterial").value.trim();
+  const qty=Number(document.getElementById("quickOutQty").value);
+  const u=unitValue("quickOutUnit","quickOutCustomUnit"), unit=u.unit, customUnit=u.custom;
+  const due=document.getElementById("quickOutDue").value;
+  if(!vendor||!invoice||!date||!material||!qty||!due) return alert("Please fill every Quick OUT field.");
+  rememberMaterial(material);
+  db.records.unshift({id:(crypto.randomUUID?crypto.randomUUID():(Date.now().toString()+Math.random().toString(36).slice(2))),vendor,invoice,date,material,qty,unit,due,received:0,receivedUnit:unit,receivedCustomUnit:customUnit});
+  if(!db.vendors.some(v=>v.toLowerCase()===vendor.toLowerCase())) db.vendors.push(vendor);
+  document.getElementById("quickOutInvoice").value="";
+  document.getElementById("quickOutMaterial").value="";
+  document.getElementById("quickOutQty").value="";
+  resetUnit("quickOutUnit","quickOutCustomUnit");
+  document.getElementById("quickOutDue").value="";
+  save(); renderHome();
+  alert("Material OUT saved for "+vendor+".");
+}
+
+function openVendor(v){
+  currentVendor=v;
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("vendorPage").classList.remove("hidden");
+  document.getElementById("vendorTitle").textContent="📁 "+v+" — Ledger";
+  document.getElementById("outDate").value=today();
+  document.getElementById("inDate").value=today();
+  renderVendor();
+  fillMaterialSuggestions();
+  window.scrollTo(0,0);
+}
+
+function goHome(){
+  currentVendor="";
+  document.getElementById("vendorPage").classList.add("hidden");
+  document.getElementById("home").classList.remove("hidden");
+  renderHome();
+  window.scrollTo(0,0);
+}
+
+function addOut(){
+  const invoice=document.getElementById("invoice").value.trim();
+  const date=document.getElementById("outDate").value;
+  const material=document.getElementById("material").value.trim();
+  const qty=Number(document.getElementById("qty").value);
+  const u=unitValue("qtyUnit","qtyCustomUnit"), unit=u.unit, customUnit=u.custom;
+  const due=document.getElementById("due").value;
+
+  if(!invoice||!date||!material||!qty||!due)
+    return alert("Please fill every OUT field.");
+
+  rememberMaterial(material);
+
+  // Duplicate challan/invoice numbers are allowed.
+  // Each OUT entry gets its own internal unique ID, and IN is matched by that ID.
+
+  db.records.unshift({
+    id:(crypto.randomUUID ? crypto.randomUUID() : (Date.now().toString()+Math.random().toString(36).slice(2))), vendor:currentVendor, invoice, date,
+    material, qty, unit, due, received:0, receivedUnit:unit
+  });
+
+  if(!db.vendors.some(v=>v.toLowerCase()===currentVendor.toLowerCase()))
+    db.vendors.push(currentVendor);
+
+  document.getElementById("invoice").value="";
+  document.getElementById("material").value="";
+  document.getElementById("qty").value="";
+  resetUnit("qtyUnit","qtyCustomUnit");
+  document.getElementById("due").value="";
+  save();
+  renderVendor();
+  renderHome();
+}
+
+function addIn(){
+  const id=document.getElementById("inRecord").value;
+  const date=document.getElementById("inDate").value;
+  const q=Number(document.getElementById("inQty").value);
+  const u=unitValue("inUnit","inCustomUnit"), unit=u.unit, customUnit=u.custom;
+  const r=db.records.find(x=>x.id===id);
+
+  if(!r||!date||!q) return alert("Select an OUT record and enter received quantity.");
+
+  // Keep OUT and IN in the same unit so the vendor balance remains meaningful.
+  if(unitKey(unit,customUnit)!==unitKey(r.unit||"kg",r.customUnit||"")){
+    return alert("The OUT entry is recorded in "+unitLabel(r.unit,r.customUnit)+". Please enter IN in the same unit so the balance is correct.");
+  }
+  // IN quantity is the actual returned weight. It may be less than, equal to, or greater than OUT quantity.
+  // Keep each IN event separately so a link's start date can never pull earlier receipts into current stock.
+  if(!Array.isArray(r.receivedTransactions)) r.receivedTransactions=legacyReceivedTransactions(r);
+  r.receivedTransactions.push({id:(crypto.randomUUID?crypto.randomUUID():Date.now().toString()+Math.random().toString(36).slice(2)),date,qty:q,unit,customUnit});
+  r.received=Number(r.received||0)+q;
+  r.receivedUnit=unit; r.receivedCustomUnit=customUnit;
+  r.receivedDate=date;
+  // If this was the entry the user started from Pending, keep the marker visible
+  // so they know exactly where they started when they return to the Pending list.
+  if(db.lastPendingStarted && db.lastPendingStarted.id===r.id){
+    db.lastPendingStarted.lastSavedInDate=date;
+  }
+  save();
+  document.getElementById("inQty").value="";
+  resetUnit("inUnit","inCustomUnit");
+  renderVendor();
+  renderHome();
+}
+
+function editOut(id){
+  const r=db.records.find(x=>x.id===id);
+  if(!r) return;
+  const invoice=prompt("Edit Invoice / Challan No.",r.invoice);
+  if(invoice===null) return;
+  const date=prompt("Edit OUT Date (YYYY-MM-DD)",r.date);
+  if(date===null) return;
+  const material=prompt("Edit Material Name",r.material);
+  if(material===null) return;
+  const qtyText=prompt("Edit OUT Quantity",r.qty);
+  if(qtyText===null) return;
+  const qty=Number(qtyText);
+  const due=prompt("Edit Due Date (YYYY-MM-DD)",r.due);
+  if(due===null) return;
+  if(!invoice.trim()||!material.trim()||!date||!due||!Number.isFinite(qty)||qty<=0) return alert("Invalid entry. Nothing was changed.");
+  if(qty < Number(r.received||0)) return alert("OUT quantity cannot be less than the quantity already received IN ("+r.received+").");
+  r.invoice=invoice.trim(); r.date=date; r.material=material.trim(); r.qty=qty; r.due=due;
+  rememberMaterial(r.material);
+  save(); renderVendor(); fillMaterialSuggestions(); renderHome();
+}
+
+function deleteOut(id){
+  const r=db.records.find(x=>x.id===id);
+  if(!r) return;
+  if(!confirm("Delete this OUT entry and its related IN record?\n\nChallan: "+r.invoice+"\nMaterial: "+r.material+"\nQuantity: "+r.qty+" "+r.unit+"\n\nThis cannot be undone.")) return;
+  db.records=db.records.filter(x=>x.id!==id);
+  save(); renderVendor(); renderHome();
+}
+
+function editIn(id){
+  const r=db.records.find(x=>x.id===id);
+  if(!r || Number(r.received||0)<=0) return;
+  const date=prompt("Edit IN / Return Date (YYYY-MM-DD)",r.receivedDate||"");
+  if(date===null) return;
+  const qtyText=prompt("Edit Received IN Quantity",r.received);
+  if(qtyText===null) return;
+  const q=Number(qtyText);
+  if(!date||!Number.isFinite(q)||q<0) return alert("Invalid IN quantity.");
+  r.received=q; r.receivedUnit=r.receivedUnit||r.unit||"kg"; r.receivedDate=date;
+  // Editing the total IN quantity is treated as one corrected receipt on the chosen date.
+  r.receivedTransactions=q>0?[{id:"EDIT-IN-"+(crypto.randomUUID?crypto.randomUUID():Date.now()),date,qty:q,unit:r.receivedUnit,customUnit:r.receivedCustomUnit||r.customUnit||""}]:[];
+  save(); renderVendor(); renderHome();
+}
+
+function deleteIn(id){
+  const r=db.records.find(x=>x.id===id);
+  if(!r || Number(r.received||0)<=0) return;
+  if(!confirm("Delete this IN / Return entry?\n\nChallan: "+r.invoice+"\nReceived: "+r.received+" "+r.unit+"\n\nThe OUT entry will remain, and its balance will become pending again.")) return;
+  r.received=0; r.receivedDate=""; r.receivedTransactions=[];
+  save(); renderVendor(); renderHome();
+}
+
+function renderVendor(){
+  // Hidden completed slips remain in the database for backup/stock history, but do not count in the active vendor folder.
+  const rs=db.records.filter(r=>r.vendor===currentVendor&&!r.hiddenFromVendorList&&!r.paidCleared);
+  let out=0, inn=0, ov=0, rows=[];
+
+  rs.forEach(r=>{
+    const bal=Number(r.qty)-Number(r.received||0);
+    const s=status(r);
+    out+=Number(r.qty)||0;
+    inn+=Number(r.received)||0;
+    if(bal>0&&s[1]==="over") ov++;
+
+    if(!r.hiddenFromVendorList){
+    rows.push(`<tr>
+      <td>${esc(r.date)}</td><td>OUT</td><td>${esc(r.invoice)}</td>
+      <td>${esc(r.material)}</td><td>${r.qty} ${esc(unitLabel(r.unit,r.customUnit))}</td><td>${bal} ${esc(unitLabel(r.unit,r.customUnit))}</td>
+      <td>${esc(r.due)}</td><td><span class="badge ${s[1]}">${esc(s[0])}</span></td>
+      <td><button class="secondary smallbtn" onclick="editOut('${esc(r.id)}')">✏️ Edit</button> <button class="danger smallbtn" onclick="deleteOut('${esc(r.id)}')">🗑️ Delete</button></td>
+    </tr>`);
+
+    if(Number(r.received)>0 && !r.paidCleared){
+      rows.push(`<tr>
+        <td>${esc(r.receivedDate||"—")}</td><td>IN</td><td>${esc(r.invoice)}</td>
+        <td>${esc(r.material)}</td><td>${r.received} ${esc(unitLabel(r.receivedUnit||r.unit,r.receivedCustomUnit||r.customUnit))}</td><td>${bal} ${esc(unitLabel(r.unit,r.customUnit))}</td>
+        <td>${esc(r.due)}</td><td><span class="badge ok">Received</span></td>
+        <td><button class="secondary smallbtn" onclick="editIn('${esc(r.id)}')">✏️ Edit</button> <button class="danger smallbtn" onclick="deleteIn('${esc(r.id)}')">🗑️ Delete</button></td>
+      </tr>`);
+    }
+    }
+  });
+
+  document.getElementById("vOut").textContent=out;
+  document.getElementById("vIn").textContent=inn;
+  document.getElementById("vLeft").textContent=out-inn;
+  document.getElementById("vOver").textContent=ov;
+  document.getElementById("ledger").innerHTML=
+    rows.join("")||'<tr><td colspan="8">No entries in this vendor folder.</td></tr>';
+
+  // Any OUT record can receive IN, even when previous IN already equals/exceeds OUT.
+  const open=rs;
+  document.getElementById("inRecord").innerHTML=
+    '<option value="">Select OUT record...</option>'+
+    open.map((r,i)=>`<option value="${esc(r.id)}">Entry ${rs.indexOf(r)+1} — ${esc(r.invoice)} — ${esc(r.date)} — ${esc(r.material)} — OUT ${r.qty} ${esc(r.unit)}, IN ${r.received||0} ${esc(r.unit)}</option>`).join("");
+
+  const mats=[...new Set(rs.map(r=>r.material))];
+  document.getElementById("materials").innerHTML=
+    mats.map(x=>`<option value="${esc(x)}">`).join("");
+}
+
+function scrollToEntry(id){
+  const el=document.getElementById(id==="out"?"invoice":"inRecord");
+  el.scrollIntoView({behavior:"smooth",block:"center"});
+  el.focus();
+}
+
+renderHome();
+if(document.getElementById("quickOutDate")) document.getElementById("quickOutDate").value=today();
+if(document.getElementById("quickOutDue")) document.getElementById("quickOutDue").value=today();
+renderQuickOutVendorOptions();
+</script>
+<div class="small no-print" style="text-align:center;padding:12px">FACTORY 1 RECORDS • Vendor OUT / IN Ledger • Duplicate Challan Numbers Supported</div><!-- FACTORY RAW MATERIAL & PRODUCTION START -->
+<section id="factoryProduction" class="page-section">
+<div class="card"><h2>🏭 Raw Material & Production Inventory</h2><p class="muted">Separate from third-party OUT/IN. Track your actual factory stock and production usage. All quantities are in KG.</p><div class="grid">
+<label>Material<input id="rmName" placeholder="Sariya / Iron Sheet / Brass"></label><label>Opening Stock<div style="display:flex;gap:8px"><input id="rmOpening" type="number" step="0.001" min="0" value="0" style="flex:1"><select id="rmOpeningUnit" onchange="toggleCustomUnit('rmOpeningUnit','rmOpeningCustomUnit')" style="max-width:120px"><option value="kg">KG</option><option value="katte">Katte</option><option value="manual">Manual</option></select><input id="rmOpeningCustomUnit" placeholder="Write unit" style="max-width:120px;display:none"></div></label>
+</div><button class="primary" onclick="addRawMaterial()">➕ Add / Update Material</button></div>
+<div class="card"><h3>📦 Purchase / Material Received</h3><div class="grid"><label>Date<input id="rmPurchaseDate" type="date"></label><label>Material<select id="rmPurchaseMaterial"></select></label><label>Quantity<div style="display:flex;gap:8px"><input id="rmPurchaseQty" type="number" step="0.001" min="0" style="flex:1"><select id="rmPurchaseUnit" onchange="toggleCustomUnit('rmPurchaseUnit','rmPurchaseCustomUnit')" style="max-width:120px"><option value="kg">KG</option><option value="katte">Katte</option><option value="manual">Manual</option></select><input id="rmPurchaseCustomUnit" placeholder="Write unit" style="max-width:120px;display:none"></div></label><label>Supplier / Note<input id="rmPurchaseNote"></label></div><button class="primary" onclick="addRawPurchase()">➕ Record Purchase</button></div>
+<div class="card"><h3>⚙️ Daily Production Consumption</h3><p class="muted">Enter actual usage by machine, die and process. No fixed daily limit for processed raw materials.</p><div class="grid"><label>Date<input id="rmUseDate" type="date"></label><label>Machine<input id="rmMachine" placeholder="Machine 1"></label><label>Die / Product<input id="rmDie" placeholder="Die A / Kara"></label><label>Process<input id="rmProcess" placeholder="Lachai / Khandai"></label><label>Material<select id="rmUseMaterial"></select></label><label>Quantity Used<div style="display:flex;gap:8px"><input id="rmUseQty" type="number" step="0.001" min="0" style="flex:1"><select id="rmUseUnit" onchange="toggleCustomUnit('rmUseUnit','rmUseCustomUnit')" style="max-width:120px"><option value="kg">KG</option><option value="katte">Katte</option><option value="manual">Manual</option></select><input id="rmUseCustomUnit" placeholder="Write unit" style="max-width:120px;display:none"></div></label><label>Wastage<div style="display:flex;gap:8px"><input id="rmWasteQty" type="number" step="0.001" min="0" value="0" style="flex:1"><select id="rmWasteUnit" onchange="toggleCustomUnit('rmWasteUnit','rmWasteCustomUnit')" style="max-width:120px"><option value="kg">KG</option><option value="katte">Katte</option><option value="manual">Manual</option></select><input id="rmWasteCustomUnit" placeholder="Write unit" style="max-width:120px;display:none"></div></label></div><button class="primary" onclick="addRawConsumption()">➕ Record Production Consumption</button></div>
+<div class="card" style="border:2px solid #b91c1c"><h3>🔔 Raw Material Low-Stock Alert</h3><p class="muted">Alert when raw stock falls below <b>200 KG</b> or below <b>4 Katte</b>. Automatic-deduction items also show a separate red days-left alert.</p><div id="rawMaterialLowStockAlert"></div></div>
+<div class="card"><h3>📊 Current Raw Material Stock</h3><div id="rawMaterialStockTable"></div></div>
+<div class="card"><h3>🗑️ Manage / Delete Materials</h3><div id="rawMaterialManageTable"></div></div>
+<div class="card"><h3>📥 Recent Purchase / Material Received Entries</h3><div id="rawPurchaseTable"></div></div>
+<div class="card"><h3>🧾 Recent Factory Production Entries</h3><div id="rawProductionTable"></div></div>
+
+<div class="card" style="border:2px solid #0f766e">
+<h2>🔗 Vendor IN → Raw Material Inventory</h2>
+<p class="muted"><b>Controlled automatic link:</b> Vendor IN quantities dated on or after <b>Start Linking From</b> are added to the linked Raw Material stock, in the same unit. Older IN records stay in the vendor ledger and are not imported by a newly started link. The stock table and this link table now use the same calculation.</p>
+<p class="muted">⚡ <b>Quick Link mode:</b> choose the vendor once, type the vendor's material name (suggestions appear), choose the matching stock material, then save. After saving, the vendor stays selected so you can link the next material faster.</p>
+<div class="grid" style="gap:12px;align-items:end">
+<label>1. Vendor<select id="vrVendor" onchange="vendorRawMaterialOptions();quickLinkSyncVendor()"></select></label>
+<label>2. Vendor Material<input id="vrVendorMaterial" list="vrVendorMaterialSuggestions" placeholder="Type e.g. KARA 60MM" autocomplete="off"><datalist id="vrVendorMaterialSuggestions"></datalist></label>
+<label>3. Add IN To Stock Material<select id="vrRawMaterial"></select></label>
+<label>4. Start Linking From<input id="vrStartDate" type="date"></label>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="primary" onclick="quickSaveVendorRawLink(true)">⚡ Save Link & Link Next</button><button class="secondary" onclick="quickSaveVendorRawLink(false)">Save Link & Finish</button><button class="secondary" onclick="quickLinkClear()">Clear Form</button></div>
+<div id="quickLinkStatus" class="small muted" style="margin-top:8px"></div>
+<div id="vendorRawLinkTable" style="margin-top:12px"></div>
+<p class="small muted">Example: <b>SHAHID TOP → 65MM TOP → 65 TOP (COMPLETE)</b>. If 200 KG is entered as IN on or after the link start date, 200 KG is added to that raw stock. IN entries dated before the link start date are not added. If automatic deduction is enabled, its daily usage is then subtracted from the same stock.</p>
+</div>
+
+<div class="card" style="border:2px solid #7c3aed">
+<h2>🔄 Outside Party → Processing Vendor → Back</h2>
+<p class="muted">Use this when material first comes from an outside party, then you send that same material to a processing vendor, and later it comes back. The app keeps the <b>source received</b>, <b>sent for processing</b>, <b>received back</b>, and <b>left outside</b> separately.</p>
+<div class="grid">
+<input type="hidden" id="opFlowId">
+<label>Date<input id="opDate" type="date"></label>
+<label>Outside Party / Source<input id="opSource" placeholder="KAMRAN BHAI"></label>
+<label>Outside Party Material Name<input id="opSourceMaterial" placeholder="BP / 60MM"></label>
+<label>Link To Raw Material<select id="opRawMaterial"></select></label>
+<label>Received From Outside Party<div style="display:flex;gap:8px"><input id="opReceived" type="number" step="0.001" min="0" value="0" style="flex:1"><select id="opReceivedUnit"><option value="kg">KG</option><option value="katte">Katte</option><option value="manual">Manual</option></select></div></label>
+<label>Processing Vendor<input id="opVendor" placeholder="ADNAN POLISH"></label>
+<label>Sent For Processing<div style="display:flex;gap:8px"><input id="opSent" type="number" step="0.001" min="0" value="0" style="flex:1"><select id="opSentUnit"><option value="kg">KG</option><option value="katte">Katte</option><option value="manual">Manual</option></select></div></label>
+<label>Received Back From Vendor<div style="display:flex;gap:8px"><input id="opReturned" type="number" step="0.001" min="0" value="0" style="flex:1"><select id="opReturnedUnit"><option value="kg">KG</option><option value="katte">Katte</option><option value="manual">Manual</option></select></div></label>
+</div>
+<button class="primary" onclick="saveOutsidePartyFlow()">💾 Save / Update Flow</button>
+<button class="secondary" onclick="resetOutsidePartyFlow()">↩️ Clear Form</button>
+<div id="outsidePartyFlowTable" style="margin-top:12px"></div>
+<p class="small muted"><b>Example:</b> KAMRAN BHAI gives 200 KG BP / 60MM → you send 200 KG to ADNAN POLISH → 195 KG comes back → <b>5 KG is still left outside with ADNAN POLISH</b>. The linked Raw Material stock changes automatically.</p>
+</div>
+
+<div class="card" style="border:2px solid #172033">
+<h2>📦 Direct Finished Goods / Automatic Deduction — Linked With Raw Material</h2>
+<p class="muted"><b>Important:</b> This section uses the exact same materials and stock as the Raw Material Table. You do NOT enter opening stock again. Select the raw material you want to put on automatic deduction.</p>
+<div class="grid">
+<label>Raw Material / Finished Good<select id="fgName"></select></label>
+<label>Daily Automatic Deduction (KG)<input id="fgDaily" type="number" step="0.001" min="0" value="0" placeholder="Example: 20"></label>
+</div>
+<button class="primary" onclick="addFinishedGood()">➕ Select For Automatic Deduction</button>
+</div>
+
+<div class="card">
+<h3>📥 Outside Finished Goods Received</h3>
+<div class="grid"><label>Date<input id="fgReceiveDate" type="date"></label><label>Finished Good<select id="fgReceiveMaterial"></select></label><label>Quantity<div style="display:flex;gap:8px"><input id="fgReceiveQty" type="number" step="0.001" min="0" style="flex:1"><select id="fgReceiveUnit" onchange="toggleCustomUnit('fgReceiveUnit','fgReceiveCustomUnit')" style="max-width:120px"><option value="kg">KG</option><option value="katte">Katte</option><option value="manual">Manual</option></select><input id="fgReceiveCustomUnit" placeholder="Write unit" style="max-width:120px;display:none"></div></label><label>Supplier / Note<input id="fgReceiveNote"></label></div>
+<button class="primary" onclick="addFinishedGoodReceipt()">➕ Record Outside Finished Goods</button>
+</div>
+
+<div class="card">
+<h3>📊 Direct Finished Goods Stock</h3>
+<p class="muted">Automatic deduction is taken from the <b>same Raw Material stock</b>. <b>Every Friday is automatically skipped</b>. Any holiday you add below is also skipped. The red warning shows approximately how many working days of stock are left.</p>
+<div id="fgStockTable"></div>
+</div>
+
+<div class="card">
+<h3>🗓️ Manage Holidays</h3>
+<p class="muted">Add your own holidays. On Friday and on these holiday dates, automatic finished-goods deduction is stopped.</p>
+<div class="grid"><label>Holiday Date<input id="holidayDate" type="date"></label><label>Holiday Name<input id="holidayName" placeholder="Diwali / Factory Holiday"></label></div>
+<button class="primary" onclick="addFactoryHoliday()">➕ Add Holiday</button>
+<div id="holidayTable" style="margin-top:10px"></div>
+</div>
+
+<div class="card"><h3>📥 Recent Outside Finished Goods Entries</h3><div id="fgReceiveTable"></div></div>
+<div class="card"><h3>📉 Automatic Daily Finished Goods Deduction</h3><div id="fgDeductionTable"></div></div>
+</section>
+<!-- FACTORY RAW MATERIAL & PRODUCTION END -->
+<script>
+function saveDB(){ save(); }
+function factoryStoreInit(){if(!Array.isArray(db.rawMaterials))db.rawMaterials=[];if(!Array.isArray(db.rawPurchases))db.rawPurchases=[];if(!Array.isArray(db.rawConsumption))db.rawConsumption=[];}
+function fEsc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function fToday(id){const e=document.getElementById(id);if(e&&!e.value)e.value=localISODate();}
+function factoryMaterialOptions(id){const e=document.getElementById(id);if(!e)return;const old=e.value;e.innerHTML='<option value="">Select material</option>'+(db.rawMaterials||[]).map(x=>'<option value="'+fEsc(x.name)+'">'+fEsc(x.name)+'</option>').join('');if(old)e.value=old;}
+function addRawMaterial(){factoryStoreInit();const name=(document.getElementById('rmName').value||'').trim(),ou=unitValue('rmOpeningUnit','rmOpeningCustomUnit'),unit=ou.unit,customUnit=ou.custom,opening=Number(document.getElementById('rmOpening').value||0);if(!name||!Number.isFinite(opening)||opening<0)return alert('Enter material and valid opening stock.');const x=db.rawMaterials.find(x=>x.name.toLowerCase()===name.toLowerCase());if(x){x.unit=unit;x.customUnit=customUnit;x.opening=opening;}else db.rawMaterials.push({id:'RM-'+Date.now(),name,unit,customUnit,opening});saveDB();factoryRenderAll();document.getElementById('rmName').value='';document.getElementById('rmOpening').value='0';resetUnit('rmOpeningUnit','rmOpeningCustomUnit');}
+function addRawPurchase(){factoryStoreInit();const material=document.getElementById('rmPurchaseMaterial').value,pu=unitValue('rmPurchaseUnit','rmPurchaseCustomUnit'),qty=Number(document.getElementById('rmPurchaseQty').value);if(!material||!Number.isFinite(qty)||qty<=0)return alert('Select material and enter a valid quantity.');const m=(db.rawMaterials||[]).find(x=>sameText(x.name,material));if(m&&unitKey(pu.unit,pu.custom)!==unitKey(m.unit||'kg',m.customUnit||''))return alert('Purchase unit must match the unit set for this Raw Material ('+unitLabel(m.unit,m.customUnit)+').');db.rawPurchases.push({id:'RP-'+Date.now(),date:document.getElementById('rmPurchaseDate').value||localISODate(),material,qty,unit:pu.unit,customUnit:pu.custom,note:(document.getElementById('rmPurchaseNote').value||'').trim()});saveDB();factoryRenderAll();document.getElementById('rmPurchaseQty').value='';document.getElementById('rmPurchaseNote').value='';resetUnit('rmPurchaseUnit','rmPurchaseCustomUnit');}
+function addRawConsumption(){factoryStoreInit();const machine=(document.getElementById('rmMachine').value||'').trim(),die=(document.getElementById('rmDie').value||'').trim(),process=(document.getElementById('rmProcess').value||'').trim(),material=document.getElementById('rmUseMaterial').value,uu=unitValue('rmUseUnit','rmUseCustomUnit'),wu=unitValue('rmWasteUnit','rmWasteCustomUnit'),qty=Number(document.getElementById('rmUseQty').value),waste=Number(document.getElementById('rmWasteQty').value||0);if(!machine||!die||!material||!Number.isFinite(qty)||qty<=0||!Number.isFinite(waste)||waste<0)return alert('Enter machine, die/product, material and valid quantity.');const m=(db.rawMaterials||[]).find(x=>sameText(x.name,material));if(m&&unitKey(uu.unit,uu.custom)!==unitKey(m.unit||'kg',m.customUnit||''))return alert('Consumption unit must match this Raw Material unit ('+unitLabel(m.unit,m.customUnit)+').');if(m&&unitKey(wu.unit,wu.custom)!==unitKey(m.unit||'kg',m.customUnit||''))return alert('Wastage unit must match this Raw Material unit ('+unitLabel(m.unit,m.customUnit)+').');db.rawConsumption.push({id:'RC-'+Date.now(),date:document.getElementById('rmUseDate').value||localISODate(),machine,die,process,material,qty,unit:uu.unit,customUnit:uu.custom,waste,wasteUnit:wu.unit,wasteCustomUnit:wu.custom});saveDB();factoryRenderAll();document.getElementById('rmUseQty').value='';document.getElementById('rmWasteQty').value='0';resetUnit('rmUseUnit','rmUseCustomUnit');resetUnit('rmWasteUnit','rmWasteCustomUnit');}
+function sameText(a,b){return String(a==null?'':a).trim().toLowerCase()===String(b==null?'':b).trim().toLowerCase();}
+function unitKey(unit,custom){const u=String(unit||'kg').trim().toLowerCase();return u==='manual'?'manual:'+String(custom||'').trim().toLowerCase():u;}
+function legacyReceivedTransactions(r){const q=Number(r&&r.received||0);if(!(q>0))return [];return [{id:'LEGACY-IN-'+String(r.id||''),date:String(r.receivedDate||r.date||''),qty:q,unit:r.receivedUnit||r.unit||'kg',customUnit:r.receivedCustomUnit||r.customUnit||''}];}
+function ensureReceivedTransactions(r){if(!Array.isArray(r.receivedTransactions))r.receivedTransactions=legacyReceivedTransactions(r);return r.receivedTransactions;}
+function vendorRawLinkInit(){if(!Array.isArray(db.vendorRawLinks))db.vendorRawLinks=[];}
+function vendorRawLinkFor(vendor,material){vendorRawLinkInit();return db.vendorRawLinks.find(x=>sameText(x.vendor,vendor)&&sameText(x.vendorMaterial,material));}
+function receivedForLink(link,upto){
+  if(!link)return 0;
+  const start=String(link.startDate||'0000-01-01'),end=String(upto||localISODate());
+  const raw=(db.rawMaterials||[]).find(m=>sameText(m.name,link.rawMaterial));
+  if(!raw)return 0;
+  const expectedUnit=unitKey(raw.unit||'kg',raw.customUnit||'');
+  return (db.records||[]).filter(r=>!r.paidCleared&&!r.hiddenFromVendorList&&sameText(r.vendor,link.vendor)&&sameText(r.material,link.vendorMaterial)).reduce((sum,r)=>{
+    return sum+ensureReceivedTransactions(r).reduce((sub,t)=>{
+      const d=String(t.date||r.receivedDate||r.date||'');
+      if(!d||d<start||d>end)return sub;
+      if(unitKey(t.unit||r.receivedUnit||r.unit||'kg',t.customUnit||r.receivedCustomUnit||r.customUnit||'')!==expectedUnit)return sub;
+      return sub+Math.max(0,Number(t.qty||0));
+    },0);
+  },0);
+}
+function linkedVendorReceivedFor(mat,upto){
+  vendorRawLinkInit();
+  const links=db.vendorRawLinks.filter(x=>sameText(x.rawMaterial,mat));
+  const seen=new Set();let total=0;
+  links.forEach(link=>{const key=String(link.vendor||'').trim().toLowerCase()+'|'+String(link.vendorMaterial||'').trim().toLowerCase();if(seen.has(key))return;seen.add(key);total+=receivedForLink(link,upto);});
+  return total;
+}
+function vendorRawReceivedRows(mat){
+  vendorRawLinkInit();
+  const linkKeys=new Set(db.vendorRawLinks.filter(x=>sameText(x.rawMaterial,mat)).map(x=>String(x.vendor||'').trim().toLowerCase()+'|'+String(x.vendorMaterial||'').trim().toLowerCase()));
+  return (db.records||[]).filter(r=>!r.paidCleared&&!r.hiddenFromVendorList&&linkKeys.has(String(r.vendor||'').trim().toLowerCase()+'|'+String(r.material||'').trim().toLowerCase())&&Number(r.received||0)>0);
+}
+function linkedAutoDeductionFor(mat,upto){
+  directFgInit();
+  const cfg=(db.directFinishedGoods||[]).find(x=>sameText(x.rawMaterial||x.name,mat));
+  if(!cfg)return {days:0,total:0,rows:[]};
+  const rate=Number(cfg.dailyUsage||0),start=cfg.startDate||localISODate(),end=upto||localISODate();
+  if(rate<=0)return {days:0,total:0,rows:[]};
+  let days=0,total=0,rows=[];
+  datesBetweenInclusive(start,end,date=>{
+    if(!isWorkingDay(date))return;
+    const opening=Number(((db.rawMaterials||[]).find(x=>sameText(x.name,mat))||{}).opening||0);
+    const purchases=(db.rawPurchases||[]).filter(r=>sameText(r.material,mat)&&String(r.date||'')<=date).reduce((a,r)=>a+Number(r.qty||0),0);
+    const outside=(db.directFgReceipts||[]).filter(r=>sameText(r.material,mat)&&String(r.date||'')<=date).reduce((a,r)=>a+Number(r.qty||0),0);
+    const vendorIn=linkedVendorReceivedFor(mat,date);
+    const flow=outsidePartyFlowTotals(mat,date);
+    const used=(db.rawConsumption||[]).filter(r=>sameText(r.material,mat)&&String(r.date||'')<=date).reduce((a,r)=>a+Number(r.qty||0),0);
+    const waste=(db.rawConsumption||[]).filter(r=>sameText(r.material,mat)&&String(r.date||'')<=date).reduce((a,r)=>a+Number(r.waste||0),0);
+    const available=Math.max(0,opening+purchases+outside+vendorIn+flow.received-flow.sent+flow.returned-used-waste-total);
+    const take=Math.min(rate,available);
+    if(take>0){total+=take;days++;rows.push({date,qty:take});}
+  });
+  return {days,total,rows};
+}
+function outsidePartyFlowTotals(mat,upto){
+  const end=upto||localISODate();
+  return (db.outsidePartyFlows||[]).filter(x=>sameText(x.rawMaterial,mat)&&String(x.date||'')<=end).reduce((a,x)=>{
+    a.received+=Number(x.received||0);a.sent+=Number(x.sent||0);a.returned+=Number(x.returned||0);return a;
+  },{received:0,sent:0,returned:0});
+}
+function factoryStockFor(mat){
+  const m=(db.rawMaterials||[]).find(x=>sameText(x.name,mat));
+  const opening=Number(m&&m.opening||0);
+  const p=(db.rawPurchases||[]).filter(x=>sameText(x.material,mat)).reduce((a,x)=>a+Number(x.qty||0),0);
+  const directFG=(db.directFgReceipts||[]).filter(x=>sameText(x.material,mat)).reduce((a,x)=>a+Number(x.qty||0),0);
+  const vendorIn=linkedVendorReceivedFor(mat,localISODate());
+  const flow=outsidePartyFlowTotals(mat,localISODate());
+  const u=(db.rawConsumption||[]).filter(x=>sameText(x.material,mat)).reduce((a,x)=>a+Number(x.qty||0),0);
+  const w=(db.rawConsumption||[]).filter(x=>sameText(x.material,mat)).reduce((a,x)=>a+Number(x.waste||0),0);
+  const auto=linkedAutoDeductionFor(mat,localISODate()).total;
+  const flowNet=flow.received-flow.sent+flow.returned;
+  return {opening,purchases:p,vendorIn,sourceReceived:flow.received,processingSent:flow.sent,processingReturned:flow.returned,outsideLeft:Math.max(0,flow.sent-flow.returned),used:u,waste:w,autoDeducted:auto,directFG,balance:opening+p+directFG+vendorIn+flowNet-u-w-auto};
+}
+function deleteRawMaterial(id){factoryStoreInit();const m=db.rawMaterials.find(x=>x.id===id);if(!m)return;if(!confirm('Delete material "'+m.name+'" and its related purchase/production entries?'))return;db.rawMaterials=db.rawMaterials.filter(x=>x.id!==id);db.rawPurchases=db.rawPurchases.filter(x=>!sameText(x.material,m.name));db.rawConsumption=db.rawConsumption.filter(x=>!sameText(x.material,m.name));saveDB();factoryRenderAll();}
+function deleteRawPurchase(id){factoryStoreInit();if(!confirm('Delete this purchase/material received entry?'))return;db.rawPurchases=db.rawPurchases.filter(x=>x.id!==id);saveDB();factoryRenderAll();}
+function deleteRawConsumption(id){factoryStoreInit();if(!confirm('Delete this production consumption entry?'))return;db.rawConsumption=db.rawConsumption.filter(x=>x.id!==id);saveDB();factoryRenderAll();}
+function rawMaterialLowStockItems(){
+  // Standard thresholds are meaningful for KG and Katte only; manual units need their own threshold.
+  return (db.rawMaterials||[]).map(m=>{const unit=String(m.unit||'kg').toLowerCase();if(unit==='manual')return null;const x=factoryStockFor(m.name),limit=unit==='katte'?4:200;return {material:m.name,balance:Number(x.balance||0),unit:unit==='katte'?'Katte':'KG',limit};}).filter(x=>x&&x.balance<x.limit);
+}
+function factoryRenderLowStockAlert(){
+  const e=document.getElementById('rawMaterialLowStockAlert');if(!e)return;
+  const low=rawMaterialLowStockItems();
+  if(!low.length){e.innerHTML='<div style="padding:10px;border-radius:8px;background:#eaf7ea"><b>✅ All raw materials are above the alert level.</b></div>';return;}
+  let h='<div style="padding:10px;border-radius:8px;background:#fff0f0"><b>⚠️ Materials below alert level:</b><ul style="margin:8px 0 0 20px">';
+  low.forEach(x=>{h+='<li><b>'+fEsc(x.material)+'</b>: '+x.balance+' '+fEsc(x.unit)+' (alert below '+x.limit+' '+fEsc(x.unit)+')</li>';});
+  h+='</ul></div>';e.innerHTML=h;
+}
+function factoryRenderStock(){
+  const e=document.getElementById('rawMaterialStockTable');if(!e)return;const mats=db.rawMaterials||[];
+  if(!mats.length){e.innerHTML='<p class="muted">No raw materials added yet.</p>';return;}
+  let h='<div class="table-wrap"><table><thead><tr><th>Material</th><th>Opening Stock</th><th>Raw Purchases</th><th>Vendor IN After Link Date</th><th>Outside Party Received</th><th>Sent For Processing</th><th>Back From Processing</th><th>Left Outside</th><th>Production Used</th><th>Wastage</th><th>Auto Deducted</th><th>Direct FG Received</th><th>Current Stock</th><th>Status</th></tr></thead><tbody>';
+  mats.forEach(m=>{const x=factoryStockFor(m.name),u=fEsc(unitLabel(m.unit,m.customUnit)),low=rawMaterialLowStockItems().find(z=>sameText(z.material,m.name));h+='<tr><td><b>'+fEsc(m.name)+'</b></td><td>'+x.opening+' '+u+'</td><td>'+x.purchases+' '+u+'</td><td>'+x.vendorIn+' '+u+'</td><td>'+x.sourceReceived+' '+u+'</td><td>'+x.processingSent+' '+u+'</td><td>'+x.processingReturned+' '+u+'</td><td><b>'+x.outsideLeft+' '+u+'</b></td><td>'+x.used+' '+u+'</td><td>'+x.waste+' '+u+'</td><td>'+x.autoDeducted+' '+u+'</td><td>'+x.directFG+' '+u+'</td><td><b>'+x.balance+' '+u+'</b></td><td>'+(low?'<b>⚠️ LOW</b>':'✅ OK')+'</td></tr>';});
+  e.innerHTML=h+'</tbody></table></div><p class="muted" style="margin-top:8px"><b>How stock is calculated:</b> Opening + Raw Purchases + Vendor IN (only on/after each link start date) + Outside Party Received − Sent For Processing + Back From Processing − Production Used − Wastage − Auto Deduction + Direct FG Received. “Left Outside” is information only; it is not added as extra stock.</p>';
+}
+function factoryRenderMaterialManage(){const e=document.getElementById('rawMaterialManageTable');if(!e)return;const mats=db.rawMaterials||[];if(!mats.length){e.innerHTML='<p class="muted">No materials to delete.</p>';return;}let h='<div class="table-wrap"><table><thead><tr><th>Material</th><th>Opening Stock</th><th>Unit</th><th>Action</th></tr></thead><tbody>';mats.forEach(m=>{h+='<tr><td><b>'+fEsc(m.name)+'</b></td><td>'+Number(m.opening||0)+'</td><td>'+fEsc(unitLabel(m.unit,m.customUnit))+'</td><td><button class="danger" onclick="deleteRawMaterial(\''+fEsc(m.id)+'\')">🗑️ Delete</button></td></tr>';});e.innerHTML=h+'</tbody></table></div>';}
+function factoryRenderPurchases(){const e=document.getElementById('rawPurchaseTable');if(!e)return;const rows=[...(db.rawPurchases||[])].sort((a,b)=>(b.date||'').localeCompare(a.date||''));if(!rows.length){e.innerHTML='<p class="muted">No purchase entries recorded yet.</p>';return;}let h='<div class="table-wrap"><table><thead><tr><th>Date</th><th>Material</th><th>Quantity</th><th>Supplier / Note</th><th>Action</th></tr></thead><tbody>';rows.forEach(r=>h+='<tr><td>'+fEsc(r.date)+'</td><td>'+fEsc(r.material)+'</td><td>'+r.qty+' '+fEsc(unitLabel(r.unit,r.customUnit))+'</td><td>'+fEsc(r.note)+'</td><td><button class="danger" onclick="deleteRawPurchase(\''+fEsc(r.id)+'\')">🗑️ Delete</button></td></tr>');e.innerHTML=h+'</tbody></table></div>';}
+function factoryRenderProduction(){const e=document.getElementById('rawProductionTable');if(!e)return;const rows=[...(db.rawConsumption||[])].sort((a,b)=>(b.date||'').localeCompare(a.date||''));if(!rows.length){e.innerHTML='<p class="muted">No production consumption recorded yet.</p>';return;}let h='<div class="table-wrap"><table><thead><tr><th>Date</th><th>Machine</th><th>Die</th><th>Process</th><th>Material</th><th>Used</th><th>Wastage</th><th>Action</th></tr></thead><tbody>';rows.forEach(r=>h+='<tr><td>'+fEsc(r.date)+'</td><td>'+fEsc(r.machine)+'</td><td>'+fEsc(r.die)+'</td><td>'+fEsc(r.process)+'</td><td>'+fEsc(r.material)+'</td><td>'+r.qty+' '+fEsc(unitLabel(r.unit,r.customUnit))+'</td><td>'+r.waste+' '+fEsc(unitLabel(r.wasteUnit||r.unit,r.wasteCustomUnit||r.customUnit))+'</td><td><button class="danger" onclick="deleteRawConsumption(\''+fEsc(r.id)+'\')">🗑️ Delete</button></td></tr>');e.innerHTML=h+'</tbody></table></div>';}
+function vendorRawLinkOptions(){
+  vendorRawLinkInit();const v=document.getElementById('vrVendor');if(!v)return;const old=v.value;
+  v.innerHTML='<option value="">Select vendor</option>'+(db.vendors||[]).map(x=>'<option value="'+fEsc(x)+'">'+fEsc(x)+'</option>').join('');if(old)v.value=old;
+  const rm=document.getElementById('vrRawMaterial');if(rm){const old2=rm.value;rm.innerHTML='<option value="">Select Raw Material</option>'+(db.rawMaterials||[]).map(x=>'<option value="'+fEsc(x.name)+'">'+fEsc(x.name)+' ('+fEsc(unitLabel(x.unit,x.customUnit))+')</option>').join('');if(old2)rm.value=old2;}
+  vendorRawMaterialOptions();
+}
+function vendorRawMaterialOptions(){
+  const v=document.getElementById('vrVendor'),m=document.getElementById('vrVendorMaterial');if(!v||!m)return;const old=m.value,vendor=v.value;let names=[];
+  if(vendor)names=[...(db.records||[]).filter(r=>sameText(r.vendor,vendor)).map(r=>r.material),...(db.savedMaterials||[])];else names=[...(db.savedMaterials||[]),...(db.records||[]).map(r=>r.material)];
+  names=[...new Map(names.filter(Boolean).map(x=>[String(x).trim().toLowerCase(),String(x).trim()])).values()].sort((a,b)=>a.localeCompare(b));
+  const dl=document.getElementById('vrVendorMaterialSuggestions');if(dl)dl.innerHTML=names.map(x=>'<option value="'+fEsc(x)+'"></option>').join('');
+  if(old)m.value=old;
+}
+function quickLinkSyncVendor(){const e=document.getElementById('quickLinkStatus');if(e)e.textContent='Vendor selected. Choose a material name and matching stock material below.';}
+function quickLinkClear(){const v=document.getElementById('vrVendor'),m=document.getElementById('vrVendorMaterial'),r=document.getElementById('vrRawMaterial'),d=document.getElementById('vrStartDate');if(m)m.value='';if(r)r.value='';if(d)d.value=localISODate();const e=document.getElementById('quickLinkStatus');if(e)e.textContent='Form cleared. Your saved links and stock are unchanged.';}
+function quickSaveVendorRawLink(keepVendor){
+  const vendor=document.getElementById('vrVendor').value,material=document.getElementById('vrVendorMaterial').value.trim(),raw=document.getElementById('vrRawMaterial').value,date=document.getElementById('vrStartDate').value||localISODate();
+  if(!vendor||!material||!raw)return alert('Please choose Vendor, enter Vendor Material, and choose the matching Stock Material.');
+  document.getElementById('vrVendorMaterial').value=material;document.getElementById('vrStartDate').value=date;
+  const before=(db.vendorRawLinks||[]).length;addVendorRawLink();
+  const exists=(db.vendorRawLinks||[]).some(x=>sameText(x.vendor,vendor)&&sameText(x.vendorMaterial,material)&&sameText(x.rawMaterial,raw)&&x.startDate===date);
+  if(exists){const e=document.getElementById('quickLinkStatus');if(e)e.textContent='Saved: '+vendor+' → '+material+' → '+raw+'. You can link the next material.';if(keepVendor){document.getElementById('vrVendor').value=vendor;document.getElementById('vrVendorMaterial').value='';document.getElementById('vrRawMaterial').value='';document.getElementById('vrStartDate').value=date;vendorRawMaterialOptions();document.getElementById('vrVendorMaterial').focus();}else quickLinkClear();}
+}
+
+function addVendorRawLink(){
+  vendorRawLinkInit();const vendor=document.getElementById('vrVendor').value.trim(),vendorMaterial=document.getElementById('vrVendorMaterial').value.trim(),rawMaterial=document.getElementById('vrRawMaterial').value,startDate=document.getElementById('vrStartDate').value||localISODate();
+  if(!vendor||!vendorMaterial||!rawMaterial||!startDate)return alert('Select vendor, vendor material, raw material and start date.');
+  const raw=(db.rawMaterials||[]).find(x=>sameText(x.name,rawMaterial));
+  const matched=(db.records||[]).filter(r=>sameText(r.vendor,vendor)&&sameText(r.material,vendorMaterial)&&Number(r.received||0)>0);
+  const incompatible=matched.some(r=>ensureReceivedTransactions(r).some(t=>unitKey(t.unit||r.receivedUnit||r.unit||'kg',t.customUnit||r.receivedCustomUnit||r.customUnit||'')!==unitKey(raw&&raw.unit||'kg',raw&&raw.customUnit||'')));
+  if(incompatible)return alert('Some vendor IN entries use a different unit than the selected Raw Material. Make the units match before linking, otherwise weights could be miscounted.');
+  const existing=db.vendorRawLinks.find(x=>sameText(x.vendor,vendor)&&sameText(x.vendorMaterial,vendorMaterial));
+  if(existing){existing.vendor=vendor;existing.vendorMaterial=vendorMaterial;existing.rawMaterial=rawMaterial;existing.startDate=startDate;}
+  else db.vendorRawLinks.push({id:'VRL-'+Date.now(),vendor,vendorMaterial,rawMaterial,startDate});
+  saveDB();factoryRenderAll();alert(vendor+' → '+vendorMaterial+' is linked to '+rawMaterial+'. Only IN transactions dated on/after '+startDate+' will be added to Raw Material stock. Earlier IN stays in the vendor ledger but will not be imported by this link.');
+}
+function deleteVendorRawLink(id){vendorRawLinkInit();if(!confirm('Remove this vendor-to-raw-material link? Existing vendor OUT/IN records will remain safe; stock will be recalculated without this link.'))return;db.vendorRawLinks=db.vendorRawLinks.filter(x=>x.id!==id);saveDB();factoryRenderAll();}
+function vendorRawLinkReceivedForLink(link,upto){return receivedForLink(link,upto);}
+function factoryRenderVendorRawLinks(){
+  vendorRawLinkInit();vendorRawLinkOptions();const e=document.getElementById('vendorRawLinkTable');if(!e)return;const rows=db.vendorRawLinks||[];
+  if(!rows.length){e.innerHTML='<p class="muted">No vendor-to-raw-material links yet.</p>';return;}
+  let h='<div class="table-wrap"><table><thead><tr><th>Vendor</th><th>Vendor IN Material</th><th>Linked Raw Material</th><th>Start Date</th><th>IN Added Since Start Date</th><th>Action</th></tr></thead><tbody>';
+  rows.forEach(l=>{const raw=(db.rawMaterials||[]).find(m=>sameText(m.name,l.rawMaterial)),received=vendorRawLinkReceivedForLink(l,localISODate()),u=unitLabel(raw&&raw.unit||'kg',raw&&raw.customUnit||'');h+='<tr><td><b>'+fEsc(l.vendor)+'</b></td><td>'+fEsc(l.vendorMaterial)+'</td><td><b>'+fEsc(l.rawMaterial)+'</b></td><td>'+fEsc(l.startDate||'—')+'</td><td>'+received+' '+fEsc(u)+'</td><td><button class="danger" onclick="deleteVendorRawLink(\''+fEsc(l.id)+'\')">Remove</button></td></tr>';});
+  h+='</tbody></table></div><p class="small muted">Important: the “IN Added” figure is the exact amount this link contributes to Raw Material stock. The same link start-date and unit rules are used in both places. A vendor can have 0 kg left outside while the store stock includes earlier returned material; only receipts on/after this link’s start date count here.</p>';e.innerHTML=h;
+}
+function outsidePartyFlowInit(){if(!Array.isArray(db.outsidePartyFlows))db.outsidePartyFlows=[];}
+function outsidePartyFlowMaterialOptions(){const e=document.getElementById('opRawMaterial');if(!e)return;outsidePartyFlowInit();const old=e.value;e.innerHTML='<option value="">Select Raw Material</option>'+(db.rawMaterials||[]).map(x=>'<option value="'+fEsc(x.name)+'">'+fEsc(x.name)+'</option>').join('');if(old)e.value=old;}
+function resetOutsidePartyFlow(){['opFlowId','opSource','opSourceMaterial','opVendor'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});['opReceived','opSent','opReturned'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='0';});const d=document.getElementById('opDate');if(d)d.value=isoToday();outsidePartyFlowMaterialOptions();}
+function saveOutsidePartyFlow(){outsidePartyFlowInit();const id=document.getElementById('opFlowId').value,date=document.getElementById('opDate').value||isoToday(),source=(document.getElementById('opSource').value||'').trim(),sourceMaterial=(document.getElementById('opSourceMaterial').value||'').trim(),rawMaterial=document.getElementById('opRawMaterial').value,received=Number(document.getElementById('opReceived').value||0),vendor=(document.getElementById('opVendor').value||'').trim(),sent=Number(document.getElementById('opSent').value||0),returned=Number(document.getElementById('opReturned').value||0),receivedUnit=document.getElementById('opReceivedUnit').value,sentUnit=document.getElementById('opSentUnit').value,returnedUnit=document.getElementById('opReturnedUnit').value;if(!date||!source||!sourceMaterial||!rawMaterial)return alert('Enter date, outside party, outside material name and linked Raw Material.');if([received,sent,returned].some(x=>!Number.isFinite(x)||x<0))return alert('Enter valid quantities.');if(returned>sent)return alert('Received Back cannot be greater than Sent For Processing.');const raw=(db.rawMaterials||[]).find(x=>sameText(x.name,rawMaterial));if(raw&&[receivedUnit,sentUnit,returnedUnit].some(u=>String(u||'kg').toLowerCase()!==String(raw.unit||'kg').toLowerCase()))return alert('Received, Sent, Returned and Raw Material must all use the same unit ('+unitLabel(raw.unit,raw.customUnit)+').');const row={id:id||'OPF-'+Date.now(),date,source,sourceMaterial,rawMaterial,received,vendor,sent,returned,receivedUnit,sentUnit,returnedUnit};const at=db.outsidePartyFlows.findIndex(x=>x.id===id);if(at>=0)db.outsidePartyFlows[at]=row;else db.outsidePartyFlows.push(row);saveDB();factoryRenderAll();resetOutsidePartyFlow();}
+function editOutsidePartyFlow(id){outsidePartyFlowInit();const x=db.outsidePartyFlows.find(r=>r.id===id);if(!x)return;document.getElementById('opFlowId').value=x.id;document.getElementById('opDate').value=x.date||isoToday();document.getElementById('opSource').value=x.source||'';document.getElementById('opSourceMaterial').value=x.sourceMaterial||'';document.getElementById('opRawMaterial').value=x.rawMaterial||'';document.getElementById('opReceived').value=x.received||0;document.getElementById('opVendor').value=x.vendor||'';document.getElementById('opSent').value=x.sent||0;document.getElementById('opReturned').value=x.returned||0;['received','sent','returned'].forEach(k=>{const e=document.getElementById('op'+k.charAt(0).toUpperCase()+k.slice(1)+'Unit');if(e)e.value=x[k+'Unit']||'kg';});document.getElementById('opSource').scrollIntoView({behavior:'smooth',block:'center'});}
+function deleteOutsidePartyFlow(id){outsidePartyFlowInit();if(!confirm('Delete this outside-party processing flow? Raw Material stock will be recalculated.'))return;db.outsidePartyFlows=db.outsidePartyFlows.filter(x=>x.id!==id);saveDB();factoryRenderAll();}
+function factoryRenderOutsidePartyFlows(){outsidePartyFlowInit();outsidePartyFlowMaterialOptions();const e=document.getElementById('outsidePartyFlowTable');if(!e)return;const rows=[...db.outsidePartyFlows].sort((a,b)=>(b.date||'').localeCompare(a.date||''));if(!rows.length){e.innerHTML='<p class="muted">No outside-party processing flows recorded yet.</p>';return;}let h='<div class="table-wrap"><table><thead><tr><th>Date</th><th>Outside Party</th><th>Material</th><th>Raw Material</th><th>Received</th><th>Processing Vendor</th><th>Sent</th><th>Back</th><th>LEFT Outside</th><th>Action</th></tr></thead><tbody>';rows.forEach(x=>{const left=Math.max(0,Number(x.sent||0)-Number(x.returned||0));h+='<tr><td>'+fEsc(x.date)+'</td><td><b>'+fEsc(x.source)+'</b></td><td>'+fEsc(x.sourceMaterial)+'</td><td>'+fEsc(x.rawMaterial)+'</td><td>'+Number(x.received||0)+' '+fEsc(x.receivedUnit||'kg')+'</td><td>'+fEsc(x.vendor||'—')+'</td><td>'+Number(x.sent||0)+' '+fEsc(x.sentUnit||'kg')+'</td><td>'+Number(x.returned||0)+' '+fEsc(x.returnedUnit||'kg')+'</td><td><b>'+left+' '+fEsc(x.sentUnit||'kg')+'</b></td><td><button class="secondary" onclick="editOutsidePartyFlow(\''+fEsc(x.id)+'\')">✏️ Edit</button> <button class="danger" onclick="deleteOutsidePartyFlow(\''+fEsc(x.id)+'\')">🗑️ Delete</button></td></tr>';});e.innerHTML=h+'</tbody></table></div>';}
+function factoryRenderAll(){factoryStoreInit();directFgInit();vendorRawLinkInit();outsidePartyFlowInit();factoryMaterialOptions('rmPurchaseMaterial');factoryMaterialOptions('rmUseMaterial');directFgOptions();vendorRawLinkOptions();factoryRenderVendorRawLinks();factoryRenderLowStockAlert();factoryRenderStock();factoryRenderMaterialManage();factoryRenderPurchases();factoryRenderProduction();factoryRenderFgStock();factoryRenderHolidays();factoryRenderFgReceipts();factoryRenderFgDeductions();factoryRenderOutsidePartyFlows();fToday('rmPurchaseDate');fToday('rmUseDate');fToday('fgReceiveDate');fToday('vrStartDate');}
+function directFgInit(){
+  if(!Array.isArray(db.directFinishedGoods)) db.directFinishedGoods=[];
+  if(!Array.isArray(db.directFgReceipts)) db.directFgReceipts=[];
+  if(!Array.isArray(db.factoryHolidays)) db.factoryHolidays=[];
+}
+function isoToday(){return localISODate();}
+function localDateObj(s){const d=new Date(String(s||'')+'T00:00:00'); return isNaN(d)?null:d;}
+function isFactoryHoliday(dateStr){
+  const d=localDateObj(dateStr);
+  if(!d) return false;
+  if(d.getDay()===5) return true; // Friday
+  return (db.factoryHolidays||[]).some(h=>h.date===dateStr);
+}
+function isWorkingDay(dateStr){return !isFactoryHoliday(dateStr);}
+function datesBetweenInclusive(startStr,endStr,cb){
+  const a=localDateObj(startStr), b=localDateObj(endStr); if(!a||!b||a>b)return;
+  for(let d=new Date(a);d<=b;d.setDate(d.getDate()+1)) cb(d.toISOString().slice(0,10));
+}
+function finishedGoodDeductions(name,upto){ return linkedAutoDeductionFor(name,upto); }
+function finishedGoodStock(name){
+  directFgInit();
+  const cfg=(db.directFinishedGoods||[]).find(x=>x.rawMaterial===name || x.name===name);
+  if(!cfg) return {balance:factoryStockFor(name).balance,daily:0,days:0,deducted:0};
+  const raw=factoryStockFor(name), d=linkedAutoDeductionFor(name,isoToday()), rate=Number(cfg.dailyUsage||0);
+  const balance=raw.balance;
+  const daysLeft=rate>0 ? Math.max(0,balance/rate) : Infinity;
+  return {balance,daily:rate,days:d.days,deducted:d.total,daysLeft,rawOutside:raw.outside};
+}
+function addFinishedGood(){
+  directFgInit();
+  const name=document.getElementById('fgName').value||'';
+  const daily=Number(document.getElementById('fgDaily').value||0);
+  const raw=(db.rawMaterials||[]).find(x=>sameText(x.name,name));
+  if(!raw) return alert('Select a material from the Raw Material Table.');
+  if(unitKey(raw.unit||'kg',raw.customUnit||'')!=='kg') return alert('Automatic deduction is currently measured in KG/day. Select a Raw Material whose unit is KG.');
+  if(!Number.isFinite(daily)||daily<=0) return alert('Enter Daily Automatic Deduction in KG.');
+  const x=db.directFinishedGoods.find(x=>x.rawMaterial===name || x.name===name);
+  if(x){ x.name=raw.name; x.rawMaterial=raw.name; x.rawMaterialId=raw.id; x.dailyUsage=daily; if(!x.startDate)x.startDate=isoToday(); }
+  else db.directFinishedGoods.push({id:'FG-'+Date.now(),name:raw.name,rawMaterial:raw.name,rawMaterialId:raw.id,dailyUsage:daily,startDate:isoToday()});
+  saveDB();factoryRenderAll();
+  document.getElementById('fgDaily').value='0';
+  alert(raw.name+' is now linked. Its automatic deduction will come directly from the Raw Material stock.');
+}
+function addFinishedGoodReceipt(){
+  directFgInit();
+  const material=document.getElementById('fgReceiveMaterial').value;
+  const ru=unitValue('fgReceiveUnit','fgReceiveCustomUnit');
+  const qty=Number(document.getElementById('fgReceiveQty').value);
+  const date=document.getElementById('fgReceiveDate').value||isoToday();
+  if(!material||!Number.isFinite(qty)||qty<=0)return alert('Select a linked material and enter a valid quantity.');
+  if(!(db.directFinishedGoods||[]).some(x=>sameText(x.rawMaterial||x.name,material)))return alert('First select this material for automatic deduction above.');
+  const raw=(db.rawMaterials||[]).find(x=>sameText(x.name,material));
+  if(raw&&unitKey(ru.unit,ru.custom)!==unitKey(raw.unit||'kg',raw.customUnit||''))return alert('Receipt unit must match this Raw Material unit ('+unitLabel(raw.unit,raw.customUnit)+').');
+  db.directFgReceipts.push({id:'FGR-'+Date.now(),date,material,qty,unit:ru.unit,customUnit:ru.custom,note:(document.getElementById('fgReceiveNote').value||'').trim()});
+  saveDB();factoryRenderAll();document.getElementById('fgReceiveQty').value='';document.getElementById('fgReceiveNote').value='';resetUnit('fgReceiveUnit','fgReceiveCustomUnit');
+}
+function addFactoryHoliday(){
+  directFgInit(); const date=document.getElementById('holidayDate').value, name=(document.getElementById('holidayName').value||'Factory Holiday').trim();
+  if(!date)return alert('Select a holiday date.');
+  if(db.factoryHolidays.some(h=>h.date===date))return alert('This holiday date is already added.');
+  db.factoryHolidays.push({id:'HOL-'+Date.now(),date,name});db.factoryHolidays.sort((a,b)=>a.date.localeCompare(b.date));saveDB();factoryRenderAll();document.getElementById('holidayDate').value='';document.getElementById('holidayName').value='';
+}
+function deleteFactoryHoliday(id){directFgInit();db.factoryHolidays=db.factoryHolidays.filter(h=>h.id!==id);saveDB();factoryRenderAll();}
+function deleteFinishedGood(id){
+  directFgInit(); const m=db.directFinishedGoods.find(x=>x.id===id); if(!m)return;
+  if(!confirm('Remove '+m.name+' from automatic deduction? Raw Material stock and records will remain safe.'))return;
+  db.directFinishedGoods=db.directFinishedGoods.filter(x=>x.id!==id); saveDB(); factoryRenderAll();
+}
+function deleteFinishedGoodReceipt(id){directFgInit();db.directFgReceipts=db.directFgReceipts.filter(r=>r.id!==id);saveDB();factoryRenderAll();}
+function directFgOptions(){
+  const e=document.getElementById('fgReceiveMaterial'); if(!e)return; const old=e.value;
+  e.innerHTML='<option value="">Select linked material</option>'+(db.directFinishedGoods||[]).map(x=>'<option value="'+fEsc(x.rawMaterial||x.name)+'">'+fEsc(x.rawMaterial||x.name)+'</option>').join(''); if(old)e.value=old;
+  const s=document.getElementById('fgName'); if(!s)return; const old2=s.value;
+  s.innerHTML='<option value="">Select raw material</option>'+(db.rawMaterials||[]).map(x=>'<option value="'+fEsc(x.name)+'">'+fEsc(x.name)+' — Current '+fEsc(factoryStockFor(x.name).balance)+' '+fEsc(unitLabel(x.unit,x.customUnit))+'</option>').join(''); if(old2)s.value=old2;
+}
+function factoryRenderFgStock(){
+  directFgInit(); const e=document.getElementById('fgStockTable');if(!e)return;
+  const rows=db.directFinishedGoods||[]; if(!rows.length){e.innerHTML='<p class="muted">No material selected for automatic deduction yet. Select any material from the Raw Material Table above.</p>';return;}
+  let h='<div class="table-wrap"><table><thead><tr><th>Linked Material</th><th>Current Raw Stock</th><th>Daily Deduction</th><th>Working Days Deducted</th><th>Auto Deducted</th><th>Approx. Days Left</th><th>Status</th><th>Action</th></tr></thead><tbody>';
+  rows.forEach(m=>{const x=finishedGoodStock(m.rawMaterial||m.name);const low=x.daily>0&&x.daysLeft<7;const status=x.balance<=0?'🔴 OUT OF STOCK':low?'🔴 LOW — '+x.daysLeft.toFixed(1)+' DAYS LEFT':'🟢 OK';h+=`<tr><td><b>${fEsc(m.rawMaterial||m.name)}</b></td><td><b>${x.balance} KG</b></td><td>${x.daily} KG/day</td><td>${x.days}</td><td>${x.deducted} KG</td><td><b>${x.daysLeft===Infinity?'—':x.daysLeft.toFixed(1)}</b></td><td>${status}</td><td><button class="danger" onclick="deleteFinishedGood('${fEsc(m.id)}')">Remove</button></td></tr>`;});
+  e.innerHTML=h+'</tbody></table></div><p class="small muted">The Current Raw Stock shown here is the same stock shown in the Raw Material Table. Automatic deductions are subtracted from that same stock. Red alert = less than 7 days of stock remaining.</p>';
+}
+function factoryRenderHolidays(){
+  directFgInit();const e=document.getElementById('holidayTable');if(!e)return;
+  const rows=db.factoryHolidays||[]; let h='<div class="table-wrap"><table><thead><tr><th>Date</th><th>Holiday</th><th>Action</th></tr></thead><tbody>';
+  if(!rows.length)h+='<tr><td colspan="3">No custom holidays added. Friday is always skipped automatically.</td></tr>';
+  rows.forEach(x=>h+='<tr><td>'+fEsc(x.date)+'</td><td>'+fEsc(x.name)+'</td><td><button class="danger" onclick="deleteFactoryHoliday(\''+fEsc(x.id)+'\')">🗑️ Delete</button></td></tr>');
+  e.innerHTML=h+'</tbody></table></div>';
+}
+function factoryRenderFgReceipts(){
+  directFgInit();const e=document.getElementById('fgReceiveTable');if(!e)return;const rows=[...(db.directFgReceipts||[])].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  if(!rows.length){e.innerHTML='<p class="muted">No outside finished-goods entries yet.</p>';return;}
+  let h='<div class="table-wrap"><table><thead><tr><th>Date</th><th>Finished Good</th><th>Quantity</th><th>Supplier / Note</th><th>Action</th></tr></thead><tbody>';
+  rows.forEach(r=>h+='<tr><td>'+fEsc(r.date)+'</td><td>'+fEsc(r.material)+'</td><td>'+r.qty+' '+fEsc(unitLabel(r.unit,r.customUnit))+'</td><td>'+fEsc(r.note)+'</td><td><button class="danger" onclick="deleteFinishedGoodReceipt(\''+fEsc(r.id)+'\')">🗑️ Delete</button></td></tr>');
+  e.innerHTML=h+'</tbody></table></div>';
+}
+function factoryRenderFgDeductions(){
+  directFgInit();const e=document.getElementById('fgDeductionTable');if(!e)return;const end=isoToday();let rows=[];
+  (db.directFinishedGoods||[]).forEach(m=>{const d=finishedGoodDeductions(m.name,end);d.rows.forEach(x=>rows.push({material:m.name,date:x.date,qty:x.qty}));});
+  rows.sort((a,b)=>b.date.localeCompare(a.date));
+  let h='<div class="table-wrap"><table><thead><tr><th>Date</th><th>Finished Good</th><th>Automatic Deduction (kg)</th><th>Status</th></tr></thead><tbody>';
+  if(!rows.length)h+='<tr><td colspan="4">No automatic deductions yet.</td></tr>';
+  rows.slice(0,100).forEach(r=>h+='<tr><td>'+fEsc(r.date)+'</td><td>'+fEsc(r.material)+'</td><td>'+r.qty+' kg</td><td>Working day</td></tr>');
+  h+='</tbody></table></div><p class="small muted">Friday and all custom holidays are excluded from this deduction list.</p>';e.innerHTML=h;
+}
+
+document.addEventListener('DOMContentLoaded',()=>{try{factoryRenderAll();}catch(e){console.error(e);}});
+
+function unitValue(selectId, customId){const s=document.getElementById(selectId); if(!s)return {unit:'kg',custom:''}; const v=s.value||'kg'; const c=document.getElementById(customId); return {unit:v==='manual'?'manual':v,custom:(v==='manual'?(c&&c.value||'').trim():'')};}
+function unitLabel(unit,custom){return String(unit||'kg').toLowerCase()==='manual' ? (custom||'Manual') : (String(unit||'kg').toLowerCase()==='katte'?'Katte':'KG');}
+function toggleCustomUnit(selectId,customId){const s=document.getElementById(selectId),c=document.getElementById(customId); if(!s||!c)return; const show=s.value==='manual'; c.style.display=show?'block':'none'; if(!show)c.value='';}
+function resetUnit(selectId,customId){const s=document.getElementById(selectId),c=document.getElementById(customId); if(s)s.value='kg'; if(c){c.value='';c.style.display='none';}}
+
+// Quantity-unit compatibility migration (keeps existing units; defaults missing units to KG)
+try{
+  db.clearedReceivedHistory=Array.isArray(db.clearedReceivedHistory)?db.clearedReceivedHistory:[];
+  db.vendorRawLinks=Array.isArray(db.vendorRawLinks)?db.vendorRawLinks:[];
+  db.records.forEach(r=>{
+    if(!r.unit)r.unit='kg';
+    if(r.received&&!r.receivedUnit)r.receivedUnit=r.unit;
+    // Existing data did not retain each partial IN date. Preserve its recorded total/date as one legacy transaction;
+    // all new IN entries are kept individually from this release onward.
+    ensureReceivedTransactions(r);
+  });
+  (db.rawMaterials||[]).forEach(r=>{if(!r.unit)r.unit='kg';});
+  (db.rawPurchases||[]).forEach(r=>{if(!r.unit)r.unit='kg';});
+  (db.rawConsumption||[]).forEach(r=>{if(!r.unit)r.unit='kg';if(!r.wasteUnit)r.wasteUnit=r.unit;});
+  (db.directFinishedGoods||[]).forEach(r=>{if(!r.unit)r.unit='kg';if(!r.dailyUnit)r.dailyUnit=r.unit;});
+  (db.directFgReceipts||[]).forEach(r=>{if(!r.unit)r.unit='kg';});
+  save();
+}catch(e){console.error('Factory data migration:',e);}
+</script>
+<script>if ("serviceWorker" in navigator) { window.addEventListener("load", function(){ navigator.serviceWorker.register("./sw.js").catch(function(){}); }); }</script>
+
+
+<script>
+// Firebase web configuration for project factory-records-ad17b
+const FACTORY_FIREBASE_CONFIG = {
+  apiKey: "AIzaSyCkgwqrdIinRuZN_PGonNansTo8ni-gm7I",
+  authDomain: "factory-records-ad17b.firebaseapp.com",
+  projectId: "factory-records-ad17b",
+  storageBucket: "factory-records-ad17b.firebasestorage.app",
+  messagingSenderId: "652159577339",
+  appId: "1:652159577339:web:5e40934032fede1269945e"
+};
+let factoryUnsubscribe = null;
+function factoryMessage(msg){const e=document.getElementById('factoryAuthMessage');if(e)e.textContent=msg||'';}
+function factorySetStatus(msg, bad=false){const e=document.getElementById('cloudStatus');if(e){e.textContent=msg;e.style.color=bad?'#fecaca':'#d1fae5';}}
+async function factorySignIn(){
+ const email=(document.getElementById('factoryEmail').value||'').trim();
+ const password=document.getElementById('factoryPassword').value||'';
+ if(!email||!password){factoryMessage('Enter your Firebase account email and password.');return;}
+ const btn=document.getElementById('factorySignInBtn');btn.disabled=true;btn.textContent='Signing in…';factoryMessage('');
+ try{await firebase.auth().signInWithEmailAndPassword(email,password);}catch(e){factoryMessage(e.code==='auth/invalid-credential'?'Email or password is incorrect. Please check and try again.':(e.message||'Sign-in failed.'));}
+ finally{btn.disabled=false;btn.textContent='Sign in';}
+}
+async function factorySignOut(){try{if(factoryUnsubscribe){factoryUnsubscribe();factoryUnsubscribe=null;}factoryCloudReady=false;await firebase.auth().signOut();}catch(e){console.error(e);}}
+function factoryRefreshAfterCloud(){try{renderHome();renderQuickOutVendorOptions();renderPendingFollowup();if(typeof factoryRenderAll==='function')factoryRenderAll();if(typeof renderClearVendorOptions==='function')renderClearVendorOptions();if(currentVendor){renderVendor();}}catch(e){console.error('Refresh after cloud update',e);}}
+function factoryStartCloud(uid){
+ const gate=document.getElementById('factoryAuthGate');if(gate)gate.style.display='none';
+ factoryCloudDb=firebase.firestore();
+ try { factoryCloudDb.enablePersistence({synchronizeTabs:true}).catch(e=>console.warn("Offline cache persistence unavailable:",e.code||e)); } catch(e) { console.warn(e); }
+ const ref=factoryCloudDb.doc('factory/sharedState');
+ if(factoryUnsubscribe)factoryUnsubscribe();
+ factorySetStatus('Connecting to shared database…');
+ factoryUnsubscribe=ref.onSnapshot(async snap=>{
+   if(snap.exists && snap.data() && snap.data().state){
+     factoryApplyingRemote=true;
+     db=snap.data().state;
+     db.vendors=Array.isArray(db.vendors)?db.vendors:[];db.records=Array.isArray(db.records)?db.records:[];
+     db.rawMaterials=Array.isArray(db.rawMaterials)?db.rawMaterials:[];db.rawPurchases=Array.isArray(db.rawPurchases)?db.rawPurchases:[];db.rawConsumption=Array.isArray(db.rawConsumption)?db.rawConsumption:[];
+     db.clearedReceivedHistory=Array.isArray(db.clearedReceivedHistory)?db.clearedReceivedHistory:[];db.savedMaterials=Array.isArray(db.savedMaterials)?db.savedMaterials:[];db.vendorRawLinks=Array.isArray(db.vendorRawLinks)?db.vendorRawLinks:[];db.outsidePartyFlows=Array.isArray(db.outsidePartyFlows)?db.outsidePartyFlows:[];
+     db.directFinishedGoods=Array.isArray(db.directFinishedGoods)?db.directFinishedGoods:[];db.directFgReceipts=Array.isArray(db.directFgReceipts)?db.directFgReceipts:[];db.factoryHolidays=Array.isArray(db.factoryHolidays)?db.factoryHolidays:[];db.lastPendingStarted=db.lastPendingStarted||null;
+     try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){}
+     factoryApplyingRemote=false;factoryCloudReady=true;factorySetStatus('☁️ Connected • shared records enabled');factoryRefreshAfterCloud();
+   } else {
+     // First authenticated visit: create an empty shared state, never import the old embedded records.
+     factoryApplyingRemote=true;
+     const empty=JSON.parse(JSON.stringify(EMBEDDED_DATA));
+     db=empty;try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){}
+     factoryApplyingRemote=false;
+     try{await ref.set({state:empty,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:uid});factoryCloudReady=true;factorySetStatus('☁️ Connected • new blank factory database');factoryRefreshAfterCloud();}
+     catch(e){factoryCloudReady=false;factorySetStatus('Database access failed — check Firestore Rules',true);factoryMessage('Database access failed: '+(e.message||e));}
+   }
+ },err=>{factoryCloudReady=false;factorySetStatus('Cloud connection error',true);factoryMessage('Could not connect to shared database: '+(err.message||err));});
+}
+(function factoryFirebaseBoot(){
+ try{
+  if(!firebase.apps.length)firebase.initializeApp(FACTORY_FIREBASE_CONFIG);
+  firebase.auth().onAuthStateChanged(user=>{
+    const gate=document.getElementById('factoryAuthGate');
+    if(user){factoryMessage('');factoryStartCloud(user.uid);}
+    else{factoryCloudReady=false;factoryCloudDb=null;if(factoryUnsubscribe){factoryUnsubscribe();factoryUnsubscribe=null;}if(gate)gate.style.display='flex';factorySetStatus('Not signed in');}
+  });
+ }catch(e){factoryMessage('Firebase could not start. Open this app from a secure HTTPS website with internet access.');console.error(e);}
+})();
+</script>
+</body>
+</html>
